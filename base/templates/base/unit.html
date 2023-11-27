@@ -1,0 +1,130 @@
+<!-- templates/base/unit.html -->
+
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+
+<h1 class="text-3xl font-bold">Python Course Units  </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+      <div class="container my-12 mx-auto px-4 md:px-12">
+        <div class="flex flex-wrap -mx-1 lg:-mx-4">
+    
+            <!-- Column -->
+            <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+    
+                <!-- Card -->
+                <div class="max-w-sm rounded overflow-hidden shadow-lg rounded-lg transition-all duration-500 hover:scale-105">
+                    <img class="w-full" src="{% static 'images/unit_header.png' %}" alt="A boy curious about Python programming">
+                    <div class="px-6 py-4">
+                        <a class="flex items-center no-underline hover:underline text-black" href="#">
+                            <img alt="Placeholder" class="block rounded-full w-14 h-14 mb-2" src="{% static 'images/unit1_badge.png' %}">
+                            <div class="font-bold text-xl mb-2 ml-4">Unit 1: Python Basics</div>
+                            
+                        </a>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 leading-tight:bg-gray-700">
+                        <div class="bg-green-600 h-2.5 rounded-full" style="width: 80%"></div>
+                    </div>
+                    <p class="text-gray-700 text-base">
+                        70% out of 100% Completed
+                    </p>
+                    </div>
+                </div>
+                <!-- END Card -->
+    
+            </div>
+            <!-- END Column -->
+    
+            <!-- Column -->
+            <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+    
+                <!-- Card -->
+                <div class="max-w-sm rounded overflow-hidden shadow-lg rounded-lg transition-all duration-500 hover:scale-105">
+                    <img class="w-full" src="{% static 'images/unit_header.png' %}" alt="Sunset in the mountains">
+                    <div class="px-6 py-4">
+                        <a class="flex items-center no-underline hover:underline text-black" href="#">
+                            <img alt="Placeholder" class="block rounded-full w-14 h-14 mb-2" src="{% static 'images/unit2_badge.png' %}">
+                            <div class="font-bold text-xl mb-2 ml-4">Unit 2: Data Structures</div>    
+                        </a>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 leading-tight:bg-gray-700">
+                        <div class="bg-green-600 h-2.5 rounded-full" style="width: 45%"></div>
+                    </div>
+                    <p class="text-gray-700 text-base">
+                        45% out of 100% Completed
+                    </p>
+                    </div>
+                </div>
+                <!-- END Card -->
+    
+            </div>
+            <!-- END Column -->
+    
+            <!-- Column -->
+            <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+    
+                <!-- Card -->
+                <div class="max-w-sm rounded overflow-hidden shadow-lg rounded-lg transition-all duration-500 hover:scale-105">
+                    <img class="w-full" src="{% static 'images/unit_header.png' %}" alt="Sunset in the mountains">
+                    <div class="px-6 py-4">
+                        <a class="flex items-center no-underline hover:underline text-black" href="#">
+                            <img alt="Placeholder" class="block rounded-full w-14 h-14 mb-2" src="{% static 'images/unit3_badge.png' %}">
+                            <div class="font-bold text-xl mb-2 ml-4">Unit 3: Control Flow</div>
+                            
+                        </a>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 leading-tight:bg-gray-700">
+                        <div class="bg-green-600 h-2.5 rounded-full" style="width: 20%"></div>
+                    </div>
+                    <p class="text-gray-700 text-base">
+                        20% out of 100% Completed
+                    </p>
+                    </div>
+                </div>
+                <!-- END Card -->
+    
+            </div>
+            <!-- END Column -->
+    
+            <!-- Column -->
+            <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+    
+                <!-- Card -->
+                <div class="max-w-sm rounded overflow-hidden shadow-lg rounded-lg transition-all duration-500 hover:scale-105">
+                    <img class="w-full" src="{% static 'images/unit_header.png' %}" alt="Sunset in the mountains">
+                    <div class="px-6 py-4">
+                        <a class="flex items-center no-underline hover:underline text-black" href="#">
+                            <img alt="Placeholder" class="block rounded-full w-14 h-14 mb-2" src="{% static 'images/unit4_badge.png' %}">
+                            <div class="font-bold text-xl mb-2 ml-4">Unit 4: Functions and Lambda</div>
+                            
+                        </a>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 leading-tight:bg-gray-700">
+                        <div class="bg-green-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="text-gray-700 text-base">
+                        0% out of 100% Completed
+                    </p>
+                    </div>
+                </div>
+                <!-- END Card -->
+    
+            </div>
+            <!-- END Column -->
+    
+            
+    
+        </div>
+    </div>
+</body>
+</html>
+{% endblock content %}

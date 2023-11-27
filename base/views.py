@@ -8,6 +8,8 @@ from .models import Course, Lesson, User
 from .forms import CourseForm, LessonForm,UserForm, MyUserCreationForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+
+
 # from django.http import HttpResponse
 
 # Create your views here.
@@ -218,6 +220,11 @@ def createLesson(request):
         print(request.POST)
     context = {'form': form}
     return render(request, 'base/lesson_form.html', context)
+
+# unit view
+def unit(request):
+    
+    return render(request, 'base/unit.html')
 
 
 

@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home, name="home"),
     # path('course/<str:pk>/', views.course, name="course"),
     path('course/', views.course, name="course"),
+    path('unit/', views.unit, name="unit"),
     path('profile/<str:pk>', views.userProfile, name="profile"),
     path('update_user', views.updateUser, name="update_user"),
     path('update_pass', views.changePassword, name="change_password"),
