@@ -2,9 +2,38 @@
 
 
 body {
-    background-color: #f0f0f0;
+    background-color: #F4F9F1;
     font-family: 'Ubuntu', sans-serif;
   }
+
 .green_sc {
-    background-color: #25a76f;
+    background: #25a76f;
+}
+
+.sidebar {
+  background-color: #F4F9F1;
+  border-color: #C4E4CB;
+  box-shadow: -5px 0 15px rgba(51, 110, 65, 0.5);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-closed {
+  transform: translateX(-100%);
+}
+
+.sidebar-close {
+  color: #26A76F;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-close:hover {
+  transform: scale(1.3);
+}
+
+.sidebar-text {
+  color: #7B7B7B;
+}
+
+.sidebar-white {
+  color: #FFFFFF;
 }
