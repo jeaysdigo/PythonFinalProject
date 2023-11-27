@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Python Loops</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='main.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="output.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+      </style>
+</head>
+<body class="bg-gray-100 flex flex-col lg:flex-row ">
+
+    <div id="menu-toggle" class="lg:hidden cursor-pointer px-4 py-2 bg-gray-800 text-white">
+        &#9776; 
+    </div>
+
+   
+    <div id="sidebar" class="h-screen w-60 bg-gray-200 shadow-md lg:block lg:overflow-y-auto pb-2 ">
+      
+        <div class="p-0">
+            <h1 class="text-xl font-bold py-3 px-4  text-gray-800">Python Lessons</h1>
+            <ul>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400 ">Introduction to Python</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Basics</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Numbers</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Castings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Booleans</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lists</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Tuples</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Sets</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Dictionaries</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Data Types</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Variables</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-1.75 px-4 text-gray-800  hover:bg-green-400">Python Operators</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400">String Manipulation</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Conditions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Loopings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Functions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lambda</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+ 
+    <div id="content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
+
+
+        <!--FIRST PART-->
+<h2 class="text-4xl font-bold">Python Loops</h2>
+<!--NEXT AND PREVIOUS BUTTON-->
+<div class="flex justify-between items-center mb-12 mt-6">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md ">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+
+
+<h3 class="text-3xl font-medium mb-4 text-gray-900">Python Loops</h2>
+<p class="mb-4">Python has two primitive loop commands:</p>
+<ul class="list-disc  pl-4 pb-2">
+    <li><span class="text-red-500">while</span> loops</li>
+    <li><span class="text-red-500">for</span> loops</li>
+  </ul>
+
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">The while Loop</h3>
+<p class="pb-2">With the <span class="text-red-500">while</span> we can execute a set of statements as long as a condition is true.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold m<b-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Print i as long as i is less than 6:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> i = 1
+ while i < 6:
+    print(i)
+    i += 1
+</span></code></pre>
+</div>
+<p class="mb-4 mt-4">The while loop requires relevant variables to be ready, in this example we need to define an indexing variable, i, which we set to 1.
+</p>
+
+
+
+
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">The break statement</h3>
+<p class="pb-2">With the <span class="text-red-500">break</span> statement we can stop the loop even if the while condition is true:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Exit the loop when i is 3:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> i = 1
+    while i < 6:
+        print(i)
+        if i == 3:
+            break
+        i += 1
+</span></code></pre>
+</div>
+
+
+
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">The continue statement </h3>
+<p class="pb-2">With the <span class="text-red-500">continue</span> statement we can stop the current iteration, and continue with the next: </p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Exit the loop when i is 3:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> i = 1
+    while i < 6:
+        print(i)
+        if i == 3:
+            continue
+        i += 1
+</span></code></pre>
+</div>
+
+
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">The else statement </h3>
+<p class="pb-2">With the <span class="text-red-500">else</span> statement we can run a block of code once when the condition no longer is true:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Exit the loop when i is 3:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> i = 1
+    while i < 6:
+        print(i)
+        if i == 3:
+            else
+        i += 1
+</span></code></pre>
+</div>
+
+
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">The for Loop</h3>
+<p class="pb-4">A <span class="text-red-500">for</span> loop is used for iterating over a sequence (that is either a list, a tuple, a dictionary, a set, or a string).</p>
+<p class="pb-2">With the <span class="text-red-500">for</span> loop we can execute a set of statements, once for each item in a list, tuple, set etc.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold m<b-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Print each fruit in a fruit list:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> fruits = ["apple", "banana"]
+    for x in fruits:
+      print(x)
+</span></code></pre>
+</div>
+<p class="mb-4 mt-4">The <span class="text-red-500">for</span> loop does not require an indexing variable to set beforehand.
+</p>
+
+
+
+
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">Looping Through a String</h3>
+<p class="pb-2">Even strings are iterable objects, they contain a sequence of characters:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Loop through the letters in the word "banana":</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> for x in "banana":
+    print(x)
+</span></code></pre>
+</div>
+<p class="mb-4 mt-4">The <span class="text-red-500">for</span> loop does not require an indexing variable to set beforehand.
+</p>
+
+
+
+
+<h2 class="text-3xl font-medium mb-4 text-gray-900">The range() function</h2>
+<p class="mb-4">To loop through a set of code a specified number of times, we can use the <span class="text-red-500">range()</span> function.</p>
+<p class="mb-2">The <span class="text-red-500">range()</span> function returns a sequence of numbers, starting from 0 by default, and increments by 1 (by default), and ends at a specified number.</p>
+
+<div class="md:max-w-2xl lg:max-w-4xl xl:max-w-full">
+    <div class="border-l-4 border-green-500 pl-4 mb-8">
+        <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+        <p class="text-gray-800 mb-2 ">Using the range() function:</p>
+        <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">for x in range(6):
+    print(x)</span></code></pre>
+    </div>
+</div>
+
+<p class="mb-8">The <span class="text-red-500">range()</span> function defaults to 0 as a starting value, however it is possible to specify the starting value by adding a parameter: range(2, 6), which means values from 2 to 6 (but not including 6):</p>
+<div class="md:max-w-2xl lg:max-w-4xl xl:max-w-full">
+    <div class="border-l-4 border-green-500 pl-4 mb-8">
+        <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+        <p class="text-gray-800 mb-2 ">Using the start parameter:</p>
+        <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">for x in range(2, 6):
+    print(x) </span></code></pre>
+    </div>
+</div>
+
+
+
+
+<h2 class="text-3xl font-medium mb-4 text-gray-900">Nested Loops</h2>
+<p class="mb-4">To loop through a set of code a specified number of times, we can use the <span class="text-red-500">range()</span> functionA nested loop is a loop inside a loop.</p>
+<p class="mb-2">The "inner loop" will be executed one time for each iteration of the "outer loop":</p>
+
+<div class="md:max-w-2xl lg:max-w-4xl xl:max-w-full">
+    <div class="border-l-4 border-green-500 pl-4 mb-8">
+        <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+        <p class="text-gray-800 mb-2 ">Print each adjective for every fruit::</p>
+        <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">adj = ["red", "big"]
+    fruits = ["apple", "banana"]
+    
+    for x in adj:
+      for y in fruits:
+        print(x, y)</span></code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+    <!--NEXT AND PREVIOUS BUTTON-->
+<div class="flex justify-between items-center mb-8 mt-12">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+       
+
+
+
+
+
+    </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuToggle = document.getElementById('menu-toggle');
+        const content = document.getElementById('content');
+        const sidebar = document.getElementById('sidebar');
+
+        function updateSidebarDisplay() {
+            if (window.innerWidth < 1024 || window.innerWidth > 1024) {
+                sidebar.classList.add('hidden');
+                sidebar.style.overflowY = 'auto';
+            } else {
+                sidebar.classList.remove('hidden');
+                sidebar.style.overflowY = 'visible';
+            }
+        }
+        
+
+        updateSidebarDisplay()
+
+        window.addEventListener('resize', updateSidebarDisplay);
+
+        menuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('hidden');
+
+            if (sidebar.classList.contains('hidden')) {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Python Conditions</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='main.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="output.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+      </style>
+</head>
+<body class="bg-gray-100 flex flex-col lg:flex-row ">
+
+    <div id="menu-toggle" class="lg:hidden cursor-pointer px-4 py-2 bg-gray-800 text-white">
+        &#9776; 
+    </div>
+
+   
+    <div id="sidebar" class="h-screen w-60 bg-gray-200 shadow-md lg:block lg:overflow-y-auto pb-2 ">
+      
+        <div class="p-0">
+            <h1 class="text-xl font-bold py-3 px-4  text-gray-800">Python Lessons</h1>
+            <ul>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400 ">Introduction to Python</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Basics</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Numbers</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Castings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Booleans</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lists</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Tuples</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Sets</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Dictionaries</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Data Types</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Variables</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-1.75 px-4 text-gray-800  hover:bg-green-400">Python Operators</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400">String Manipulation</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Conditions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Loopings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Functions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lambda</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+ 
+    <div id="content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
+
+
+        <!--FIRST PART-->
+<h2 class="text-4xl font-bold">Python Conditions</h2>
+<!--NEXT AND PREVIOUS BUTTON-->
+<div class="flex justify-between items-center mb-12 mt-6">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md ">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+
+
+<h2 class="text-3xl font-medium mb-4 text-gray-900">Python Conditions and If statements</h2>
+<p class="mb-4">Python supports the usual logical conditions from mathematics:</p>
+<ul class="list-disc  pl-4 pb-2">
+    <li>Equals: <span class="text-red-500">a == b</span></li>
+    <li>Not Equals: <span class="text-red-500">a != b</span></li>
+    <li>Less than: <span class="text-red-500">a < b</span></li>
+    <li>Less than or equal to: <span class="text-red-500">a <= b</span></li>
+    <li>Greater than: <span class="text-red-500">a > b</span></li>
+    <li>Greater than or equal to: <span class="text-red-500">a >= b</span></li>
+  </ul>
+  <p class="mb-4 mt-4">These conditions can be used in several ways, most commonly in "if statements" and loops.</p>
+  <p class="mb-4 mt-4">An "if statement" is written by using the <span class="text-red-500">if </span>keyword.</p>
+
+  <div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">If statement:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> a = 33
+ b = 200
+ if b > a:
+    print("b is greater than a")
+</span></code></pre>
+</div>
+<p class="mb-4 mt-4">In this example we use two variables, a and b, which are used as part of the if statement to 
+    test whether b is greater than a. As a is 33, and b is 200, we know that 200 is greater than 33, and so we print 
+    to screen that "b is greater than a".</p>
+
+
+<h2 class="text-3xl font-medium mb-4 mt-6 text-gray-900">Elif Condition</h2>
+<p class="mb-4">The <span class="text-red-500">elif</span> keyword is Python's way of saying "if the previous conditions were not true, then try this condition".</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Elif statement:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> a = 33
+ b = 33
+ if b > a:
+    print("b is greater than a")
+ elif a == b:
+    print("a and b are equal")
+</span></code></pre>
+</div>
+<p class="mb-4 mt-4">In this example a is equal to b, so the first condition is not true, but the elif condition is true, so we print to screen that "a and b are equal".
+</p>
+
+
+<h2 class="text-3xl font-medium mb-4 mt-6 text-gray-900">Else Condition</h2>
+<p class="mb-4">The <span class="text-red-500">else</span> keyword catches anything which isn't caught by the preceding conditions.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Else statement:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> a = 200
+ b = 33
+ if b > a:
+    print("b is greater than a")
+ elif a == b:
+    print("a and b are equal")
+ else:
+    print("a is greater than b")
+</span></code></pre>
+</div>
+<p class="mb-4 mt-4">In this example a is greater than b, so the first condition is not true, also the elif condition is not true, so we go to the else condition and print to screen that "a is greater than b".
+</p>
+
+
+<h2 class="text-3xl font-medium mb-4 mt-6 text-gray-900">Short Hand If</h2>
+<p class="mb-4">If you have only one statement to execute, you can put it on the same line as the if statement.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">One line if statement:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> if a > b: print("a is greater than b")
+</span></code></pre>
+</div>
+
+
+
+<h2 class="text-3xl font-medium mb-4 mt-6 text-gray-900">Short Hand If ... Else</h2>
+<p class="mb-4">If you have only one statement to execute, one for if, and one for else, you can put it all on the same line:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">One line if else statement:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"> a = 2
+ b = 330
+ print("A") if a > b else print("B")</span></code></pre>
+</div>
+
+
+
+
+
+
+
+
+    <!--NEXT AND PREVIOUS BUTTON-->
+<div class="flex justify-between items-center mb-8 mt-12">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+
+    </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuToggle = document.getElementById('menu-toggle');
+        const content = document.getElementById('content');
+        const sidebar = document.getElementById('sidebar');
+
+        function updateSidebarDisplay() {
+            if (window.innerWidth < 1024 || window.innerWidth > 1024) {
+                sidebar.classList.add('hidden');
+                sidebar.style.overflowY = 'auto';
+            } else {
+                sidebar.classList.remove('hidden');
+                sidebar.style.overflowY = 'visible';
+            }
+        }
+        
+
+        updateSidebarDisplay()
+
+        window.addEventListener('resize', updateSidebarDisplay);
+
+        menuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('hidden');
+
+            if (sidebar.classList.contains('hidden')) {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
