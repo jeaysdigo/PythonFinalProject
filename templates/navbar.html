@@ -1,14 +1,70 @@
 {% load static %}
 
-<div class="bg-white fixed left-0">
-<a href="/"><h1>home</h1></a>
-<a href="{% url 'course' %}"><h1>My Course</h1></a>
+<!-- OPEN SIDEBAR BUTTON -->
+<span class="absolute sidebar-close text-2xl top-6 left-4 cursor-pointer" onclick="openSidebar()">
+    <i class="bi bi-layout-sidebar p-2 bg-green-600 text-white rounded-md"></i>
+</span>
 
-{% if request.user.is_authenticated %}
-    <a href="#" onclick="confirmLogout()">logout</a>
-{% else %}
-    <a href="{% url 'login' %}"><h1>login</h1></a>
-{% endif %}   
+<!-- SIDEBAR -->
+<div class="sidebar fixed border-r-2 top-0 bottom-0 lg:left-0 pt-2 overflow-y-auto text-center">
+
+    <!-- LOGO AND NAME -->
+    <div class="flex mt-4 items-center">
+        <img class="w-30 h-20 ml-5" src="../static/images/logo.png" title="PAL: Programming Assistive Learning">
+    
+            <!-- CLOSE SIDEBAR BUTTON -->
+            <i class="bi bi-chevron-double-left ml-4 mr-6 sidebar-close cursor-pointer text-xl hover:scale-110 transition-transform" onclick="openSidebar()" title="Collapse"></i>
+    </div>
+        
+
+    <!-- HOME SECTION -->
+    <div class="p-4 mt-24 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Home">
+        <i class="bi bi-house-door ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Home</span>
+    </div>
+
+    <!-- DISCOVER SECTION -->
+    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
+        <i class="bi bi-compass ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Discover</span>
+    </div>
+
+    <!-- MY COURSES SECTION -->
+    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="My Courses">
+        <i class="bi bi-journal-richtext ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">My Courses</span>
+    </div>
+
+    <!-- ASSESSMENTS SECTION -->
+    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
+        <i class="bi bi-clipboard-check ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Assessments</span>
+    </div>
+
+    <!-- CERTIFICATE SECTION -->
+    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
+        <i class="bi bi-award ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Certificate</span>
+    </div>
+
+    <!-- SETTINGS SECTION -->
+    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Settings">
+        <i class="bi bi-gear ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Settings</span>
+    </div>
+
+
+    <div class="p-2 flex items-center mt-60 justify-self-end">
+        <img src="https://source.unsplash.com/100x100/?portrait" alt="" class="w-14 h-14 rounded-xl ml-2 dark:bg-gray-500">
+        <div>
+            <h2 class="text-lg sidebar-text font-bold ml-3">Ha Sooyoung</h2>
+            <span class="flex items-center space-x-1">
+                <a href="#" class="text-sm ml-3 font-black hover:underline sidebar-text opacity-60 hover:text-green-600" title="View Profile">View profile</a>
+            </span>
+        </div>
+        
+        <i class="bi bi-box-arrow-left ml-4 sidebar-close cursor-pointer text-2xl hover:scale-110 transition-transform" title="Log Out"></i>
+    </div>
 </div>
 
 
@@ -19,4 +75,8 @@
             window.location.href = "{% url 'logout' %}";
         }
     }
+    function openSidebar() {
+                var sidebar = document.querySelector(".sidebar");
+                sidebar.classList.toggle("sidebar-closed");
+            }
 </script>
