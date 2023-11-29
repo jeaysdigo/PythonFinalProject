@@ -41,12 +41,14 @@ body {
 
 </style>
 
+
 <!-- OPEN SIDEBAR BUTTON -->
 <span class="absolute sidebar-close text-2xl top-6 left-4 cursor-pointer" onclick="openSidebar()">
     <i class="bi bi-layout-sidebar p-2 bg-green-600 text-white rounded-md"></i>
 </span>
 
-<!-- SIDEBAR -->
+{% if request.user.username != 'admin' or request.user.id != 1 %}
+<!-- USER SIDEBAR -->
 <div class="sidebar fixed border-r-2 top-0 bottom-0 lg:left-0 pt-2 overflow-y-auto text-center">
 
     <!-- LOGO AND NAME -->
@@ -59,55 +61,120 @@ body {
         
 
     <!-- HOME SECTION -->
-    <div class="p-4 mt-24 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Home">
+    <a href="/home" class="p-4 mt-24 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Home">
         <i class="bi bi-house-door ml-3 text-xl"></i>
         <span class="ml-4 text-m font-bold">Home</span>
-    </div>
+    </a>
 
     <!-- DISCOVER SECTION -->
-    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
+    <a href="/discover" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
         <i class="bi bi-compass ml-3 text-xl"></i>
         <span class="ml-4 text-m font-bold">Discover</span>
-    </div>
+    </a>
 
     <!-- MY COURSES SECTION -->
-    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="My Courses">
+    <a href="/courses" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="My Courses">
         <i class="bi bi-journal-richtext ml-3 text-xl"></i>
         <span class="ml-4 text-m font-bold">My Courses</span>
-    </div>
+    </a>
 
     <!-- ASSESSMENTS SECTION -->
-    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
+    <a href="/assessments" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
         <i class="bi bi-clipboard-check ml-3 text-xl"></i>
         <span class="ml-4 text-m font-bold">Assessments</span>
-    </div>
+    </a>
 
     <!-- CERTIFICATE SECTION -->
-    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
+    <a href="/certificates" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
         <i class="bi bi-award ml-3 text-xl"></i>
         <span class="ml-4 text-m font-bold">Certificate</span>
-    </div>
+    </a>
 
     <!-- SETTINGS SECTION -->
-    <div class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Settings">
+    <a href="/settings" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Settings">
         <i class="bi bi-gear ml-3 text-xl"></i>
         <span class="ml-4 text-m font-bold">Settings</span>
-    </div>
+    </a>
 
 
     <div class="p-2 flex items-center mt-60 justify-self-end">
-        <img src="https://source.unsplash.com/100x100/?portrait" alt="" class="w-14 h-14 rounded-xl ml-2 dark:bg-gray-500">
+        <img src="{{ user.avatar.url }}" alt="avatar" class="w-14 h-14 rounded-xl ml-2 dark:bg-gray-500">
         <div>
-            <h2 class="text-lg sidebar-text font-bold ml-3">Ha Sooyoung</h2>
+            <h2 class="text-lg sidebar-text font-bold ml-3">{{user.username}}</h2>
             <span class="flex items-center space-x-1">
-                <a href="#" class="text-sm ml-3 font-black hover:underline sidebar-text opacity-60 hover:text-green-600" title="View Profile">View profile</a>
+                <a href="{% url 'profile' user.username %}" class="text-sm ml-3 font-black hover:underline sidebar-text opacity-60 hover:text-green-600" title="View Profile">View profile</a>
             </span>
         </div>
         
-        <i class="bi bi-box-arrow-left ml-4 sidebar-close cursor-pointer text-2xl hover:scale-110 transition-transform" title="Log Out"></i>
+        <i  onclick="confirmLogout()" class="bi bi-box-arrow-left ml-4 sidebar-close cursor-pointer text-2xl hover:scale-110 transition-transform" title="Log Out"></i>
     </div>
 </div>
 
+{% elif request.user.is_superuser %}
+<!-- ADMIN SIDEBAR-->
+<div class="sidebar fixed border-r-2 top-0 bottom-0 lg:left-0 pt-2 overflow-y-auto text-center">
+
+    <!-- LOGO AND NAME -->
+    <div class="flex mt-4 items-center">
+        <img class="w-30 h-20 ml-5" src="../static/images/logo.png" title="PAL: Programming Assistive Learning">
+    
+            <!-- CLOSE SIDEBAR BUTTON -->
+            <i class="bi bi-chevron-double-left ml-4 mr-6 sidebar-close cursor-pointer text-xl hover:scale-110 transition-transform" onclick="openSidebar()" title="Collapse"></i>
+    </div>
+        
+
+    <!-- HOME SECTION -->
+    <a href="/dashboard" class="p-4 mt-24 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Home">
+        <i class="bi bi-house-door ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Dashboard</span>
+    </a>
+
+    <!-- DISCOVER SECTION -->
+    <a href="/manage_students" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
+        <i class="bi bi-compass ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Students</span>
+    </a>
+
+    <!-- MY COURSES SECTION -->
+    <a href="/manage_courses" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="My Courses">
+        <i class="bi bi-journal-richtext ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Courses</span>
+    </a>
+
+    <!-- ASSESSMENTS SECTION -->
+    <a href="/manage_assessments" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
+        <i class="bi bi-clipboard-check ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Assessments</span>
+    </a>
+
+    <!-- CERTIFICATE SECTION -->
+    <a href="/analytics" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
+        <i class="bi bi-award ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Analytics</span>
+    </a>
+
+    <!-- SETTINGS SECTION -->
+    <a href="/manage_settings" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Settings">
+        <i class="bi bi-gear ml-3 text-xl"></i>
+        <span class="ml-4 text-m font-bold">Settings</span>
+    </a>
+
+
+    <div class="p-2 flex items-center mt-60 justify-self-end">
+        <!-- <img src="https://source.unsplash.com/100x100/?portrait" alt="" class="w-14 h-14 rounded-xl ml-2 dark:bg-gray-500"> -->
+        <div>
+            <h2 class="text-lg sidebar-text font-bold ml-3">PAL Administrator</h2>
+            <!-- <span class="flex items-center space-x-1">
+                <a href="{% url 'profile' user.username %}" class="text-sm ml-3 font-black hover:underline sidebar-text opacity-60 hover:text-green-600" title="View Profile">View profile</a>
+            </span> -->
+        </div>
+        
+        <i onclick="confirmLogout()" class="bi bi-box-arrow-left ml-4 sidebar-close cursor-pointer text-2xl hover:scale-110 transition-transform" title="Log Out"></i>
+    </div>
+</div>
+{% else %}
+    <!-- Handle other cases if needed -->
+{% endif %}
 
 <script>
   function confirmLogout() {

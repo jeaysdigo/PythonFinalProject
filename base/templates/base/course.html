@@ -9,7 +9,7 @@
 
 
 
-<h1 class="text-3xl font-bold">My Courses  </h1>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +20,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+    {% if enrolled_courses %}
+    <h1 class="text-3xl font-bold">My Courses  </h1>
+    {% for course in enrolled_courses %}
+      <div class="container  mx-auto px-4 md:px-12">
 
-      <div class="container my-12 mx-auto px-4 md:px-12">
         <div class="flex flex-wrap -mx-1 lg:-mx-4">
     
             <!-- Column -->
@@ -33,7 +36,7 @@
                     <div class="px-6 py-4">
                         <a class="flex items-center no-underline hover:underline text-black" href="{% url 'unit' %}">
                             <img alt="Placeholder" class="block rounded-full w-14 h-14 mb-2" src="{% static 'images/pythonCourse_badge.png' %}">
-                            <div class="font-bold text-xl mb-2 ml-4">Python Course</div>
+                            <div class="font-bold text-xl mb-2 ml-4">{{course.title}} Course</div>
                             
                         </a>
                     <div class="w-full bg-gray-200 rounded-full h-2.5 leading-tight:bg-gray-700">
@@ -50,46 +53,18 @@
             <!-- END Column -->
         </div>
     </div>
+    {% endfor %}
+    {% else %}
+    <div class="bg-white mx-auto justify-center  items-center text-center p-10 w-full max-w-lg">
+      <p>You dont have course yet. </p><a class="text-blue-600" href="{% url 'discover'%}"> Find course</a>
+    </div>
+   
+    {% endif %}
+
 </body>
 </html>
 
-<div class="bg-white p-10 rounded-2xl shadow-md w-full max-w-lg">
-    <div>
-        <!-- course.html -->
-    <!-- {% for user, enrolled_courses in user_courses_dict.items %}
-    <h2>{{ user.username }}'s Enrolled Courses</h2>
-    {% if enrolled_courses %}
-      <ul>
-        {% for course in enrolled_courses %}
-          <li>
-            {{ course.title }} - {{ course.description }}
-            <a href="{% url 'view_lessons' course_id=course.course_id %}">View Course</a>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No enrolled courses for this user.</p>
-    {% endif %}
-    {% endfor %} -->
 
-
-    {% if enrolled_courses %}
-  
-  <ul>
-    {% for course in enrolled_courses %}
-      <li>
-        {{ course.title }} - {{ course.description }}
-        <a class="text-blue-600" href="{% url 'view_lessons' course_id=course.course_id %}">View Course</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No enrolled courses for you.</p>
-{% endif %}
-
-
-    </div>
-</div>
 
 {% endblock content %}
 

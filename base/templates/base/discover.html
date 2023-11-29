@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<title>Discover</title>
+<br>
+<br>
+<br>
+<br>    
+<div class="bg-white mx-auto justify-center  items-center text-center p-10 w-full max-w-lg">
+    <h1 class="text-3xl font-bold">Discover Courses</h1>
+    <ul>
+        {% for course in courses %}
+            <li>
+                {{ course.title }} - {{ course.description }}
+                {% if course in enrolled_courses %}
+                    <small class="text-green-600">Already enrolled</small>
+                {% else %}
+                    <a class="text-blue-600" href="{% url 'enroll' course_id=course.pk %}">Enroll Now</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
