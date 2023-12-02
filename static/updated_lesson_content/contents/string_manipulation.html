@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Python Strings</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='main.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="output.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+      </style>
+</head>
+<body class="bg-gray-100 flex flex-col lg:flex-row ">
+
+    <div id="menu-toggle" class="lg:hidden cursor-pointer px-4 py-2 bg-gray-800 text-white">
+        &#9776; 
+    </div>
+
+   
+    <div id="sidebar" class="h-screen w-60 bg-gray-200 shadow-md lg:block lg:overflow-y-auto pb-2 ">
+      
+        <div class="p-0">
+            <h1 class="text-xl font-bold py-3 px-4  text-gray-800">Python Lessons</h1>
+            <ul>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400 ">Introduction to Python</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Basics</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Numbers</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Castings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Booleans</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lists</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Tuples</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Sets</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Dictionaries</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Data Types</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Variables</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-1.75 px-4 text-gray-800  hover:bg-green-400">Python Operators</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400">String Manipulation</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Conditions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Loopings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Functions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lambda</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+ 
+    <div id="content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
+
+<!--FIRST PART-->
+<h2 class="text-4xl font-bold">Python String Operations</h2>
+<!--NEXT AND PREVIOUS BUTTON-->
+<div class="flex justify-between items-center mb-12 mt-6">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md ">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+<h2 class="text-3xl font-medium mb-4 text-gray-900">String Basics</h2>
+<p class="mb-4">Strings in Python are versatile and can be enclosed in single or double quotation marks.</p>
+<p class="mb-4"><span class="text-red-500">'hello'</span> and <span class="text-red-500">"hello"</span> are interchangeable.</p>
+<p class="mb-2">Display a string literal using the <span class="text-red-500">print()</span> function:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">print("Greetings")
+ print('Greetings')</code></pre>
+</div>
+<h2 class="text-3xl font-medium mb-4 text-gray-900">Variable Assignment with Strings</h2>
+<p class="mb-4">Assigning a string to a variable is accomplished with the variable name, an equal sign, and the string value:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">greeting = "Hello"
+ print(greeting)</code></pre>
+</div>
+<h3 class="text-3xl font-medium mt-4 mb-2">Multiline Strings in Action</h3>
+<p class="pb-2">Use triple quotes for multiline string assignment:</p>
+<p class="pb-2">Both triple single and triple double quotes are valid:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <pre class="bg-gray-200 p-2 rounded-md"><code class="language-python"> message = '''Lorem ipsum,
+ dolor sit amet,
+ consectetur adipiscing elit.'''
+ print(message)</code></pre>
+</div>
+<h3 class="text-3xl font-medium mt-4 mb-2">Strings as Arrays</h3>
+<p class="pb-2">Strings in Python are arrays of bytes representing Unicode characters.</p>
+<p class="pb-2">While Python lacks a specific character data type, a single character is a string with a length of 1.</p>
+<p class="pb-2">Access individual elements using square brackets:</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Retrieve the character at position 1 (remember, the first character is at position 0):</p>
+<pre class="bg-gray-200 p-2 rounded-md"><code class="language-python"> word = "Hello, World!"
+ print(word[1])
+</code></pre>
+</div>
+<h2 class="text-3xl font-medium mb-4 text-gray-900">Iterating Through Strings</h2>
+<p class="mb-4">As strings are arrays, iterate through characters with a for loop.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Iterate through the letters in the word "banana":</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">for letter in "banana":
+ print(letter)</code></pre>
+</div>
+<h2 class="text-3xl font-medium mb-4 text-gray-900">String Length Check</h2>
+<p class="mb-4">Determine the length of a string using the <span class="text-red-500">len()</span> function.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">The <span class="text-red-500">len()</span> function provides the string's length:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">phrase = "Hello, World!"
+ print(len(phrase))</code></pre>
+</div>
+<h2 class="text-3xl font-medium mb-4 text-gray-900">String Presence Check</h2>
+<p class="mb-4">Verify if a specific phrase or character exists in a string using the <span class="text-red-500">in</span> keyword.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Check if "World" is present in the following text:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python"> text_sample = "Hello, World!"
+ print("World" in text_sample)</code></pre>
+</div>
+<h2 class="text-3xl font-medium mb-4 text-gray-900">Negation Check</h2>
+<p class="mb-4">Determine if a particular phrase or character is NOT present in a string using the <span class="text-red-500">not in</span> keyword.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example:</p>
+    <p class="text-gray-800 mb-2 ">Check if "expensive" is NOT present in the following text:</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+ <code class="language-python">quote = "The best things in life are free!"
+ print("expensive" not in quote)</code></pre>
+</div>
+
+<h2 class="text-3xl font-medium mb-4 text-gray-900">String Methods</h2>
+<p class="mb-4">Python has a set of built-in methods that you can use on strings.</p>
+<div class="container mx-auto text-left">
+    <table class="min-w-full bg-gray-100 border border-gray-300 rounded-lg overflow-hidden">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">Method</th>
+                <th class="py-2 px-4 border-b">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">capitalize()</td>
+                <td class="py-2 px-4 border-b">Converts the first character to upper case</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">casefold()</td>
+                <td class="py-2 px-4 border-b">Converts string into lower case</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">center()</td>
+                <td class="py-2 px-4 border-b">Returns a centered string</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">count()</td>
+                <td class="py-2 px-4 border-b">Returns the number of times a specified value occurs in a string</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">encode()</td>
+                <td class="py-2 px-4 border-b">Returns an encoded version of the string</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">endswith()</td>
+                <td class="py-2 px-4 border-b">Returns true if the string ends with the specified value</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">expandtabs()</td>
+                <td class="py-2 px-4 border-b">Sets the tab size of the string</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">find()</td>
+                <td class="py-2 px-4 border-b">Searches the string for a specified value and returns the position of where it was found</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">format()</td>
+                <td class="py-2 px-4 border-b">Formats specified values in a string</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">format_map()</td>
+                <td class="py-2 px-4 border-b">Formats specified values in a string</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">index()</td>
+                <td class="py-2 px-4 border-b">Searches the string for a specified value and returns the position of where it was found</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">isalnum()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are alphanumeric</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">isalpha()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are in the alphabet</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">isascii()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are ASCII characters</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">isdecimal()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are decimals</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">isdigit()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are digits</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">isidentifier()</td>
+                <td class="py-2 px-4 border-b">Returns True if the string is an identifier</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">islower()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are lower case</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">isnumeric()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are numeric</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">isprintable()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are printable</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">isspace()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are whitespaces</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">istitle()</td>
+                <td class="py-2 px-4 border-b">Returns True if the string follows the rules of a title</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">isupper()</td>
+                <td class="py-2 px-4 border-b">Returns True if all characters in the string are upper case</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">join()</td>
+                <td class="py-2 px-4 border-b">Joins the elements of an iterable to the end of the string</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">ljust()</td>
+                <td class="py-2 px-4 border-b">Returns a left justified version of the string</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">lower()</td>
+                <td class="py-2 px-4 border-b">Converts a string into lower case</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">lstrip()</td>
+                <td class="py-2 px-4 border-b">Returns a left trim version of the string</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">maketrans()</td>
+                <td class="py-2 px-4 border-b">Returns a translation table to be used in translations</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">partition()</td>
+                <td class="py-2 px-4 border-b">Returns a tuple where the string is parted into three parts</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">replace()</td>
+                <td class="py-2 px-4 border-b">Returns a string where a specified value is replaced with a specified value</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">rfind()</td>
+                <td class="py-2 px-4 border-b">Searches the string for a specified value and returns the last position of where it was found</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">rindex()</td>
+                <td class="py-2 px-4 border-b">Searches the string for a specified value and returns the last position of where it was found</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">rjust()</td>
+                <td class="py-2 px-4 border-b">Returns a right justified version of the string</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">rpartition()</td>
+                <td class="py-2 px-4 border-b">Returns a tuple where the string is parted into three parts</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">rsplit()</td>
+                <td class="py-2 px-4 border-b">Splits the string at the specified separator, and returns a list</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">rstrip()</td>
+                <td class="py-2 px-4 border-b">Returns a right trim version of the string</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">split()</td>
+                <td class="py-2 px-4 border-b">Splits the string at the specified separator, and returns a list</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">splitlines()</td>
+                <td class="py-2 px-4 border-b">Splits the string at line breaks and returns a list</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">startswith()</td>
+                <td class="py-2 px-4 border-b">Returns true if the string starts with the specified value</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">strip()</td>
+                <td class="py-2 px-4 border-b">Returns a trimmed version of the string</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">swapcase()</td>
+                <td class="py-2 px-4 border-b">Swaps cases, lower case becomes upper case and vice versa</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">title()</td>
+                <td class="py-2 px-4 border-b">Converts the first character of each word to upper case</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">translate()</td>
+                <td class="py-2 px-4 border-b">Returns a translated string</td>
+            </tr>
+            <tr class="bg-gray-200">
+                <td class="py-2 px-4 border-b">upper()</td>
+                <td class="py-2 px-4 border-b">Converts a string into upper case</td>
+            </tr>
+            <tr>
+                <td class="py-2 px-4 border-b">zfill()</td>
+                <td class="py-2 px-4 border-b">Fills the string with a specified number of 0 values at the beginning</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+    <!--NEXT AND PREVIOUS BUTTON-->
+<div class="flex justify-between items-center mb-8 mt-12">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+    
+    </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuToggle = document.getElementById('menu-toggle');
+        const content = document.getElementById('content');
+        const sidebar = document.getElementById('sidebar');
+
+        function updateSidebarDisplay() {
+            if (window.innerWidth < 1024 || window.innerWidth > 1024) {
+                sidebar.classList.add('hidden');
+                sidebar.style.overflowY = 'auto';
+            } else {
+                sidebar.classList.remove('hidden');
+                sidebar.style.overflowY = 'visible';
+            }
+        }
+        
+
+        updateSidebarDisplay()
+
+        window.addEventListener('resize', updateSidebarDisplay);
+
+        menuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('hidden');
+
+            if (sidebar.classList.contains('hidden')) {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
