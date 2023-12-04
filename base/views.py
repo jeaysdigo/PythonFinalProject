@@ -4,8 +4,9 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.forms import UserCreationForm
-from .models import Course, Lesson, User
+from .models import Course, Lesson, User, Unit, Log
 from .forms import CourseForm, LessonForm,UserForm, MyUserCreationForm
+from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.views.decorators.csrf import csrf_exempt
@@ -50,9 +51,22 @@ def loginPage(request):
         if user_auth is not None:
             if user_auth.id == 1 or user_auth.username == 'admin':
                 login(request, user_auth)
+                # Create a log entry
+                Log.objects.create(
+                    log_type='login',
+                    date=timezone.now(),
+                    user=user_auth
+                )
                 return redirect('dashboard')
             else:
+                # Create a log entry
+                Log.objects.create(
+                    log_type='login',
+                    date=timezone.now(),
+                    user=user_auth
+                )
                 login(request, user_auth)
+                messages.error(request, 'Invalid username or password')
                 return redirect('home')
         else: 
             messages.error(request, 'Invalid username or password')
@@ -76,6 +90,7 @@ def registerPage(request):
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
+            # request.user.register.add(user.username)
             login(request, user)
             return redirect('home')
         else: 
@@ -155,10 +170,9 @@ def home(request):
 
 # landing page
 def landing(request):
-    user = User.objects.all()
-    context = {
-        'user': user,
-        }
+    context = {}
+    if request.user.is_authenticated:
+        context['user'] = request.user
     return render(request, 'base/landing.html', context)
 
 
@@ -220,6 +234,13 @@ def enrollCourse(request, course_id):
     course = Course.objects.get(pk=course_id)
     if request.user.is_authenticated:
         request.user.courses.add(course)
+        # Create a log entry
+        Log.objects.create(
+            log_type='enroll',
+            course=course,
+            date=timezone.now(),
+            user=request.user
+            )
         return redirect('courses')
     else:
         # Handle the case when the user is not authenticated
@@ -228,24 +249,49 @@ def enrollCourse(request, course_id):
 @login_required
 def view_lessons(request, course_id):
     # Retrieve the course with the specified ID or return a 404 if not found
-    course = get_object_or_404(Course, course_id=course_id)
+    course = get_object_or_404(Course, id=course_id)
 
     # Check if the current user's id is associated with the course
     if request.user.id not in course.users.values_list('id', flat=True):
-        # If not enrolled, show an error message
         return HttpResponse('you are not enrolled to this couse.')
-
-    # You can add more logic here to retrieve lessons or other information related to the course
-
+ 
     context = {'course': course}
     return render(request, 'base/view_lessons.html', context)
 
-# unit view
 @login_required(login_url='login')
-def unit(request):
-    return render(request, 'base/unit.html')
+def unit(request, course_id):
+    # Get the Course object or return a 404 error if not found
+    course = get_object_or_404(Course, id=course_id)
+
+    # Check if the current user is associated with the course
+    if not request.user.is_authenticated or not request.user.courses.filter(id=course.id).exists():
+        # You can customize this part based on your requirements, e.g., redirect to an error page or display a message
+        return render(request, 'base/access_denied.html')
+
+    # Filter units based on the associated course
+    # units = Unit.objects.filter(id=course_id)
+    units = Unit.objects.filter(course=course)
 
 
+    context = {'units': units, 'course': course}
+    return render(request, 'base/unit.html', context)
+
+def get_lesson_content(request):
+    # Assuming you're passing the lesson_id in the request GET parameters
+    lesson_id = request.GET.get('lesson_id')
+
+    # Retrieve the lesson object
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    # Assuming lesson.content contains the actual lesson content
+    lesson_content = lesson.content
+
+    # You can customize this based on how you want to return the content (e.g., JSON, HTML, etc.)
+    response_data = {
+        'lesson_content': lesson_content,
+    }
+
+    return JsonResponse(response_data)
 
 
 
@@ -296,17 +342,58 @@ def createCourse(request):
 def createLesson(request):
     if not request.user.is_superuser:
         return redirect('home')
-    form = LessonForm()
+
     if request.method == 'POST':
-        print(request.POST)
-    context = {'form': form}
+        form = LessonForm(request.POST)
+        if form.is_valid():
+            # Handle the 'units' field separately
+            units = request.POST.getlist('unit')  # Assuming the name of the 'Unit' field is 'unit'
+
+            # Save the lesson and add the selected units
+            lesson = form.save(commit=False)
+            lesson.save()
+
+            # Add the selected units to the lesson
+            lesson.units.set(units)
+
+            messages.success(request, 'Lesson added successfully.')  # Optional success message
+            return redirect('dashboard')  # Replace 'dashboard' with the appropriate URL
+
+        else:
+            print(form.errors)  # Add this line to print form errors to the console
+            messages.error(request, 'Error adding lesson. Please correct the form.')
+    else:
+        form = LessonForm()
+
+    course = Course.objects.all()
+    unit = Unit.objects.all()
+    context = {'form': form, 'units': unit, 'courses': course}
     return render(request, 'base/lesson_form.html', context)
+
+def edit_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, pk=lesson_id)
+
+    if request.method == 'POST':
+        form = LessonForm(request.POST, instance=lesson)
+        if form.is_valid():
+            form.save()
+            # Optionally, add a success message
+            messages.success(request, 'Lesson updated successfully!')
+            return redirect('edit_lesson', lesson_id=lesson_id)
+    else:
+        form = LessonForm(instance=lesson)
+
+    return render(request, 'edit_lesson.html', {'form': form, 'lesson': lesson})
 
 @login_required(login_url='login')
 def manageStudents(request):
     if not request.user.is_superuser:
         return redirect('home')
-    return render(request, 'base/manage_students.html')
+    users = User.objects.all()
+    course = Course.objects.all()
+    context = {'users': users,
+               'courses': course, }
+    return render(request, 'base/manage_students.html', context)
 
 @login_required(login_url='login')
 def analytics(request):
@@ -329,6 +416,16 @@ def manageCourse(request):
     context = {'courses': course}
     return render(request, 'base/manage_courses.html',context)
 
+# admin: manage course list
+@login_required(login_url='login')
+def manage_lesson(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    lesson = Lesson.objects.all()
+    unit = Unit.objects.all()
+    context = {'lessons': lesson, 'units': unit}
+    return render(request, 'base/manage_lesson.html',context)
+
 @login_required(login_url='login')
 def manageAssessments(request):
     if not request.user.is_superuser:
@@ -336,6 +433,16 @@ def manageAssessments(request):
     course = Course.objects.all()
     context = {'courses': course}
     return render(request, 'base/manage_assessments.html',context)
+
+@login_required(login_url='login')
+def viewLogs(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    user = User.objects.all()
+    log = Log.objects.all()
+    context = {'users': user,
+               'logs': log}
+    return render(request, 'base/view_logs.html',context)
 
 
 
@@ -378,3 +485,15 @@ def delete_course(request, course_id):
         return JsonResponse({'success': True})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
+    
+# def units_by_course(request, course_id):
+#     try:
+#         units = Unit.objects.filter(course_id=course_id)
+#         units_data = [{'id': unit.id, 'title': unit.title} for unit in units]
+#         return JsonResponse(units_data, safe=False)
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)}, status=500)
+
+def get_units(request, course_id):
+    units = Unit.objects.filter(course_id=course_id).values('id', 'title')
+    return JsonResponse(list(units), safe=False)

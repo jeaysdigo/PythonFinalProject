@@ -6,6 +6,10 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
+from ckeditor.fields import RichTextField
+
+class YourModel(models.Model):
+    content = RichTextField()
 
 
 # class User(models.Model):
@@ -26,7 +30,7 @@ class User(AbstractUser):
     avatar = models.ImageField(null=True, default='avatar.png')
 
     def __str__(self):
-        return f"{'Username: '}{self.username}"
+        return f"{self.username}"
 
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = ['username']
@@ -39,30 +43,32 @@ class Badge(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_acquired = models.DateTimeField()
 
+from django.db import models
+
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, unique=True)
     certificate_img = models.CharField(max_length=255, null=True, blank=True)
-    # start_date = models.DateTimeField(null=True, blank=True)
-    # end_date = models.DateTimeField(null=True, blank=True)
-    # students = models.ManyToManyField('User', related_name='enrolled_courses', blank=True)
-
-    # class Meta:
-    #     ordering = ['-updated', '-created']
 
     def __str__(self):
         return self.title
-    
 
-class Lesson(models.Model):
-    lesson_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100, unique=True)
-    description = models.TextField(null=True, blank=True)
-    content = models.TextField(null=True, blank=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+class Unit(models.Model):
+    title = models.CharField(max_length=100)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='units', null=True, blank=True)
 
     def __str__(self):
-        return self.lesson_id
+        return self.title
+
+class Lesson(models.Model):
+    id = models.AutoField(primary_key=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    units = models.ManyToManyField(Unit, related_name='lessons')
+    title = models.CharField(max_length=100)
+    content = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title
 
 class Progress(models.Model):
     progress_id = models.AutoField(primary_key=True)
@@ -118,10 +124,30 @@ class Exam(models.Model):
     score = models.IntegerField(null=True, blank=True)
 
 class Log(models.Model):
-    log_id = models.AutoField(primary_key=True)
-    log_details = models.TextField()
+    id = models.AutoField(primary_key=True)
+    log_types = [
+        ('register', ' successfully registered their account.'),
+        ('login', ' login their account.'),
+        ('enroll', ' enrolled to a course.'),
+        ('takeQuiz', ' take a quiz'),
+        ('finishQuiz', ' finished a quiz'),
+        ('viewLesson', ' viewed a lesson'),
+        ('finishCourse', ' finished a course.'),
+        ('obtainBadge', 'obtained a badge.'),
+        ('obtainCert', 'obtained a certificate.'),
+        ('default', ' default'),
+
+    ]
+    log_type = models.CharField(max_length=100, choices=log_types, default='default')
     date = models.DateTimeField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True, blank=True)
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.user} - {self.log_type} on {self.date} "
 
 class Admin(models.Model):
     admin_id = models.AutoField(primary_key=True)

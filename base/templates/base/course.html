@@ -34,7 +34,7 @@
                 <div class="max-w-sm rounded overflow-hidden shadow-lg rounded-lg transition-all duration-500 hover:scale-105">
                     <img class="w-full" src="{% static 'images/python_header.jpg' %}" alt="">
                     <div class="px-6 py-4">
-                        <a class="flex items-center no-underline hover:underline text-black" href="{% url 'unit' %}">
+                        <a class="flex items-center no-underline hover:underline text-black" href="{% url 'unit' course.id %}">
                             <img alt="Placeholder" class="block rounded-full w-14 h-14 mb-2" src="{% static 'images/pythonCourse_badge.png' %}">
                             <div class="font-bold text-xl mb-2 ml-4">{{course.title}} Course</div>
                             

@@ -1,17 +1,138 @@
 {% extends 'main.html' %}
 
 
+
+
 {% block content %}
 
-<h1>Add Lesson  </h1>
+<div class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto mt-10">
+    <h1 class="text-3xl font-bold mb-6">Add Lessons</h1>
+    <form method="POST" action="{% url 'add_lesson' %}" class="space-y-4">
 
-<div>
-    <form method="POST"action="">
+
         {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="add lesson">
+        <div>
+            <label for="course" class="block text-sm font-medium text-gray-700">Course</label>
+            <select id="course" name="course" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+            dark:placeholder-gray-400 dark:text-white focus:outline-none" required>
+                {% for course in courses %}
+                    <option value="{{ course.id }}">{{ course.title }}</option>
+                {% endfor %}
+            </select>
+            {% if form.course.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.course.errors|join:", " }}</p>
+            {% endif %}
+        </div>
+       
+        
+        <div>
+            <label for="unit" class="block text-sm font-medium text-gray-700">Unit</label>
+            <select id="unit" name="unit" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+            dark:placeholder-gray-400 dark:text-white focus:outline-none" required>
+                {% for unit in units %}
+                    <option value="{{ unit.id }}">Unit {{ unit.id }} - {{ unit.title }} </option>
+                {% endfor %}
+            </select>
+            {% if form.unit.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.unit.errors|join:", " }}</p>
+            {% endif %}
+        </div>
+        
+        <script>
+            
+            document.getElementById('course').addEventListener('change', function() {
+                var courseId = this.value;
+                var unitSelect = document.getElementById('unit');
+            
+                // Clear existing options
+                unitSelect.innerHTML = '';
+            
+                // Fetch units for the selected course
+                fetch('/units/' + courseId + '/')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Add new options based on the fetched data
+                        data.forEach(unit => {
+                            var option = document.createElement('option');
+                            option.value = unit.id;
+                            option.textContent = 'Unit ' + unit.id + ' - ' + unit.title;
+                            unitSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching units:', error));
+            });
+            </script>
+            
+        
+
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700">Lesson Title</label>
+            <input type="text" id="title" name="title" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+            dark:placeholder-gray-400 dark:text-white focus:outline-none"  placeholder="i.e Python Introduction" required/>
+            {% if form.title.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.title.errors|join:", " }}</p>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="content" class="block text-sm font-medium text-gray-700">Lesson Content</label>
+            <textarea id="editor" name="content" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+            dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Enter lesson content" required></textarea>
+            {% if form.content.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.content.errors|join:", " }}</p>
+            {% endif %}
+            {{ form.media }}
+            {% load static %}
+            <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+            <script src="{% static 'ckeditor-init.js' %}"></script>
+            
+    
+   <script>
+    CKEDITOR.replace('editor', {
+    // Define the toolbar groups and items
+    toolbar: [
+        { name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] },
+        { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+        { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+        { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+        { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+        { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+        { name: 'colors', items: ['TextColor', 'BGColor'] },
+        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+        { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-'] },
+        { name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+        { name: 'about', items: ['About'] }
+    ],
+    // Other CKEditor configuration options can be added here
+});
+
+
+</script>
+
+        </div>
+
+        <!-- You may need to adjust the following fields based on your models and form requirements -->
+
+        <span>
+            {% if messages %}
+          <small class="messages">
+          {% for message in messages %}
+          <p style="color:red">{{ message }}</p>
+          {% endfor %}
+          </small>
+          {% endif %}
+          </span>
+        
+
+        <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300">Publish Lesson</button>
     </form>
 </div>
+
 
 {% endblock content %}
 

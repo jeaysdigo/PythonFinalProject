@@ -11,7 +11,11 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="sm:col-span-2">
+            <div class="w-full">
+                <label for="{{ form.username.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="w-full">
                 <label for="{{ form.first_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                 {{ form.first_name }}
             </div>
@@ -28,7 +32,7 @@
                 {{ form.avatar }}
             </div>
         </div>
-        <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+        <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
             Save Changes
         </button>
     </form>

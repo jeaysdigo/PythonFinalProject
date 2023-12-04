@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<title>Manage Courses</title>
+<title>Manage Lesson</title>
 <br>
 <br>
 <br>
@@ -12,14 +12,11 @@
     $(document).ready(function() {
         $("#defaultModal").click();
 
-      
-
     });
     
 </script>
 <!-- Update your script to handle the edit button click event -->
 <script>
-    
     
     let cid;
 
@@ -73,62 +70,42 @@
           }
         });
       });
-      // Delete button click event
-    $(".delete-button").click(function () {
+        // Delete button click event
+        $(".delete-button").click(function () {
             cid = $(this).data("course-id");
+            console.log("Course ID: " + cid);
 
-            // Confirm deletion using SweetAlert2
-            Swal.fire({
-                icon: 'warning',
-                title: 'Are you sure?',
-                text: 'You are about to delete this course.',
-                showCancelButton: true,
-                confirmButtonColor: 'red',
-                cancelButtonColor: 'lightgray',
-                confirmButtonText: 'Delete Permanently',
-                timer: 2500
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var csrf_token = $('input[name=csrfmiddlewaretoken]').val();
+            // Confirm deletion
+            if (confirm("Are you sure you want to delete this course?")) {
+                var csrf_token = $('input[name=csrfmiddlewaretoken]').val();
+                // Make AJAX request to delete_course endpoint
+                $.ajax({
+                    type: 'POST',
+                    url: '/delete_course/' + cid + '/',
+                    data: {
+                        'csrfmiddlewaretoken': csrf_token
+                     },
+                    success: function (data) {
+                        console.log("Delete response:", data);
 
-                    // Make AJAX request to delete_course endpoint
-                    $.ajax({
-                        type: 'POST',
-                        url: '/delete_course/' + cid + '/',
-                        data: {
-                            'csrfmiddlewaretoken': csrf_token
-                        },
-                        success: function (data) {
-                            if (data.success) {
-                                Swal.fire({
-                                icon: 'success',
-                                title: 'Deleted',
-                                text: 'Course deleted permanently!',
-                                showConfirmButton: false,
-                            }).then((result) => {
-                                if (result.isConfirmed || result.isDismissed) {
-                                    location.reload();
-                                }
-                            });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: 'Error deleting course: ' + data.error
-                                });
-                            }
-                        },
-                        error: function (error) {
-                            console.log("Error deleting courses:", error);
+                        // Check if deletion was successful
+                        if (data.success) {
+                            // Optionally, you can update the UI or reload the page
+                            alert("Course deleted successfully!");
+                            location.reload();
+                        } else {
+                            alert("Error deleting course: " + data.error);
                         }
-                    });
-                }
-            });
+                    },
+                    error: function (error) {
+                        console.log("Delete response:", data);
+                        console.log("Error deleting courses:", error);
+                    }
+                });
+            }
         });
     });
   </script>
-
-  
   
   
 
@@ -138,7 +115,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
 <div class="flex flex-col items-center">
-    <h1 class="text-3xl font-medium">Manage Course</h1><br>
+    <h1 class="text-3xl font-medium">Manage Lesson</h1><br>
 
     <a class="text-lg font-medium w-26 flex  justify-center bg-green-600 p-2 text-white" href="{% url 'add_course' %}">Add course</a>
 </div>
@@ -175,7 +152,7 @@
                                 <button type="button" class="text-green-500 edit-button p-4" id="edit_btn" data-course-id="{{ course.id }}" data-modal-target="defaultModal" data-modal-toggle="defaultModal" data-modal-course-id="{{ course.id }}">
                                     Edit
                                 </button>
-                                <a type="button" href="{% url 'manage_lesson' %}" class="text-green-500 manage-button p-4" id="manage_btn" data-course-id="{{ course.id }}"  data-modal-course-id="{{ course.id }}">
+                                <a type="button" href="{% url 'manage_lesson' course.id %}" class="text-green-500 manage-button p-4" id="manage_btn" data-course-id="{{ course.id }}"  data-modal-course-id="{{ course.id }}">
                                     Manage Lesson
                                 </a>
                                 <button class="text-red-500 delete-button p-4" data-course-id="{{ course.id }}" type="button">

@@ -17,7 +17,6 @@ urlpatterns = [
     path('', views.landing, name="landing"),
     path('home', views.home, name="home"),
     path('course/', views.courses, name="course"),
-    path('unit/', views.unit, name="unit"),
     path('course/<int:course_id>/lesson', views.view_lessons, name='view_lessons'),
     path('discover', views.discover, name='discover'),
     path('courses', views.courses, name="courses"),
@@ -25,23 +24,31 @@ urlpatterns = [
     path('certificates', views.certificates, name='certificates'),
     path('settings', views.settings, name='settings'),
     path('enroll/<int:course_id>/', views.enrollCourse, name='enroll'),
+    path('course/<int:course_id>/unit/', views.unit, name='unit'),
 
     # urls for admin
     path('dashboard', views.dashboard, name="dashboard"),
     path('add_course', views.createCourse, name="add_course"),
     # path('dashboard/course_list/<str:pk>/', views.courseList, name="course_list"),
     path('add_lesson/', views.createLesson, name="add_lesson"),
+    path('manage_lesson', views.manage_lesson, name="manage_lesson"),
+    path('edit_lesson/', views.edit_lesson, name="edit_lesson"),
     path('students', views.manageStudents, name="students"),
     path('manage_courses', views.manageCourse, name="manage_courses"),
     path('manage_students', views.manageStudents, name="manage_students"),
     path('manage_assessments', views.manageAssessments, name="manage_assessments"),
     path('analytics', views.analytics, name="analytics"),
     path('manage_settings', views.manageSettings, name="manage_settings"),
+    path('view_logs', views.viewLogs, name="view_logs"),
 
     # urls for retrieving 
     path('get_course_details/<int:course_id>/', views.get_course_details, name='get_course_details'),
     path('update_course/', views.update_course, name='update_course'),
     path('delete_course/<int:course_id>/', views.delete_course, name='delete_course'),
+    # path('units/<int:course_id>/', views.units_by_course, name='units_by_course'),
+    path('units/<int:course_id>/', views.get_units, name='get_units'),
+     path('get_lesson_content/', views.get_lesson_content, name='get_lesson_content'),
+
 
     
 ]

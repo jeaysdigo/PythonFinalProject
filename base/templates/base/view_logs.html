@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<title>View Logs</title>
+<br>
+<br>
+<br>
+<br>    
+
+
+<div class="bg-white mx-auto justify-center  items-center text-center p-10 w-full max-w-2xl ">
+    <h1 class="text-3xl">Logs</h1>
+<br>
+<ul>
+    {% for log in logs %}
+    <li>
+        <img src="{{ log.user.avatar.url }}" alt="{{ log.user.username }} Avatar" width="40" height="40"/><a href="{% url 'profile' log.user.username %}" class="text-green-600">@{{ log.user }}</a>
+        {{ log.get_log_type_display }} {{ log.course }}
+       <small>{{ log.date }} </small>
+    </li>
+{% endfor %}
+
+</ul>
+</div>
+{% endblock content %}
+
