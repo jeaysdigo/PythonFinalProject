@@ -64,6 +64,7 @@ env\Scripts\activate
 
 pip install django
 py -m pip install Pillow
+pip install django-ckeditor
 
 ```
 
