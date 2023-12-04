@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Python Numbers</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='main.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="output.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+      </style>
+</head>
+<body class="bg-gray-100 flex flex-col lg:flex-row ">
+
+    <div id="menu-toggle" class="lg:hidden cursor-pointer px-4 py-2 bg-gray-800 text-white">
+        &#9776; 
+    </div>
+
+   
+    <div id="sidebar" class="h-screen w-60 bg-gray-200 shadow-md lg:block lg:overflow-y-auto pb-2 ">
+      
+        <div class="p-0">
+            <h1 class="text-xl font-bold py-3 px-4  text-gray-800">Python Lessons</h1>
+            <ul>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400 ">Introduction to Python</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Basics</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Numbers</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Castings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Booleans</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lists</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Tuples</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Sets</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Dictionaries</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Data Types</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Variables</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-1.75 px-4 text-gray-800  hover:bg-green-400">Python Operators</a>
+                </li>
+                <li class="mb-1 ">
+                    <a href="#" class="block py-.75 px-4 text-gray-800 hover:bg-green-400">String Manipulation</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Conditions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Loopings</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Functions</a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="block py-.75 px-4 text-gray-800  hover:bg-green-400">Python Lambda</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+ 
+    <div id="content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
+
+
+    <!-- FIRST PART -->
+<h2 class="text-4xl font-bold">Python Numbers</h2>
+
+<!-- NEXT AND PREVIOUS BUTTON -->
+<div class="flex justify-between items-center mb-12 mt-6">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+
+<!-- OVERVIEW OF PYTHON NUMERIC TYPES -->
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">Python Numeric Types</h3>
+<p class="pb-2">Python provides three main numeric types:</p>
+<ul class="list-disc  pl-4 pb-2">
+    <li> <span class="text-red-500">int</span> (Integer) </li>
+    <li> <span class="text-red-500">float</span> (Floating-point) </li>
+    <li> <span class="text-red-500">complex</span> (Complex) </li>
+</ul>
+
+<!-- EXAMPLE OF DECLARING NUMERIC VARIABLES -->
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example: Declaring Numeric Variables</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"><span class="text-green-500"> # Numeric types in Python</span>
+ x = 1    <span class="text-green-500"># Integer</span>
+ y = 2.8  <span class="text-green-500"># Float</span>
+z = 1j   <span class="text-green-500"># Complex</span>
+
+<span class="text-green-500"> # Verify the type of each variable</span>
+ print(type(x))
+ print(type(y))
+ print(type(z))
+</code></pre>
+</div>
+
+<!-- INTEGER TYPE -->
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">Integer (int)</h3>
+<p class="pb-2">Integers are whole numbers, positive or negative, without decimals and of unlimited length.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example: Integer Variables</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"><span class="text-green-500"> # Integers</span>
+ x = 1
+ y = 35656222554887711
+ z = -3255522
+
+ print(type(x))
+ print(type(y))
+ print(type(z))
+</code></pre>
+</div>
+
+<!-- FLOAT TYPE -->
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">Float (float)</h3>
+<p class="pb-2">Floats are numbers with one or more decimals, including scientific notation with an "e" to indicate the power of 10.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example: Float Variables</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"><span class="text-green-500"> # Float</span>
+ x = 1.10
+ y = 1.0
+ z = -35.59
+
+ print(type(x))
+ print(type(y))
+ print(type(z))
+
+<span class="text-green-500"> # Scientific Notation</span>
+ x = 35e3
+ y = 12E4
+ z = -87.7e100
+
+ print(type(x))
+ print(type(y))
+ print(type(z))
+</code></pre>
+</div>
+
+<!-- COMPLEX TYPE -->
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">Complex (complex)</h3>
+<p class="pb-2">Complex numbers are written with a "j" as the imaginary part.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example: Complex Variables</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"><span class="text-green-500"> # Complex numbers</span>
+ x = 3+5j
+ y = 5j
+ z = -5j
+
+ print(type(x))
+ print(type(y))
+ print(type(z))
+</code></pre>
+</div>
+
+<!-- TYPE CONVERSION -->
+<h3 class="text-3xl font-medium mt-4 mb-2 text-gray-900">Type Conversion</h3>
+<p class="pb-2">You can convert between numeric types using the int(), float(), and complex() methods.</p>
+<div class="border-l-4 border-green-500 pl-4 mb-8">
+    <p class="text-gray-800 font-bold mb-2 text-lg">Example: Type Conversion</p>
+    <pre class="bg-gray-200 p-2 rounded-md overflow-x-auto">
+<code class="language-python"><span class="text-green-500"> # Type conversion</span>
+ x = 1    <span class="text-green-500"># int</span>
+ y = 2.8  <span class="text-green-500"># float</span>
+ z = 1j   <span class="text-green-500"># complex</span>
+
+<span class="text-green-500"> # Convert from int to float</span>
+ a = float(x)
+
+<span class="text-green-500"> # Convert from float to int</span>
+ b = int(y)
+
+<span class="text-green-500"> # Convert from int to complex </span>
+ c = complex(x)
+
+ print(a)
+ print(b)
+</code></pre>
+</div>
+
+
+         <!--NEXT AND PREVIOUS BUTTON-->
+<div class="flex justify-between items-center mb-8 mt-12">
+    <button class="text-l font-semibold bg-green-600 text-white px-8 py-3 rounded-md">Previous</button>
+    <button class="text-l font-semibold bg-green-600 text-white px-12 py-3 rounded-md">Next</button>
+</div>
+       
+    </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuToggle = document.getElementById('menu-toggle');
+        const content = document.getElementById('content');
+        const sidebar = document.getElementById('sidebar');
+
+        function updateSidebarDisplay() {
+            if (window.innerWidth < 1024 || window.innerWidth > 1024) {
+                sidebar.classList.add('hidden');
+                sidebar.style.overflowY = 'auto';
+            } else {
+                sidebar.classList.remove('hidden');
+                sidebar.style.overflowY = 'visible';
+            }
+        }
+        
+
+        updateSidebarDisplay()
+
+        window.addEventListener('resize', updateSidebarDisplay);
+
+        menuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('hidden');
+
+            if (sidebar.classList.contains('hidden')) {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
