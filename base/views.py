@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.forms import UserCreationForm
 from .models import Course, Lesson, User, Unit, Log
-from .forms import CourseForm, LessonForm,UserForm, MyUserCreationForm
+from .forms import CourseForm, LessonForm,UserForm, MyUserCreationForm, UnitForm
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -343,6 +343,8 @@ def createLesson(request):
     if not request.user.is_superuser:
         return redirect('home')
 
+    selected_unit = None  # Initialize selected_unit outside the if block
+
     if request.method == 'POST':
         form = LessonForm(request.POST)
         if form.is_valid():
@@ -356,34 +358,87 @@ def createLesson(request):
             # Add the selected units to the lesson
             lesson.units.set(units)
 
-            messages.success(request, 'Lesson added successfully.')  # Optional success message
-            return redirect('dashboard')  # Replace 'dashboard' with the appropriate URL
+            selected_units = lesson.units.all() if lesson.units.exists() else None
+            selected_unit = selected_units[0] if selected_units else None
+
+            return JsonResponse({'success': True, 'message': 'Lesson published successfully.'})
 
         else:
-            print(form.errors)  # Add this line to print form errors to the console
-            messages.error(request, 'Error adding lesson. Please correct the form.')
+            return JsonResponse({'error': True, 'message': 'Unable to publish this lesson.'})
     else:
         form = LessonForm()
 
-    course = Course.objects.all()
-    unit = Unit.objects.all()
-    context = {'form': form, 'units': unit, 'courses': course}
+    courses = Course.objects.all()
+    units = Unit.objects.all()
+    context = {'form': form, 'units': units, 'courses': courses, 'selected_unit': selected_unit}
     return render(request, 'base/lesson_form.html', context)
 
+def add_unit(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        course_id = request.POST['course']
+
+        try:
+            # Retrieve the Course instance based on the ID
+            course = Course.objects.get(pk=course_id)
+        except Course.DoesNotExist:
+            raise Http404("Course does not exist")
+
+        number = request.POST['number']
+
+        # Create a new unit and associate it with the course
+        unit = Unit.objects.create(title=title, number=number, course=course)
+
+        return JsonResponse({'success': True, 'message': 'Unit added successfully.'})
+
+    return render(request, 'base/add_unit.html')
+
+@login_required(login_url='login')
 def edit_lesson(request, lesson_id):
+    if not request.user.is_superuser:
+        return redirect('home')
+
     lesson = get_object_or_404(Lesson, pk=lesson_id)
+    selected_units = lesson.units.all() if lesson.units.exists() else None
+    selected_unit = selected_units[0] if selected_units else None
+    selected_course = lesson.course if lesson.course else None
 
     if request.method == 'POST':
         form = LessonForm(request.POST, instance=lesson)
         if form.is_valid():
-            form.save()
-            # Optionally, add a success message
-            messages.success(request, 'Lesson updated successfully!')
-            return redirect('edit_lesson', lesson_id=lesson_id)
+            lesson = form.save(commit=False)
+            lesson.save()
+            form.save_m2m()  # Save the many-to-many relationships
+            return JsonResponse({'success': True, 'message': 'Lesson updated successfully.'})
+        else:
+            print(form.errors)
+            messages.error(request, 'Error updating lesson. Please correct the form.')
     else:
         form = LessonForm(instance=lesson)
 
-    return render(request, 'edit_lesson.html', {'form': form, 'lesson': lesson})
+    courses = Course.objects.all()
+    units = Unit.objects.all()
+    lessons = Lesson.objects.all()
+    context = {'form': form, 
+               'units': units, 
+               'courses': courses, 
+               'lessons': lessons, 
+               'selected_unit': selected_unit,
+               'selected_course': selected_course}
+    return render(request, 'base/edit_lesson.html', context)
+
+def edit_unit(request, unit_id):
+    # Retrieve the unit instance or return a 404 response if not found
+    unit = get_object_or_404(Unit, pk=unit_id)
+
+    if request.method == 'POST':
+        # Update the unit details based on the form submission
+        unit.title = request.POST['title']
+        unit.number = request.POST['number']
+        unit.save()
+        return JsonResponse({'success': True, 'message': 'Unit updated successfully.'})
+
+    return render(request, 'base/edit_unit.html', {'unit': unit})
 
 @login_required(login_url='login')
 def manageStudents(request):
@@ -418,13 +473,42 @@ def manageCourse(request):
 
 # admin: manage course list
 @login_required(login_url='login')
-def manage_lesson(request):
+def manage_lesson(request, course_id=None, unit_id=None):
     if not request.user.is_superuser:
         return redirect('home')
-    lesson = Lesson.objects.all()
-    unit = Unit.objects.all()
-    context = {'lessons': lesson, 'units': unit}
-    return render(request, 'base/manage_lesson.html',context)
+
+    # Retrieve all courses for the dropdown menu
+    courses = Course.objects.all()
+
+    # If a specific course is selected, filter units by that course
+    if course_id:
+        selected_course = Course.objects.get(pk=course_id)
+        units = selected_course.units.all()
+
+        # If a specific unit is selected, filter lessons by that unit
+        if unit_id:
+            selected_unit = Unit.objects.get(pk=unit_id)
+            lessons = selected_unit.lessons.all()
+        else:
+            # If no unit is selected, display lessons for the first unit (you can modify this logic as needed)
+            lessons = units.first().lessons.all()
+    else:
+        # If no course is selected, display all lessons
+        units = Unit.objects.all()
+        lessons = Lesson.objects.all()
+
+    context = {'courses': courses, 'units': units, 'lessons': lessons, 'selected_course_id': course_id, 'selected_unit_id': unit_id}
+
+    return render(request, 'base/manage_lesson.html', context)
+
+def fetch_units(request, course_id):
+    # Fetch units based on the selected course
+    units = Unit.objects.filter(course_id=course_id).values('id', 'title', 'lessons__title')
+
+    # Convert QuerySet to a list for serialization
+    units_list = list(units)
+
+    return JsonResponse(units_list, safe=False)
 
 @login_required(login_url='login')
 def manageAssessments(request):
@@ -486,6 +570,28 @@ def delete_course(request, course_id):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
     
+@login_required(login_url='login')
+def delete_lesson(request, lesson_id):
+    if not request.user.is_superuser:
+        return redirect('home')
+    try:
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        lesson.delete()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+    
+@login_required(login_url='login')
+def delete_unit(request, unit_id):
+    if not request.user.is_superuser:
+        return redirect('home')
+    try:
+        unit = get_object_or_404(Unit, id=unit_id)
+        unit.delete()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+    
 # def units_by_course(request, course_id):
 #     try:
 #         units = Unit.objects.filter(course_id=course_id)
@@ -497,3 +603,31 @@ def delete_course(request, course_id):
 def get_units(request, course_id):
     units = Unit.objects.filter(course_id=course_id).values('id', 'title')
     return JsonResponse(list(units), safe=False)
+
+def get_units_and_lessons(request, course_id):
+    try:
+        course = Course.objects.get(pk=course_id)
+
+        units = list(course.units.values('id', 'title', 'number'))
+        
+        # Fetch lessons with related units
+        lessons = list(Lesson.objects.filter(course=course).prefetch_related('units').values('id', 'title', 'content', 'units__id', 'units__title'))
+
+        data = {
+            'units': units,
+            'lessons': lessons,
+        }
+
+        return JsonResponse(data, safe=False)
+    except Course.DoesNotExist:
+        return JsonResponse({'error': 'Course not found'}, status=404)
+    
+def get_lesson_html(request):
+    lesson_title = request.GET.get('lessonTitle', '')
+    # Fetch the lesson content from the database or other sources based on the lesson title
+    # ...
+
+    # Render the edit_lesson.html page with the fetched data
+    context = {'lesson_title': lesson_title, 'other_data': '...'}
+    html_content = render(request, 'edit_lesson.html', context).content
+    return HttpResponse(html_content, content_type='text/html')

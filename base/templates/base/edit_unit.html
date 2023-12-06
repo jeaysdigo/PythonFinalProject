@@ -1,0 +1,53 @@
+<!-- edit_unit.html -->
+
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Edit unit</h1>
+
+
+  <form method="post" id="editUnitForm" action="{% url 'edit_unit' unit.id %}">
+    {% csrf_token %}
+
+    <input type="hidden" id="add_course" name="course" required>
+
+    <div class="mb-4">
+        <label for="number" class="block text-sm font-medium text-gray-700">Unit Number</label>
+        <input type="text" id="number" name="number" value="{{ unit.number }}" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+        focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+        dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="i.e Unit 1" required/>
+        {% if form.title.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.title.errors|join:", " }}</p>
+        {% endif %}
+      </div>
+
+    <div class="mb-4">
+      <label for="title" class="block text-sm font-medium text-gray-700">Unit Title</label>
+      <input type="text" id="title" name="title" value="{{ unit.title }}" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+      focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+      dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="i.e Python Basics" required/>
+      {% if form.title.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.title.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- <label for="number">Unit Number:</label>
+    <input type="number" name="number" value="{{ unit.number }}" required> -->
+
+    <div class="flex justify-between">
+        <div>
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                Save Changes
+            </button>
+            <button onclick="discard()" class="bg-green-100 hover:bg-green-100 text-green-600  font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                Discard
+            </button>
+            
+        </div>
+        <a onclick="delete_unit()" class="delete-button cursor-pointer bg-red-100 hover:bg-red-100 text-red-600 py-2 px-4 font-semibold rounded-md focus:outline-none focus:shadow-outline-green active:bg-red-800">
+            Delete
+        </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

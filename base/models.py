@@ -55,6 +55,7 @@ class Course(models.Model):
 
 class Unit(models.Model):
     title = models.CharField(max_length=100)
+    number = models.IntegerField(null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='units', null=True, blank=True)
 
     def __str__(self):
@@ -63,7 +64,7 @@ class Unit(models.Model):
 class Lesson(models.Model):
     id = models.AutoField(primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
-    units = models.ManyToManyField(Unit, related_name='lessons')
+    units = models.ManyToManyField(Unit, related_name='lessons', blank=True)
     title = models.CharField(max_length=100)
     content = models.TextField(null=True, blank=True)
 

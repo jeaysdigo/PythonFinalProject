@@ -1,0 +1,112 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Edit Lesson</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert bg-blue-200 text-blue-800 border border-blue-500 px-4 py-3 rounded relative" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form id="lessonForm" method="post"class="space-y-4">
+        {% csrf_token %}
+
+        <input type="hidden" name="course" value="{{ selected_course.id }}">
+
+        <!-- <div class="mb-4">
+            <label for="course" class="block text-sm font-medium text-gray-700">Course</label>
+            <select id="course" name="course" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+            dark:placeholder-gray-400 dark:text-white focus:outline-none" required >
+            {% for course in courses %}
+            <option value="{{ course.id }}" {% if course.id == selected_course.id %}selected{% endif %}>{{ course.title }}</option>
+            {% endfor %}
+            </select>
+            {% if form.course.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.course.errors|join:", " }}</p>
+            {% endif %}
+        </div> -->
+
+        <div class="mb-4">
+            <label for="unit" class="block text-sm font-medium text-gray-700">Unit</label>
+            <select id="unit" name="units" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+                dark:placeholder-gray-400 dark:text-white focus:outline-none" required>
+                
+                {% for unit in selected_course.units.all %}
+                    <option value="{{ unit.id }}" {% if unit.id == selected_unit.id %}selected{% endif %}>Unit {{unit.number}} - {{ unit.title }}</option>
+                {% endfor %}
+                
+            </select>
+            {% if form.units.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.units.errors|join:", " }}</p>
+            {% endif %}
+        </div>
+        
+        
+        
+        
+
+        <div class="mb-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">Lesson Title</label>
+            <input type="text" id="title" name="title" value="{{ form.title.value }}" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+            dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="i.e Python Introduction" required/>
+            {% if form.title.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.title.errors|join:", " }}</p>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label for="content" class="block text-sm font-medium text-gray-700">Lesson Content</label>
+            <textarea id="editor" name="content" class="form-input" placeholder="Enter lesson content" required>{{ form.content.value }}</textarea>
+            {% if form.content.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.content.errors|join:", " }}</p>
+            {% endif %}
+            {{ form.media }}
+            {% load static %}
+            <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+            <script src="{% static 'ckeditor-init.js' %}"></script>
+            
+            <script>
+                CKEDITOR.replace('editor', {
+                    // ... Your existing CKEditor configuration
+                });
+            </script>
+        </div>
+
+        <span>
+            {% if messages %}
+                <small class="messages">
+                    {% for message in messages %}
+                        <p style="color:red">{{ message }}</p>
+                    {% endfor %}
+                </small>
+            {% endif %}
+        </span>
+
+        <input type="hidden" name="lesson_id" id="lessonId" value="">
+
+        <div class="flex justify-between">
+            <div>
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                    Save Changes
+                </button>
+                <button onclick="discard()" class="bg-green-100 hover:bg-green-100 text-green-600  font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                    Discard
+                </button>
+              
+            </div>
+            <a onclick="delete_lesson()" class="delete-button cursor-pointer  bg-red-100 hover:bg-red-100 text-red-600 py-2 px-4 font-semibold rounded-md focus:outline-none focus:shadow-outline-green active:bg-red-800">
+                Delete
+            </a>
+        </div>
+        
+    </form>
+    
+</div>
+{% endblock %}

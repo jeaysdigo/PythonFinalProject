@@ -1,21 +1,24 @@
-{% extends 'main.html' %}
+
 
 
 
 
 {% block content %}
 
-<div class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto mt-10">
-    <h1 class="text-3xl font-bold mb-6">Add Lessons</h1>
-    <form method="POST" action="{% url 'add_lesson' %}" class="space-y-4">
+<div class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto">
+    <h1 id="add_lesson_title"class="text-3xl font-bold mb-6">Add Lessons</h1>
+    <form id="addLessonForm"method="POST" action="{% url 'add_lesson' %}" class="space-y-4">
 
 
         {% csrf_token %}
-        <div>
+
+        <input type="hidden" id="add_course"  name="course" value="{{ course.id }}">
+        <!-- <div>
             <label for="course" class="block text-sm font-medium text-gray-700">Course</label>
-            <select id="course" name="course" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            <select id="add_course" name="course" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
             focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
             dark:placeholder-gray-400 dark:text-white focus:outline-none" required>
+                <option value="" disabled selected>Select Course </option>
                 {% for course in courses %}
                     <option value="{{ course.id }}">{{ course.title }}</option>
                 {% endfor %}
@@ -23,16 +26,16 @@
             {% if form.course.errors %}
                 <p class="text-red-500 text-sm mt-1">{{ form.course.errors|join:", " }}</p>
             {% endif %}
-        </div>
-       
-        
+        </div> -->
+    
         <div>
             <label for="unit" class="block text-sm font-medium text-gray-700">Unit</label>
-            <select id="unit" name="unit" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            <select id="add_unit" name="unit" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
             focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
             dark:placeholder-gray-400 dark:text-white focus:outline-none" required>
-                {% for unit in units %}
-                    <option value="{{ unit.id }}">Unit {{ unit.id }} - {{ unit.title }} </option>
+                <option value="" disabled selected>Select Unit </option>
+                {% for unit in selected_course.units.all %}
+                    <option value="{{ unit.id }}">{{ unit.title }} </option>
                 {% endfor %}
             </select>
             {% if form.unit.errors %}
@@ -41,32 +44,46 @@
         </div>
         
         <script>
-            
-            document.getElementById('course').addEventListener('change', function() {
-                var courseId = this.value;
-                var unitSelect = document.getElementById('unit');
-            
-                // Clear existing options
-                unitSelect.innerHTML = '';
-            
-                // Fetch units for the selected course
-                fetch('/units/' + courseId + '/')
-                    .then(response => response.json())
-                    .then(data => {
-                        // Add new options based on the fetched data
-                        data.forEach(unit => {
-                            var option = document.createElement('option');
-                            option.value = unit.id;
-                            option.textContent = 'Unit ' + unit.id + ' - ' + unit.title;
-                            unitSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching units:', error));
-            });
-            </script>
-            
-        
+            $(document).ready(function() {
+    // Trigger the event when the page loads
+    $('#add_course').trigger('change');
+    
+    // Attach the change event to #add_course
+    $(document).on('change', '#add_course', function() {
+        var courseId = $(this).val();
+        console.log(courseId);
+        var unitSelect = $('#add_unit');
 
+        // Clear existing options
+        unitSelect.empty();
+
+        // Fetch units for the selected course
+        $.ajax({
+            url: '/get_units_and_lessons/' + courseId + '/',
+            dataType: 'json',
+            success: function(data) {
+                // Check if 'units' property exists in the data
+                if (data.units && Array.isArray(data.units)) {
+                    // Add new options based on the fetched units
+                    $.each(data.units, function(index, unit) {
+                        var option = $('<option>');
+                        option.val(unit.id);
+                        option.text('Unit ' + unit.number + ' - ' + unit.title);
+                        unitSelect.append(option);
+                    });
+                } else {
+                    console.error('Error: Units array not found in the response.');
+                }
+            },
+            error: function(error) {
+                console.error('Error fetching units:', error);
+            }
+        });
+    });
+});
+
+        </script>
+    
         <div>
             <label for="title" class="block text-sm font-medium text-gray-700">Lesson Title</label>
             <input type="text" id="title" name="title" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 

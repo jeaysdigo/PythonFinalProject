@@ -31,8 +31,11 @@ urlpatterns = [
     path('add_course', views.createCourse, name="add_course"),
     # path('dashboard/course_list/<str:pk>/', views.courseList, name="course_list"),
     path('add_lesson/', views.createLesson, name="add_lesson"),
+    path('edit_unit/<int:unit_id>/', views.edit_unit, name='edit_unit'),
+    path('add_unit/', views.add_unit, name='add_unit'),
+    path('delete_unit/<int:unit_id>', views.delete_unit, name='delete_unit'),
     path('manage_lesson', views.manage_lesson, name="manage_lesson"),
-    path('edit_lesson/', views.edit_lesson, name="edit_lesson"),
+    path('edit_lesson/<int:lesson_id>/', views.edit_lesson, name='edit_lesson'),
     path('students', views.manageStudents, name="students"),
     path('manage_courses', views.manageCourse, name="manage_courses"),
     path('manage_students', views.manageStudents, name="manage_students"),
@@ -40,14 +43,17 @@ urlpatterns = [
     path('analytics', views.analytics, name="analytics"),
     path('manage_settings', views.manageSettings, name="manage_settings"),
     path('view_logs', views.viewLogs, name="view_logs"),
+    
 
     # urls for retrieving 
     path('get_course_details/<int:course_id>/', views.get_course_details, name='get_course_details'),
     path('update_course/', views.update_course, name='update_course'),
     path('delete_course/<int:course_id>/', views.delete_course, name='delete_course'),
+    path('delete_lesson/<int:lesson_id>/', views.delete_lesson, name='delete_lesson'),
     # path('units/<int:course_id>/', views.units_by_course, name='units_by_course'),
     path('units/<int:course_id>/', views.get_units, name='get_units'),
-     path('get_lesson_content/', views.get_lesson_content, name='get_lesson_content'),
+    path('get_lesson_content/', views.get_lesson_content, name='get_lesson_content'),
+    path('get_units_and_lessons/<int:course_id>/', views.get_units_and_lessons, name='get_units_and_lessons'),
 
 
     
