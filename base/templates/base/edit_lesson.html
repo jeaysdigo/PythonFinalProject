@@ -1,7 +1,6 @@
-{% extends 'main.html' %}
 
 {% block content %}
-<div class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto">
+<div class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto ">
     <h1 class="text-3xl font-bold mb-6">Edit Lesson</h1>
 
     {% if messages %}
@@ -12,7 +11,7 @@
         {% endfor %}
     {% endif %}
 
-    <form id="lessonForm" method="post"class="space-y-4">
+    <form id="lessonForm" method="post"class="space-y-4 ">
         {% csrf_token %}
 
         <input type="hidden" name="course" value="{{ selected_course.id }}">
@@ -93,15 +92,15 @@
 
         <div class="flex justify-between">
             <div>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                <button type="submit" class="ease-linear bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">
                     Save Changes
                 </button>
-                <button onclick="discard()" class="bg-green-100 hover:bg-green-100 text-green-600  font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                <button onclick="discard()" class="ease-linear bg-green-100 hover:bg-green-100 text-green-600  font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800  ">
                     Discard
                 </button>
               
             </div>
-            <a onclick="delete_lesson()" class="delete-button cursor-pointer  bg-red-100 hover:bg-red-100 text-red-600 py-2 px-4 font-semibold rounded-md focus:outline-none focus:shadow-outline-green active:bg-red-800">
+            <a onclick="delete_lesson()" class=" ease-lineardelete-button cursor-pointer  bg-red-100 hover:bg-red-100 text-red-600 py-2 px-4 font-semibold rounded-md focus:outline-none focus:shadow-outline-green active:bg-red-800">
                 Delete
             </a>
         </div>

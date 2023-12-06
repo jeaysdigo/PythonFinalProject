@@ -48,6 +48,8 @@ $(document).on('change', '#course', function() {
     selectedCourseId = $(this).val();
     console.log(courseId)
     console.log(selectedCourseId)
+    secondDiv = document.getElementById('content');
+            secondDiv.innerHTML = '';
 });
 
 
@@ -60,61 +62,55 @@ courseDropdown.addEventListener('change', function () {
     fetch('/get_units_and_lessons/' + selectedCourseId + '/')
         .then(response => response.json())
         .then(data => {
-            // console.log('Data received:', data);
+            console.log('Received data:', data);
 
+            var accordion = document.getElementById('accordion-collapse');
             accordion.innerHTML = `
-            
             <div class="flex justify-between p-2">
-                            <label class="block font-medium text-gray-700">Units</label>
-                            <button onclick="add_unit(`+selectedCourseId+`)"id="addUnit" type="" class="text-green-600 bg-green-100 font-semibold   items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                + Add Unit
-                            </button>
-                            <!-- <a class="text-green-600 cursor-pointer font-semibold">Expand</a> -->
-                        </div>`;
+                <label class="block font-medium text-gray-700">Units</label>
+                <button onclick="add_unit(${selectedCourseId})" type="button" id="addUnit" class="text-green-600 bg-green-100 font-semibold items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    + Add Unit
+                </button>
+            </div>`;
 
             if (data.units && Array.isArray(data.units)) {
-                data.units.forEach(function (unit) {
-                    var unitElement = document.createElement('div');
-                    unitElement.innerHTML = `
-                        
-                        <h2 id="accordion-collapse-heading-${unit.id}">
-                            <button type="button" class="bg-gray-100 flex items-center focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 justify-between p-3 w-full font-medium text-left border border-gray-200 dark:border-gray-700 border-b-0 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-xl" aria-expanded="false">
-                                <span onclick="edit_unit(${unit.id})" >Unit ${unit.number} - ${unit.title}</span>
-                                <svg class="w-6 h-6 shrink-0 rotate-180" fill="gray" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                data.units.forEach(function (unit, index) {
+                    var accordionItem = document.createElement('div');
+                    accordionItem.innerHTML = `
+                        <h2 id="accordion-collapse-heading-${index + 1}">
+                            <button type="button" class="hover:underline flex items-center justify-between w-full p-4 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-${index + 1}" aria-expanded="false" aria-controls="accordion-collapse-body-${index + 1}">
+                                <span onclick="edit_unit(${unit.id})">Unit ${unit.number} - ${unit.title}</span>
+                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                                </svg>
                             </button>
                         </h2>
-                        <div id="accordion-collapse-body-${unit.id}" aria-labelledby="accordion-collapse-heading-${unit.id}">
-                            <div class="p-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 border-b-0">
+                        <div id="accordion-collapse-body-${index + 1}" class="hidden" aria-labelledby="accordion-collapse-heading-${index + 1}">
+                            <div class="p-2 border border-b-0 rounded-b-xl p-4 border-gray-200 dark:border-gray-700">
                                 <!-- <small class="text-gray-400">Lessons</small> -->
-                                ${data.lessons
-                                    .filter(lesson => lesson.units__id === unit.id)
-                                    .map(lesson => `
-                                    <ul>
-                                        <li class=" hover:bg-gray-200 rounded-md p-2 cursor-pointer flex justify-between">
-                                            <a id="lesson_link" class="text-green-600 font-semibold" data-lesson-id="${lesson.id}">${lesson.title}</a>
-                                        </li>
-                                    </ul>`)
-                                    .join('')}
-                                    <button  onclick="add_lesson(${unit.id})" id="addlessonbtn"  class="text-green-600 bg-green-100 font-semibold text-center inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm text-center text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                        + Add Lesson
-                                    </button>
+                                <ul>
+                                    ${data.lessons
+                                        .filter(lesson => lesson.units__id === unit.id)
+                                        .map(lesson => `
+                                            <li class=" hover:underline rounded-md p-2 cursor-pointer flex justify-between">
+                                                <a id="lesson_link"class="text-gray-500" data-lesson-id="${lesson.id}">${lesson.title}</a>
+                                            </li>`)
+                                        .join('')}
+                                </ul>
+                                <button onclick="add_lesson(${unit.id})" class="text-green-600 bg-green-100 font-semibold text-center inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm text-center text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    + Add Lesson
+                                </button>
                             </div>
                         </div>
                     `;
-                    
-                    accordion.appendChild(unitElement);
-                    secondDiv = document.getElementById('content');
-                    secondDiv.innerHTML = '';
 
-                    unitElement.addEventListener('click', function (event) {
-                        var button = event.target.closest('button');
-                        if (button) {
-                            var accordionBody = button.parentElement.nextElementSibling;
-                            var isExpanded = accordionBody.getAttribute('aria-expanded') === 'true';
+                    accordion.appendChild(accordionItem);
 
-                            accordionBody.setAttribute('aria-expanded', !isExpanded);
-                            button.querySelector('svg').classList.toggle('rotate-180', !isExpanded);
-                        }
+                    accordionItem.querySelector('button').addEventListener('click', function () {
+                        var isExpanded = accordionItem.querySelector('button').getAttribute('aria-expanded') === 'true';
+                        accordionItem.querySelector('button').setAttribute('aria-expanded', !isExpanded);
+                        accordionItem.querySelector('svg').classList.toggle('rotate-180', !isExpanded);
+                        accordionItem.querySelector('div').classList.toggle('hidden', isExpanded);
                     });
                 });
             } else {
@@ -123,6 +119,7 @@ courseDropdown.addEventListener('change', function () {
         })
         .catch(error => console.error('Error fetching units and lessons:', error));
 });
+
 });
 
 let lessonId;
