@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PAL | Home</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="home.css">
+
+        <!-- PAGE ICON -->
+        <link rel="icon" href="img/PAL_logo.png" type="image/icon type">
+
+        <!-- Font Links -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
+    <body class="">
+        <div class=" flex flex-col lg:flex-row">
+            <!-- Sidebar -->
+            <!-- <div class="text-gray-100 w-64" id="sidebar">
+                <div div class="p-6">
+                    <h2 class="text-2xl text-gray-800 font-semibold">PAL</h2>
+                    <ul class="mt-6">
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Home</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Discover</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">My Courses</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Assessment</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Certificate</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Settings</a></li>
+                    </ul>
+                </div>
+            </div> -->
+
+            <!-- Main Content -->
+            <div class="flex-1 p-4 lg:p-10">
+                <h1 class="text-2xl font-semibold mb-4">Hello Karma!</h1>
+                <h1 class="text-3xl font-semibold mb-4">What do you want to learn today?</h1>
+
+                <!-- Welcome to Pal Card -->
+                <div class="max-w-full p-6 bg-[#F4F9F1] border border-gray-200 rounded-2xl shadow-md dark:bg-gray-800 dark:border-gray-700">
+                    <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">Welcome to the PAL, this will be your hub to all the tutorials we offer and your learning progress.</p>
+                    <br>
+                    <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">If you are new to coding, we recommend you to start with our Python turorial.</p>
+                    <!-- Buttons and Links -->
+                    <div class="flex-1">
+                        <a href="#" class="inline-flex items-center mr-5 px-3 py-2 text-sm font-medium text-center text-white bg-[#25A76F] rounded-lg hover:bg-[#385F61] focus:ring-4 focus:outline-none focus:ring-[#ABEDD0]
+                        dark:bg-[#A7ECAC] dark:hover:bg-[#25A76F] dark:focus:ring-[#25A76F]">
+                            Start Python
+                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="inline-flex items-center text-[#25A76F] hover:underline">
+                            Browse available courses
+                            <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Web floating score card -->
+                <div id="floatingCard" class="w-96 max-h-max bg-[#F4F9F1] border border-gray-200 shadow-2xl items-center rounded-3xl p-8 absolute top-12 left-2/3 hidden lg:block">
+                    <h1 class="text-xl text-center  font-bold mb-2">Your Score</h1>
+                    <h1 class="text-3xl text-center text-[#25A76F] font-semibold">75</h1>
+                    <h2 class="text-lg text-center  font-bold mb-2">points</h2>
+                    <div class="bg-[#E0E0E0] h-2 rounded-full">
+                        <div class="bg-[#25A76F] h-full rounded-full" style="width:75%;"></div>
+                    </div>
+
+                    <h2 class="text-md font-bold mb-2">Score Factors</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">4</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Badges</h2>
+                        </div>
+
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">1</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Course</h2>
+                        </div>
+
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">4</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Assessments</h2>
+                        </div>
+
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">11</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Quizzes</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mobile version score card -->
+                <div class="max-w-full my-3 max-h-max bg-[#F4F9F1] border-[#25A76F] border-4 shadow rounded-3xl p-4 lg:hidden">
+                    <h1 class="text-xl text-center  font-bold mb-2">Your Score</h1>
+                    <h1 class="text-3xl text-center text-[#25A76F] font-semibold">75</h1>
+                    <h2 class="text-lg text-center  font-bold mb-2">points</h2>
+                    <div class="bg-[#E0E0E0] h-2 rounded-full">
+                        <div class="bg-[#25A76F] h-full rounded-full" style="width:75%;"></div>
+                    </div>
+
+                    <h2 class="text-md font-bold mb-2">Score Factors</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">4</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Badges</h2>
+                        </div>
+
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">1</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Course</h2>
+                        </div>
+
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">4</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Assessments</h2>
+                        </div>
+
+                        <div class="border-2 border-[#25A76F] rounded-xl">
+                            <h1 class="text-2xl text-center text-[#25A76F] font-semibold">11</h1>
+                            <h2 class="text-sm text-center  font-bold mb-2">Quizzes</h2>
+                        </div>
+                    </div>
+                </div>
+                  
+                <div class="grid xl:grid-cols-2 lg:gap-16 lg:mt-28 md:mt-5 xs:p-4">
+                    <!-- Course Section -->
+                    <div class="flex-1">
+                        <h1 class="text-3xl font-semibold mb-4">In Progress</h1>
+                        <!-- Python Example Card -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-4">
+                            <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700">
+                                <a href="#">
+                                    <img class="rounded-t-3xl" src="img/python_cover.png" alt="" />
+                                </a>
+                                <div class="p-5">
+                                    <a href="#">
+                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Python Full Course</h5>
+                                    </a>
+                                    
+                                    <div class="">
+                                        <div class="bg-[#E0E0E0] h-2 rounded-full">
+                                            <div class="bg-[#25A76F] h-full rounded-full" style="width:62%;"></div>
+                                        </div>
+                                        <div>
+                                            <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden opacity-50 mt-1 text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">62% out of 100% completed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Java Example Card -->
+                            <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700">
+                                <a href="#">
+                                    <img class="rounded-t-3xl" src="img/java_cover.png" alt="" />
+                                </a>
+                                <div class="p-5">
+                                    <a href="#">
+                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Java Full Course</h5>
+                                    </a>
+                                    
+                                    <div class="">
+                                        <div class="bg-[#E0E0E0] h-2 rounded-full">
+                                            <div class="bg-[#25A76F] h-full rounded-full" style="width:25%;"></div>
+                                        </div>
+                                        <div>
+                                            <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden opacity-50 mt-1 text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">25% out of 100% completed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Show more -->
+                        <div class="p-3">
+                            <a href="#" class="inline-flex items-center text-lg text-black font-extrabold hover:underline">
+                                Show all courses
+                                <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Assessment and Quizzes Section -->
+                    <div class="flex-1 overflow-x-auto">
+                        <h1 class="text-3xl font-semibold mb-4">Assessment and Quizzes</h1>
+                        <!-- Table -->
+                        <a href="#" class="block max-w-full max-h-80 p-4 bg-[#F4F9F1] border border-gray-200 rounded-3xl shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                            <div class="overflow-x-auto max-w-full max-h-72">
+                                <table class="data-table overflow-hidden">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/3">Assessment Name</th>
+                                        <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/2">Completion</th>
+                                        <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/3">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- sample completed quiz -->
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">Python Unit 1 Assessment</td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/2 text-center">
+                                                <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden mt-1 font-bold text-right text-[#25A76F] text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">
+                                                    100%
+                                                </div>
+                                                <div class="bg-[#E0E0E0] h-2 rounded-full">
+                                                    <div class="bg-[#25A76F] h-full rounded-full" style="width:100%;"></div> 
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">
+                                                <div class="bg-[#E3EEE8] p-1.5 rounded-xl font-medium text-[#25A76F] text-sm w-full">Completed</div>
+                                            </td>
+                                        </tr>                      
+                                        <!-- sample ongoing quiz -->
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">Python Unit 2 Lesson 4 Quiz</td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/2 text-center">
+                                                <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden mt-1 font-bold text-right text-[#25A76F] text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">
+                                                    25%
+                                                </div>
+                                                <div class="bg-[#E0E0E0] h-2 rounded-full">
+                                                    <div class="bg-[#25A76F] h-full rounded-full" style="width:25%;"></div> 
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">
+                                                <div class="bg-[#DFE9F8] p-1.5 rounded-xl font-medium text-[#2473EB] text-sm w-full">Ongoing</div>
+                                            </td>
+                                        </tr>
+                                        <!-- sample ongoing quiz -->
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">Python Unit 3 Assessment</td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/2 text-center">
+                                                <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden mt-1 font-bold text-right text-[#25A76F] text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">
+                                                    50%
+                                                </div>
+                                                <div class="bg-[#E0E0E0] h-2 rounded-full">
+                                                    <div class="bg-[#25A76F] h-full rounded-full" style="width:50%;"></div> 
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">
+                                                <div class="bg-[#DFE9F8] p-1.5 rounded-xl font-medium text-[#2473EB] text-sm w-full">Ongoing</div>
+                                            </td>
+                                        </tr>
+                                        <!-- sample ongoing quiz -->
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">Python Unit 3 Assessment</td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/2 text-center">
+                                                <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden mt-1 font-bold text-right text-[#25A76F] text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">
+                                                    75%
+                                                </div>
+                                                <div class="bg-[#E0E0E0] h-2 rounded-full">
+                                                    <div class="bg-[#25A76F] h-full rounded-full" style="width:75%;"></div> 
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">
+                                                <div class="bg-[#DFE9F8] p-1.5 rounded-xl font-medium text-[#2473EB] text-sm w-full">Ongoing</div>
+                                            </td>
+                                        </tr>  
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
