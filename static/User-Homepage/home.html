@@ -20,19 +20,6 @@
     <body class="">
         <div class=" flex flex-col lg:flex-row">
             <!-- Sidebar -->
-            <!-- <div class="text-gray-100 w-64" id="sidebar">
-                <div div class="p-6">
-                    <h2 class="text-2xl text-gray-800 font-semibold">PAL</h2>
-                    <ul class="mt-6">
-                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Home</a></li>
-                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Discover</a></li>
-                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">My Courses</a></li>
-                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Assessment</a></li>
-                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Certificate</a></li>
-                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Settings</a></li>
-                    </ul>
-                </div>
-            </div> -->
 
             <!-- Main Content -->
             <div class="flex-1 p-4 lg:p-10">
@@ -63,7 +50,7 @@
                 </div>
 
                 <!-- Web floating score card -->
-                <div id="floatingCard" class="w-96 max-h-max bg-[#F4F9F1] border border-gray-200 shadow-2xl items-center rounded-3xl p-8 absolute top-12 left-2/3 hidden lg:block">
+                <div id="floatingCard" class="w-96 max-h-max bg-[#F4F9F1] border border-gray-200 shadow-2xl items-center rounded-3xl p-8 absolute top-12 left-2/3 hidden lg:block transform hover:scale-105 transition duration-300">
                     <h1 class="text-xl text-center  font-bold mb-2">Your Score</h1>
                     <h1 class="text-3xl text-center text-[#25A76F] font-semibold">75</h1>
                     <h2 class="text-lg text-center  font-bold mb-2">points</h2>
@@ -131,9 +118,10 @@
                     <!-- Course Section -->
                     <div class="flex-1">
                         <h1 class="text-3xl font-semibold mb-4">In Progress</h1>
-                        <!-- Python Example Card -->
+                        
                         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-4">
-                            <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700">
+                            <!-- Python Example Card -->
+                            <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700 transition-all duration-500 hover:scale-105">
                                 <a href="#">
                                     <img class="rounded-t-3xl" src="img/python_cover.png" alt="" />
                                 </a>
@@ -153,7 +141,7 @@
                                 </div>
                             </div>
                             <!-- Java Example Card -->
-                            <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700">
+                            <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700 transition-all duration-500 hover:scale-105">
                                 <a href="#">
                                     <img class="rounded-t-3xl" src="img/java_cover.png" alt="" />
                                 </a>
@@ -268,5 +256,24 @@
             </div>
         </div>
 
+        <script>
+            // JavaScript to handle the floating effect of score card
+            const floatingCard = document.getElementById('floatingCard');
+
+            floatingCard.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 30;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+            floatingCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+
+            floatingCard.addEventListener('mouseenter', () => {
+            floatingCard.style.transition = 'none';
+            });
+
+            floatingCard.addEventListener('mouseleave', () => {
+            floatingCard.style.transition = 'all 0.5s ease';
+            floatingCard.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
+        </script>
     </body>
 </html>
