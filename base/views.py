@@ -134,9 +134,11 @@ def changePassword(request):
         if password_form.is_valid():
             user = password_form.save()
             update_session_auth_hash(request, user)
-            messages.success(request, 'Password changed successfully.')
-            return redirect('profile', pk=user.username)
+            # messages.success(request, 'Password changed successfully.')
+            return JsonResponse({'success': True, 'message': 'Password changed successfully. You are required to login again.'})
+            # return redirect('profile', pk=user.username)
         else:
+            # return JsonResponse({'success': False, 'message': 'Unable to change the password.'})
             for field, errors in password_form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
@@ -146,12 +148,10 @@ def changePassword(request):
 @login_required(login_url='login')
 def deleteAccount(request):
     if request.method == 'POST':
-        # Perform account deletion logic here
         user = request.user
         user.delete()
         logout(request)
-        return redirect('home')  # Redirect to the home page or any other desired page after deletion
-
+        return JsonResponse({'success': True, 'message': 'Account deleted succesfully.'})
     return render(request, 'base/delete_account.html')
 
 

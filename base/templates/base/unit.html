@@ -18,6 +18,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
     </style>
 </head>
+<style>
+    /* Add this style to highlight the active lesson link */
+    .lesson-link.active {
+        background-color: #4caf50;
+        color: #ffffff;
+        font-weight: bold;
+    }
+</style>
 
 <div class="bg-gray-100 flex flex-col lg:flex-row ">
 
@@ -29,7 +37,7 @@
     <div id="sidebar" class="h-screen w-80 bg-gray-200 lg:block lg:overflow-y-auto pb-2">
         <div class="p-0">
             {% for unit in units %}
-                <h1 class="text-xl font-bold py-3 px-4 text-gray-800">Unit {{ unit.id }}: {{ unit.title }}</h1>
+                <h1 class="text-xl font-bold py-3 px-4 text-gray-800">Unit {{ unit.number }}: {{ unit.title }}</h1>
                 
                 <ul>
                     {% for lesson in unit.lessons.all %}
@@ -43,54 +51,106 @@
         </div>
     </div>
     
-    <div id="lesson-content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
+    <!-- <div id="lesson-content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
         
         <div class="bg-black-200">
+    
+        </div>
+    </div> -->
+    <div id="lesson-content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
+        <div class="bg-black-200">
+            <!-- Add Back and Next buttons -->
+            <div class="flex justify-between mb-4">
+                <button id="back-button" class="px-4 py-2 bg-gray-800 text-white">Back</button>
+                <button id="next-button" class="px-4 py-2 bg-gray-800 text-white">Next</button>
+            </div>
             <!-- Content will be populated here -->
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            // AJAX request for lesson content
-            $('.lesson-link').click(function(e) {
-                e.preventDefault();
-                var lessonId = $(this).data('lesson-id');
-                $.ajax({
-                    url: '/get_lesson_content/',
-                    data: {'lesson_id': lessonId},
-                    success: function(response) {
-                        console.log(response);
-                        $('#lesson-content .bg-black-200').html(response.lesson_content);
-                    },
-                    error: function(error) {
-                        console.error('Error fetching lesson content:', error);
+
+ <script>
+    $(document).ready(function () {
+    let currentLessonIndex = 0;
+
+    // Function to update lesson content based on the lesson index
+    function updateLessonContent() {
+        const lessonId = $('.lesson-link').eq(currentLessonIndex).data('lesson-id');
+        $.ajax({
+            url: '/get_lesson_content/',
+            data: { 'lesson_id': lessonId },
+            success: function (response) {
+                console.log(response);
+                const lessonContentContainer = $('#lesson-content .bg-black-200');
+
+                // Update the lesson content
+                lessonContentContainer.html(response.lesson_content);
+
+                // Append Back and Next buttons
+                lessonContentContainer.append(`
+                    <div class="flex justify-between mb-4">
+                        <button id="back-button" class="px-4 py-2 bg-gray-800 text-white">Back</button>
+                        <button id="next-button" class="px-4 py-2 bg-gray-800 text-white">Next</button>
+                    </div>
+                `);
+
+                // Attach event handlers for the newly appended buttons
+                $('#back-button').on('click', function () {
+                    if (currentLessonIndex > 0) {
+                        currentLessonIndex--;
+                        updateLessonContent();
                     }
                 });
-            });
-    
-            // Toggle sidebar and content display
-            const menuToggle = $('#menu-toggle');
-            const sidebar = $('#sidebar');
-            const content = $('#content');
-    
-            function updateSidebarDisplay() {
-                if (window.innerWidth < 1024 || window.innerWidth > 1024) {
-                    sidebar.addClass('hidden').css('overflowY', 'auto');
-                } else {
-                    sidebar.removeClass('hidden').css('overflowY', 'visible');
-                }
+
+                $('#next-button').on('click', function () {
+                    const totalLessons = $('.lesson-link').length;
+                    if (currentLessonIndex < totalLessons - 1) {
+                        currentLessonIndex++;
+                        updateLessonContent();
+                    }
+                });
+
+                // Remove the 'active' class from all links and add it to the current one
+                $('.lesson-link').removeClass('active');
+                $('.lesson-link').eq(currentLessonIndex).addClass('active');
+            },
+            error: function (error) {
+                console.error('Error fetching lesson content:', error);
             }
-    
-            updateSidebarDisplay();
-    
-            $(window).on('resize', updateSidebarDisplay);
-    
-            menuToggle.on('click', function() {
-                sidebar.toggleClass('hidden');
-                content.css('display', sidebar.hasClass('hidden') ? 'block' : 'none');
-            });
         });
-    </script>
-</di>
+    }
+
+    // Delegate click event to the static parent element
+    $('#sidebar').on('click', '.lesson-link', function (e) {
+        e.preventDefault();
+        var lessonId = $(this).data('lesson-id');
+        currentLessonIndex = $('.lesson-link').index(this);
+        updateLessonContent();
+    });
+
+    // Toggle sidebar and content display
+    const menuToggle = $('#menu-toggle');
+    const sidebar = $('#sidebar');
+    const content = $('#content');
+
+    function updateSidebarDisplay() {
+        if (window.innerWidth < 1024 || window.innerWidth > 1024) {
+            sidebar.addClass('hidden').css('overflowY', 'auto');
+        } else {
+            sidebar.removeClass('hidden').css('overflowY', 'visible');
+        }
+    }
+
+    updateSidebarDisplay();
+
+    $(window).on('resize', updateSidebarDisplay);
+
+    menuToggle.on('click', function () {
+        sidebar.toggleClass('hidden');
+        content.css('display', sidebar.hasClass('hidden') ? 'block' : 'none');
+    });
+});
+
+ </script>
+</div>
 
 {% endblock content %}

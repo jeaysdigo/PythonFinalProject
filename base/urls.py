@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout/', views.logoutUser, name='logout'),
     path('profile/<str:pk>', views.userProfile, name="profile"),
     path('update_user', views.updateUser, name="update_user"),
-    path('update_pass', views.changePassword, name="change_password"),
+    path('change_password', views.changePassword, name="change_password"),
     path('delete_account/', views.deleteAccount, name='delete_account'),
 
     # urls for users

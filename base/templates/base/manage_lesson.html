@@ -27,9 +27,9 @@
         <!-- Row 1: Dropdown for Course -->
         <div class="mb-2">
             <label for="course" class="block font-medium text-gray-700">Course</label>
-            <select id="course" name="course" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            <select id="course" name="course" class="bg-white border border-gray-200 text-gray-500 text-sm rounded-lg 
             focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-            dark:placeholder-gray-400 dark:text-white focus:outline-none" required>
+            dark:placeholder-gray-2000 dark:text-white focus:outline-none" required>
             <option value="" selected disabled>Select Course</option>
                 {% for course in courses %}
                     <option value="{{ course.id }}">{{ course.title }}</option>
