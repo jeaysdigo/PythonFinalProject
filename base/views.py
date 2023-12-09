@@ -4,7 +4,7 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.forms import UserCreationForm
-from .models import Course, Lesson, User, Unit, Log
+from .models import Course, Lesson, User, Unit, Log, UserProgress
 from .forms import CourseForm, LessonForm,UserForm, MyUserCreationForm, UnitForm
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
@@ -258,23 +258,24 @@ def view_lessons(request, course_id):
     context = {'course': course}
     return render(request, 'base/view_lessons.html', context)
 
-@login_required(login_url='login')
-def unit(request, course_id):
-    # Get the Course object or return a 404 error if not found
-    course = get_object_or_404(Course, id=course_id)
+# @login_required(login_url='login')
+# def unit(request, course_id):
+#     # Get the Course object or return a 404 error if not found
+#     course = get_object_or_404(Course, id=course_id)
 
-    # Check if the current user is associated with the course
-    if not request.user.is_authenticated or not request.user.courses.filter(id=course.id).exists():
-        # You can customize this part based on your requirements, e.g., redirect to an error page or display a message
-        return render(request, 'base/access_denied.html')
+#     # Check if the current user is associated with the course
+#     if not request.user.is_authenticated or not request.user.courses.filter(id=course.id).exists():
+#         # You can customize this part based on your requirements, e.g., redirect to an error page or display a message
+#         return render(request, 'base/access_denied.html')
 
-    # Filter units based on the associated course
-    # units = Unit.objects.filter(id=course_id)
-    units = Unit.objects.filter(course=course)
+#     # Filter units based on the associated course
+#     # units = Unit.objects.filter(id=course_id)
+#     units = Unit.objects.filter(course=course)
 
 
-    context = {'units': units, 'course': course}
-    return render(request, 'base/unit.html', context)
+#     context = {'units': units, 'course': course}
+#     return render(request, 'base/unit.html', context)
+
 
 def get_lesson_content(request):
     # Assuming you're passing the lesson_id in the request GET parameters
@@ -631,3 +632,87 @@ def get_lesson_html(request):
     context = {'lesson_title': lesson_title, 'other_data': '...'}
     html_content = render(request, 'edit_lesson.html', context).content
     return HttpResponse(html_content, content_type='text/html')
+
+def check_lesson_completion(request):
+    if request.method == 'GET':
+        user_id = request.GET.get('user_id')
+        course_id = request.GET.get('course_id')
+        lesson_id = request.GET.get('lesson_id')
+
+        if user_id and course_id and lesson_id:
+            user = get_object_or_404(User, id=user_id)
+            lesson = get_object_or_404(Lesson, id=lesson_id, course__id=course_id)
+
+            # Check if there's a previous lesson
+            previous_lesson_index = lesson.units.first().lessons.filter(id__lt=lesson_id).count()
+            previous_lesson = lesson.units.first().lessons.all()[previous_lesson_index - 1] if previous_lesson_index > 0 else None
+
+            if not previous_lesson or previous_lesson in user.completed_lessons.all():
+                return JsonResponse({'completed': True})
+            else:
+                return JsonResponse({'completed': False})
+
+    return JsonResponse({'error': 'Invalid request'})
+
+def mark_lesson_completed(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        lesson_id = request.POST.get('lesson_id')
+
+        if user_id and lesson_id:
+            user = get_object_or_404(User, id=user_id)
+            lesson = get_object_or_404(Lesson, id=lesson_id)
+
+            # Check if the lesson is not already marked as completed
+            if lesson not in user.completed_lessons.all():
+                user.completed_lessons.add(lesson)
+                user.save()
+
+            return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'error'})
+
+from django.shortcuts import get_object_or_404
+from .models import UserProgress, Lesson
+
+@login_required(login_url='login')
+def unit(request, course_id):
+    # Get the Course object or return a 404 error if not found
+    course = get_object_or_404(Course, id=course_id)
+
+    # Check if the current user is associated with the course
+    if not request.user.is_authenticated or not request.user.courses.filter(id=course.id).exists():
+        # You can customize this part based on your requirements, e.g., redirect to an error page or display a message
+        return render(request, 'base/access_denied.html')
+
+    # Filter units based on the associated course
+    units = Unit.objects.filter(course=course)
+
+    # Get the user's progress
+    # user_progress, created = UserProgress.objects.get_or_create(user=request.user)
+    user_progress, _ = UserProgress.objects.get_or_create(user=request.user)
+
+
+    # Assuming you have a specific lesson_id indicating the lesson the user has viewed
+    lesson_id = request.GET.get('lesson_id')  # Change this according to your actual implementation
+
+    # Check if the lesson_id is provided and save it to the user's viewed_lessons
+    if lesson_id:
+        user_progress.viewed_lessons.add(lesson_id)
+
+    # Get the updated viewed lessons
+    viewed_lessons = user_progress.viewed_lessons.all()
+
+    context = {'units': units, 'course': course, 'viewed_lessons': viewed_lessons}
+    return render(request, 'base/unit.html', context)
+
+
+def save_viewed_lesson(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        lesson_id = request.POST.get('lesson_id')
+        user_progress, _ = UserProgress.objects.get_or_create(user=request.user)
+        user_progress.viewed_lessons.add(lesson_id)
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
+

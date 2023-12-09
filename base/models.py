@@ -61,6 +61,13 @@ class Unit(models.Model):
     def __str__(self):
         return self.title
 
+class UserProgress(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    viewed_lessons = models.ManyToManyField('Lesson', related_name='viewed_by', blank=True)
+    unit_completed = models.ManyToManyField('Unit', related_name='viewed_by', blank=True)
+    def __str__(self):
+        return f"{self.user}"
+
 class Lesson(models.Model):
     id = models.AutoField(primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)

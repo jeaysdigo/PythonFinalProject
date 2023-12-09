@@ -54,6 +54,11 @@ urlpatterns = [
     path('units/<int:course_id>/', views.get_units, name='get_units'),
     path('get_lesson_content/', views.get_lesson_content, name='get_lesson_content'),
     path('get_units_and_lessons/<int:course_id>/', views.get_units_and_lessons, name='get_units_and_lessons'),
+    path('check_lesson_completion/', views.check_lesson_completion, name='check_lesson_completion'),
+    path('mark_lesson_completed/', views.mark_lesson_completed, name='mark_lesson_completed'),
+
+     path('save_viewed_lesson/', views.save_viewed_lesson, name='save_viewed_lesson'),
+
 
 
     

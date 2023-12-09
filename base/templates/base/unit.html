@@ -51,18 +51,12 @@
         </div>
     </div>
     
-    <!-- <div id="lesson-content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
-        
-        <div class="bg-black-200">
-    
-        </div>
-    </div> -->
     <div id="lesson-content" class="flex-1 pl-6 pt-2 pb-6 pr-6 h-screen overflow-y-auto">
         <div class="bg-black-200">
             <!-- Add Back and Next buttons -->
             <div class="flex justify-between mb-4">
-                <button id="back-button" class="px-4 py-2 bg-gray-800 text-white">Back</button>
-                <button id="next-button" class="px-4 py-2 bg-gray-800 text-white">Next</button>
+                <button id="back-button" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">Back</button>
+                <button id="next-button" class=" bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">Next</button>
             </div>
             <!-- Content will be populated here -->
         </div>
@@ -70,6 +64,7 @@
 
  <script>
     $(document).ready(function () {
+        
     let currentLessonIndex = 0;
 
     // Function to update lesson content based on the lesson index
@@ -80,18 +75,20 @@
             data: { 'lesson_id': lessonId },
             success: function (response) {
                 console.log(response);
-                const lessonContentContainer = $('#lesson-content .bg-black-200');
+                const lessonContentContainer = $('#lesson-content');
 
                 // Update the lesson content
                 lessonContentContainer.html(response.lesson_content);
 
-                // Append Back and Next buttons
-                lessonContentContainer.append(`
+                const back_next_buttons = `
                     <div class="flex justify-between mb-4">
-                        <button id="back-button" class="px-4 py-2 bg-gray-800 text-white">Back</button>
-                        <button id="next-button" class="px-4 py-2 bg-gray-800 text-white">Next</button>
+                        <button id="back-button" class=" bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">Back</button>
+                        <button id="next-button" class=" bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800">Next</button>
                     </div>
-                `);
+                `;
+
+                // Append Back and Next buttons
+                lessonContentContainer.append(back_next_buttons);
 
                 // Attach event handlers for the newly appended buttons
                 $('#back-button').on('click', function () {
@@ -124,8 +121,28 @@
         e.preventDefault();
         var lessonId = $(this).data('lesson-id');
         currentLessonIndex = $('.lesson-link').index(this);
-        updateLessonContent();
+
+        $.ajaxSetup({
+        headers: { "X-CSRFToken": "{{ csrf_token }}" }
+        });
+
+        // Send a request to save the viewed lesson
+        $.ajax({
+            url: '/save_viewed_lesson/',
+            method: 'POST',
+            data: { 'lesson_id': lessonId },
+            success: function () {
+                // Update the lesson content
+                updateLessonContent();
+                console.log('you viewed the lesson',lessonId)
+            },
+            error: function (error) {
+                console.error('Error saving viewed lesson:', error);
+                // Handle the error as needed
+            }
+        });
     });
+
 
     // Toggle sidebar and content display
     const menuToggle = $('#menu-toggle');
