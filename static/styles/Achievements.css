@@ -1,0 +1,53 @@
+:root {
+  /* font-family: 'Open Sans', sans-serif; */
+  font-family: "Ubuntu", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: #f4f9f1;
+}
+
+#sidebar {
+  background-color: #ffffff;
+}
+
+/* table */
+.data-table td {
+  border-bottom: 2px solid #e5e7eb;
+  text-align: left;
+}
+
+/* Width, height, and color */
+::-webkit-scrollbar {
+  width: 6px; /* width of the scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #25a76f; /* color of the scrollbar handle */
+  border-radius: 6px; /* round the corners */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #385f61; /* color of the scrollbar handle on hover */
+}
+
+/* Style the select box when it's not open */
+select {
+  background-color: #25a76f; /* Set your desired background color */
+  color: #ffffff; /* Set your desired text color */
+  padding: 8px; /* Adjust padding as needed */
+}
+
+/* Style the options in the dropdown menu */
+select option {
+  background-color: #fff; /* Set your desired background color for options */
+  color: #2e2e2e; /* Set your desired text color for options */
+}

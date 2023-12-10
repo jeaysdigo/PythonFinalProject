@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PAL | Settings</title>
+    <!-- Tailwind Link -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Links -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&family=Ubuntu:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+    <!-- Icons Link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="img/PAL_logo.png" type="image/icon type" />
+  </head>
+
+  <body>
+
+      <!--MODAL FOR CHANGE EMAIL-->
+     <div
+     id="changeEmailModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 invisible flex items-center justify-center"
+   >
+     <!-- Modal Content Change Email -->
+     <div
+       class="bg-[#F4F9F1] rounded-3xl ml-5 xs:ml-5 sm:ml-10 md:ml-10 mr-5 xs:mr-5 sm:mr-10 md:mr-10 shadow-md w-auto max-w-3xl h-auto overflow-y-auto flex flex-col"
+     >
+       <!-- Modal Header Change Email -->
+       <div class="bg-[#F4F9F1] p-2 text-[#436E70]">
+         <div class="flex flex-row">
+           <div
+             style="font-family: 'Ubuntu', sans-serif"
+             class="text-lg ml-3 font-semibold"
+           >
+             Change Email
+           </div>
+
+           <button
+             class="items-center ml-auto group hover:brightness-75 focus:outline-none"
+             onclick="closeChangeEmail()"
+           >
+             <svg
+               class="h-6 w-6"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg"
+             >
+               <path
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 stroke-width="2"
+                 d="M6 18L18 6M6 6l12 12"
+               ></path>
+             </svg>
+           </button>
+         </div>
+       </div>
+
+       <!-- Modal Body Change Email -->
+       <div class="flex-grow overflow-y-auto">
+         <div class="text-sm text-[#85A2A0] text-justify mr-5 ml-5">Please enter a new email and we will send you a verification code.</div>
+         
+         <div class="m-5">
+         <input
+           style="font-family: 'Ubuntu', sans-serif"
+           id="newEmail"
+           type="text"
+           class="w-full p-2 border-2 border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#25A76F]"
+            />
+            <button 
+            onclick="openVerifyEmail()"
+            style="font-family: 'Ubuntu', sans-serif" 
+            class="hover:brightness-75 text-white w-full font-bold bg-[#25A76F] mt-3 rounded-lg p-2">
+            Send Code
+           </button>
+          </div>
+
+       </div>
+     </div>
+   </div>
+
+   <script>
+     function openChangeEmail() {
+       document.body.classList.add("overflow-hidden");
+       document.getElementById("changeEmailModal").classList.remove("invisible");
+     }
+
+     function closeChangeEmail() {
+       document.body.classList.remove("overflow-hidden");
+       document.getElementById("changeEmailModal").classList.add("invisible");
+       document.getElementById("newEmail").value = "";
+     }
+   </script>  <!--END OF MODAL FOR CHANGE EMAIL-->
+
+
+<!--MODAL FOR VERIFICATION EMAIL-->
+     <div
+     id="verifyEmailModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 invisible flex items-center justify-center"
+   >
+     <!-- Modal Content Verification  -->
+     <div
+       class="bg-[#F4F9F1] rounded-3xl ml-5 xs:ml-5 sm:ml-10 md:ml-10 mr-5 xs:mr-5 sm:mr-10 md:mr-10 shadow-md w-auto max-w-3xl h-auto overflow-y-auto flex flex-col"
+     >
+       <!-- Modal Header Verification -->
+       <div class="bg-[#F4F9F1] p-2 text-[#436E70]">
+         <div class="flex flex-row">
+           <div
+             style="font-family: 'Ubuntu', sans-serif"
+             class="text-lg ml-3 font-semibold"
+           >
+             Change Email
+           </div>
+
+           <button
+             class="items-center ml-auto group hover:brightness-75 focus:outline-none"
+             onclick="closeVerifyEmail()"
+           >
+             <svg
+               class="h-6 w-6"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg"
+             >
+               <path
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 stroke-width="2"
+                 d="M6 18L18 6M6 6l12 12"
+               ></path>
+             </svg>
+           </button>
+         </div>
+       </div>
+
+       <!-- Modal Body Verification -->
+       <div class="flex-grow overflow-y-auto">
+         <div class="text-sm text-[#85A2A0] text-justify mr-5 ml-5">Please enter a new email and we will send you a verification code.</div>
+         
+         <div class="m-5">
+         <input
+           style="font-family: 'Ubuntu', sans-serif"
+           id="enterNewEmail"
+           type="text"
+           placeholder="Enter new email"
+           class="mb-5 w-full p-2 border-2 border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#25A76F]"
+            />
+
+            <div style="font-family: 'Ubuntu', sans-serif" class="text-sm text-[#85A2A0] text-justify">We just sent you a temporary verification code to </div>
+            <div style="font-family: 'Ubuntu', sans-serif" class="text-sm font-semibold text-[#85A2A0]">angelpadilla@gmail.com.</div>
+
+          <input
+           style="font-family: 'Ubuntu', sans-serif"
+           id="enterVerificationCode"
+           type="text"
+           placeholder="Enter verification code"
+           class="mt-5 w-full p-2 border-2 border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#25A76F]"/>
+            <button style="font-family: 'Ubuntu', sans-serif" class="hover:brightness-75 text-white w-full font-bold bg-[#25A76F] mt-3 rounded-lg p-2">
+            Change Email
+           </button>
+           </div>
+           
+       </div>
+     </div>
+   </div>
+
+   <script>
+     function openVerifyEmail() {
+       document.body.classList.add("overflow-hidden");
+       document.getElementById("verifyEmailModal").classList.remove("invisible");
+       document.getElementById("changeEmailModal").classList.add("invisible");
+     }
+
+     function closeVerifyEmail() {
+       document.body.classList.remove("overflow-hidden");
+       document.getElementById("verifyEmailModal").classList.add("invisible");
+       document.getElementById("enterNewEmail").value = "";
+       document.getElementById("enterVerificationCode").value = "";
+     }
+   </script>  <!--END OF MODAL FOR VERIFICATION EMAIL-->
+
+
+
+   <!--MODAL FOR CHANGE PASSWORD-->
+        <div
+        id="changePassModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 invisible flex items-center justify-center"
+        >
+          <!-- Modal Content Change Password -->
+          <div
+            class="bg-[#F4F9F1] rounded-3xl ml-5 xs:ml-5 sm:ml-10 md:ml-10 mr-5 xs:mr-5 sm:mr-10 md:mr-10 shadow-md w-96 max-w-3xl h-auto overflow-y-auto flex flex-col"
+          >
+            <!-- Modal Header Change Password-->
+            <div class="bg-[#F4F9F1] p-6 text-[#436E70]">
+              <div class="flex items-center justify-center">
+                <div
+                  style="font-family: 'Ubuntu', sans-serif"
+                  class="text-lg font-semibold"
+                >
+                  Change Password
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Body Change Password -->
+            <div class="flex-grow overflow-y-auto">
+              <div style="font-family: 'Ubuntu', sans-serif" class="text-[#85A2A0] text-justify ml-5 mr-5 mb-5 text-sm">
+                Use a password at least 15 letters long, or at least 8
+                characters long with both letters and numbers.
+              </div>
+
+              <div style="font-family: 'Ubuntu', sans-serif" class="text-[#85A2A0] ml-5 mb-2 text-sm">Old password</div>
+              <div class="mr-5 ml-5">
+                <input
+                  style="font-family: 'Ubuntu', sans-serif"
+                  id="oldPass"
+                  type="text"
+                  class="w-full p-2 border-2 border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#25A76F]"
+                />
+              </div>
+              <div style="font-family: 'Ubuntu', sans-serif" class="text-[#85A2A0] ml-5 mb-2 mt-3 text-sm">New password</div>
+              <div class="mr-5 ml-5">
+                <input
+                  style="font-family: 'Ubuntu', sans-serif"
+                  id="newPass"
+                  type="text"
+                  class="w-full p-2 border-2 border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#25A76F]"
+                />
+              </div>
+
+              <div style="font-family: 'Ubuntu', sans-serif" class="text-[#85A2A0] ml-5 mb-2 mt-3 text-sm">Confirm new password</div>
+              <div class="mr-5 ml-5">
+                <input
+                  style="font-family: 'Ubuntu', sans-serif"
+                  id="confirmPass"
+                  type="text"
+                  class="w-full p-2 border-2 border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#25A76F]"
+                />
+                <div>
+                  <button style="font-family: 'Ubuntu', sans-serif" class="hover:brightness-75 text-white w-full font-bold bg-[#25A76F] mt-3 rounded-lg p-2">
+                    Change
+                  </button>
+                  <button
+                    style="font-family: 'Ubuntu', sans-serif"
+                    id="closeChangePassModalAndClearInput()"
+                    onclick="closeChangePassword()"
+                    class=" hover:brightness-75 text-[#385F61] w-full bg-transparent mt-3 mb-3 rounded-lg p-2"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          function openChangePassword() {
+            document.body.classList.add("overflow-hidden");
+            document.getElementById("changePassModal").classList.remove("invisible");
+          }
+
+          function closeChangePassword() {
+            document.body.classList.remove("overflow-hidden");
+            document.getElementById("changePassModal").classList.add("invisible");
+            document.getElementById("oldPass").value = "";
+            document.getElementById("newPass").value = "";
+            document.getElementById("confirmPass").value = "";
+          }
+          
+        </script>
+        <!--END OF MODAL FOR CHANGE PASSWORD-->
+
+
+
+        <!--MODAL FOR DELETE ACCOUNT-->
+        <div
+        id="deleteAccountModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 invisible flex items-center justify-center"
+        >
+          <!-- Modal Content Delete Account -->
+          <div
+            class="bg-[#F4F9F1] rounded-3xl ml-5 xs:ml-5 sm:ml-10 md:ml-10 mr-5 xs:mr-5 sm:mr-10 md:mr-10 shadow-md w-96 max-w-3xl h-auto overflow-y-auto flex flex-col"
+          >
+            <!-- Modal Header Delete Account  -->
+            <div class="bg-[#F4F9F1] p-3"> </div>
+            <!-- Modal Body Delete Account  -->
+            <div class="flex-grow overflow-y-auto">
+              <div style="font-family: 'Ubuntu', sans-serif" class="text-[#85A2A0] text-justify ml-5 mr-5 mb-5 text-sm">
+                This action cannot be undone. This will permanently delete your entire account. All courses, certificates, and achievements will be deleted.
+              </div>
+
+              <div style="font-family: 'Ubuntu', sans-serif" class="text-[#85A2A0] ml-5 mb-2 text-sm">Please type in your email to confirm.</div>
+              <div class="mr-5 ml-5">
+                <input
+                  style="font-family: 'Ubuntu', sans-serif"
+                  id="deleteEmail"
+                  type="text"
+                  class="w-full p-2 border-2 border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#25A76F]"
+                />
+              </div>
+              
+                <div class="ml-5 mr-5">
+                  <button style="font-family: 'Ubuntu', sans-serif" class="text-slate-100 hover:text-white w-full font-bold bg-red-500 hover:bg-red-600  mt-3 rounded-lg p-2">
+                    Permanently delete account
+                  </button>
+                  <button
+                    style="font-family: 'Ubuntu', sans-serif"
+                    id="closeChangePassModalAndClearInput()"
+                    onclick="closeDeleteAccount()"
+                    class=" hover:brightness-75 text-[#385F61] w-full bg-transparent mt-3 mb-3 rounded-lg p-2"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          function openDeleteAccount() {
+            document.body.classList.add("overflow-hidden");
+            document.getElementById("deleteAccountModal").classList.remove("invisible");
+          }
+
+          function closeDeleteAccount() {
+            document.body.classList.remove("overflow-hidden");
+            document.getElementById("deleteAccountModal").classList.add("invisible");
+            document.getElementById("deleteEmail").value = "";
+          }
+          
+        </script>
+        <!--END OF MODAL FOR DELETE ACCOUNT-->
+
+        
+    <!--SIDE BAR NA PANSAMANTALA-->
+    <div class="flex">
+        <div class="text-gray-100 w-64" id="sidebar">
+          <div div class="p-6 fixed top-0 left-0">
+              <h2 class="text-2xl text-gray-800 font-semibold">PAL</h2>
+              <ul class="mt-6">
+                  <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Home</a></li>
+                  <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Discover</a></li>
+                  <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">My Courses</a></li>
+                  <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Assessment</a></li>
+                  <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Certificate</a></li>
+                  <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Settings</a></li>
+              </ul>
+          </div>
+      </div>
+    <!--SIDE BAR NA PANSAMANTALA-->
+
+    <!--START OF CONTENT-->
+    <div class="bg-[#F4F9F1] w-full h-screen">
+      <div
+        style="font-family: 'Ubuntu', sans-serif"
+        class="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-[#436E70] ml-5 pt-5"
+      >
+        Settings
+      </div>
+      <div
+        style="font-family: 'Ubuntu', sans-serif"
+        class="text-md sm:text-lg md:text-lg lg:text-xl xl:text-xl font-semibold text-[#436E70] mt-5 ml-10"
+      >
+        Account Security
+      </div>
+      <hr class="my-3 border-t-2 border-[#D7DFDE] ml-10 mr-5" />
+      <!--LINE-->
+
+      <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 ml-10 ">
+        <div>
+          <div
+            style="font-family: 'Ubuntu', sans-serif"
+            class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-[#436E70]"
+          >
+            Email
+          </div>
+          <div style="font-family: 'Ubuntu', sans-serif" class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">angelpadilla@gmail.com</div>
+        </div>
+        <button
+          style="font-family: 'Ubuntu', sans-serif"
+          onclick="openChangeEmail()"
+          class="inline-flex items-center justify-center pr-1 pl-1 pt-1 pb-1  sm:pr-3 sm:pl-3 sm:pt-1 sm:pb-1 md:pl-3 md:pr-3 md:pt-3 md:pb-3 lg:pl-5 lg:pr-5 lg:pt-3 lg:pb-3 xl:pl-5 xl:pr-5 xl:pt-3 xl:pb-3 text-[#25A76F] text-xs sm:text-xs md:text-sm lg:text-md xl:text-md mt-3 sm:mt-3 h-7 sm:h-7 md:h-10 lg:h-10 xl:h-10 font-bold text-center no-underline align-middle transition-all duration-500 ease-in-out bg-transparent border-2 border-[#25A76F] border-solid rounded-lg cursor-pointer select-none hover:text-white hover:border-gray-400 hover:bg-gray-400 hover:bg-opacity-70 focus:shadow-xs focus:no-underline ml-auto mr-5"
+        >
+          Change
+        </button>
+      </div>
+
+      <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 ml-10 ">
+        <div>
+          <div
+            style="font-family: 'Ubuntu', sans-serif"
+            class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-[#436E70]"
+          >
+            Password
+          </div>
+          <div style="font-family: 'Ubuntu', sans-serif" class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">Set a permanent password to login to your account</div>
+        </div>
+        <button
+          style="font-family: 'Ubuntu', sans-serif"
+          onclick="openChangePassword()"
+          class="inline-flex items-center justify-center pr-1 pl-1 pt-1 pb-1  sm:pr-3 sm:pl-3 sm:pt-1 sm:pb-1 md:pl-3 md:pr-3 md:pt-3 md:pb-3 lg:pl-5 lg:pr-5 lg:pt-3 lg:pb-3 xl:pl-5 xl:pr-5 xl:pt-3 xl:pb-3 text-[#25A76F] text-xs sm:text-xs md:text-sm lg:text-md xl:text-md mt-3 sm:mt-3 h-7 sm:h-7 md:h-10 lg:h-10 xl:h-10 font-bold text-center no-underline align-middle transition-all duration-500 ease-in-out bg-transparent border-2 border-[#25A76F] border-solid rounded-lg cursor-pointer select-none hover:text-white hover:border-gray-400 hover:bg-gray-400 hover:bg-opacity-70 focus:shadow-xs focus:no-underline ml-auto mr-5"
+        >
+          Change Password
+        </button>
+      </div>
+      <div
+        style="font-family: 'Ubuntu', sans-serif"
+        class="text-md sm:text-lg md:text-lg lg:text-xl xl:text-xl font-semibold text-[#436E70] mt-5 ml-10"
+      >
+        Support
+      </div>
+      <hr class="my-3 border-t-2 border-[#D7DFDE] ml-10 mr-5" />
+      <!--LINE-->
+
+      <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 mr-5 ml-10 ">
+        <div class="">
+          <div
+            style="font-family: 'Ubuntu', sans-serif"
+            class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-[#436E70]"
+          >
+            Appearance
+          </div>
+          <div style="font-family: 'Ubuntu', sans-serif" class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">Customize how PAL will look on your device</div>
+        </div>
+        <div class="ml-auto mr-5">
+          <!-- Your dropdown button and menu code -->
+          <button
+            id="dropdownDefaultButton"
+            data-dropdown-toggle="dropdown"
+            class="text-black bg-transparent gap-3 font-medium rounded-lg text-sm py-2.5 text-center inline-flex items-center"
+            type="button"
+          >
+            <span id="selectedText">Light</span>
+            <i class="fa-solid fa-caret-down"></i>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div
+            id="dropdown"
+            class="absolute right-10 z-40 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-48"
+          >
+            <ul
+              class="py-2 text-sm text-black"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              <li>
+                <a
+                  href="#"
+                  class="flex px-4 py-2 rounded-lg ml-3 mr-3 hover:bg-[#C8DEDF]"
+                  data-value="Light"
+                >
+                  <span id="menuItemTheme">Light</span>
+                  <span class="checkSymbol hidden ml-auto"
+                    ><i class="fa-solid fa-check"></i
+                  ></span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex px-4 py-2 rounded-lg ml-3 mr-3 hover:bg-[#C8DEDF]"
+                  data-value="Dark"
+                >
+                  <span id="menuItemTheme">Dark</span>
+                  <span class="checkSymbol hidden ml-auto">
+                    <i class="fa-solid fa-check"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              var button = document.getElementById("dropdownDefaultButton");
+              var dropdown = document.getElementById("dropdown");
+              var selectedText = document.getElementById("selectedText");
+              var menuItemTexts = document.querySelectorAll("#menuItemTheme");
+              var checkSymbols = document.querySelectorAll(".checkSymbol");
+
+              button.addEventListener("click", function () {
+                dropdown.classList.toggle("hidden");
+              });
+
+              // Close the dropdown when clicking outside
+              document.addEventListener("click", function (event) {
+                if (
+                  !button.contains(event.target) &&
+                  !dropdown.contains(event.target)
+                ) {
+                  dropdown.classList.add("hidden");
+                }
+              });
+
+              // Handle item selection
+              dropdown.addEventListener("click", function (event) {
+                if (event.target.tagName === "A") {
+                  var selectedValue = event.target.getAttribute("data-value");
+                  selectedText.textContent = selectedValue;
+
+                  // Hide check symbols from all items
+                  checkSymbols.forEach(function (symbol) {
+                    symbol.classList.add("hidden");
+                  });
+
+                  // Show check symbol for the selected item
+                  event.target
+                    .querySelector(".checkSymbol")
+                    .classList.remove("hidden");
+
+                  dropdown.classList.add("hidden");
+                }
+              });
+
+              // Simulate a click on the first item to make it default selected
+              var firstItem = dropdown.querySelector("a");
+              firstItem.click();
+            });
+          </script>
+        </div>
+      </div>
+
+       <!--Logout-->
+      <div class="ml-10">
+        <div>
+          <button
+            style="font-family: 'Ubuntu', sans-serif"
+            onclick="buttonLogoutAccount()"
+            class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-[#436E70] cursor-pointer hover:text-[#25a76f]"
+          >
+            Logout
+          </button>
+           <div style="font-family: 'Ubuntu', sans-serif" class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">Logout of the session</div>
+        </div>
+      </div>
+
+      <!--Delete Account Permanently-->
+      <div
+        style="font-family: 'Ubuntu', sans-serif"
+        class="text-md sm:text-lg md:text-lg lg:text-xl xl:text-xl font-semibold text-[#436E70] mt-5 ml-10"
+      >
+        Danger Zone
+      </div>
+      <hr class="my-3 border-t-2 border-[#D7DFDE] ml-10 mr-5" />
+      <!--LINE-->
+
+      <div class="ml-10">
+        <div>
+          <button
+            onclick="openDeleteAccount()"
+            style="font-family: 'Ubuntu', sans-serif"
+            class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-[#821313] hover:text-red-600"
+          >
+            Delete my account
+          </button>
+           <div style="font-family: 'Ubuntu', sans-serif" class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">Permanently delete the account.</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <title>PAL | Achievements</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "style/Achievements.css" %}">
+
+    <!-- Font Links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&family=Ubuntu:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+     <!-- Icons Link -->
+     <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+     integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+     crossorigin="anonymous"
+     referrerpolicy="no-referrer"
+   />
+  
+
+    <!-- PAGE ICON -->
+    <link rel="icon" href="{% static "images/Angel_Image/PAL_logo.png" %}" type="image/icon type" />
+  </head>
+  <body class="">
+    <div class="flex flex-col lg:flex-row">
+      <!-- Sidebar -->
+      <!-- <div class="text-gray-100 w-60 h-screen" id="sidebar">
+                <div div class="p-6">
+                    <h2 class="text-2xl text-gray-800 font-semibold">PAL</h2>
+                    <ul class="mt-6">
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Home</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Discover</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">My Courses</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Assessment</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Certificate</a></li>
+                        <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Settings</a></li>
+                    </ul>
+                </div>
+            </div> -->
+
+      <!-- Main Content -->
+      <div class="flex-1 overflow-x-auto p-4 lg:p-10">
+        <div
+        class="text-2xl font-semibold text-[#436E70] ml-5 pt-5">
+        List of User's Achievements
+      </div>
+
+        <div class="flex flex-row items-center gap-3">
+          <!-- Search Bar -->
+          <form class="my-5 basis-1/2">
+            <label
+              for="default-search"
+              class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+              >Search</label
+            >
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+              >
+                <svg
+                  class="w-4 h-4 text-gray-500 "
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="search"
+                id="searchInput"
+                class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
+                placeholder="Search"
+                required
+              />
+              <!-- <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-[#25A76F] hover:bg-[#385F61] focus:ring-4 focus:outline-none focus:ring-[#A7ECAC] font-medium rounded-lg text-sm px-4 py-2 dark:bg-[#25A76F] dark:hover:bg-[#385F61] dark:focus:ring-[#385F61]">Search</button> -->
+            </div>
+          </form>
+  
+
+          <!-- Add a select element for course filtering -->
+          <div class="text-white text-sm">
+          <select id="filterOptions" class="px-3 py-2.5 rounded-md">
+            <option value="" selected disabled class="font-bold">Filter by : </option>
+            <optgroup label="Course">
+              <option value="Python Course">Python Course</option>
+              <option value="Java Course">Java Course</option>
+              <option value="C++ Course">C++ Course</option>
+            </optgroup>
+            <optgroup label="Week">
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </optgroup>
+            <optgroup label="Month">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </optgroup>
+            <optgroup label="Year">
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </optgroup>
+          </select>
+          </div>
+          <!-- Add a reset button -->
+          <button id="resetButton" onclick="resetFilters()" style="display: none">
+            <i class="fa-solid fa-xmark fa-lg" style="color: #363636"></i>
+          </button>
+          <!-- Add an element to display the result message -->
+
+          <script>
+            document.getElementById("filterOptions").addEventListener("change", filterTable);
+
+            function filterTable() {
+              var selectedOption = document.getElementById("filterOptions").value;
+
+              var tableRows = document.getElementById("activityTable").getElementsByTagName("tr");
+
+              for (var i = 1; i < tableRows.length; i++) {
+                var currentCourse = tableRows[i].getElementsByTagName("td")[1].innerText;
+                var dateAccomplished = new Date(tableRows[i].getElementsByTagName("td")[2].innerText);
+                var monthAccomplished = (dateAccomplished.getMonth() + 1).toString().padStart(2, "0");
+                var yearAccomplished = dateAccomplished.getFullYear().toString();
+                var dayOfWeekAccomplished = dateAccomplished.toLocaleDateString('en-US', { weekday: 'long' });
+
+                var isMatch = (selectedOption === "" ||
+                  (selectedOption === currentCourse) ||
+                  (selectedOption === dayOfWeekAccomplished) ||
+                  (selectedOption === monthAccomplished) ||
+                  (selectedOption === yearAccomplished));
+
+                if (isMatch) {
+                  tableRows[i].style.display = ""; // Display the row
+                } else {
+                  tableRows[i].style.display = "none"; // Hide the row
+                }
+              }
+
+              // Show or hide the reset button based on whether any filters are applied
+              var resetButton = document.getElementById("resetButton");
+              if (selectedOption !== "") {
+                resetButton.style.display = "block";
+              } else {
+                resetButton.style.display = "none";
+              }
+            }
+
+            function resetFilters() {
+              // Reset the dropdown to its default state
+              document.getElementById("filterOptions").value = "";
+
+              // Hide the reset button
+              document.getElementById("resetButton").style.display = "none";
+
+              // Show all rows in the table
+              var tableRows = document.getElementById("activityTable").getElementsByTagName("tr");
+              for (var i = 1; i < tableRows.length; i++) {
+                tableRows[i].style.display = "";
+              }
+            }
+          </script>
+
+
+        <div class="ml-auto">
+          <button id="generateReport"  class="text-gray-100 hover:text-white bg-red-400  hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">
+            Generate Report
+          </button>
+        </div>
+        </div>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table
+            id="activityTable"
+            class="data-table min-w-full bg-white rounded-lg overflow-hidden"
+          >
+            <thead class="bg-white text-gray-800  text-left">
+              <tr>
+                <th class="py-2 px-4 sticky top-0">Student Name</th>
+                <th class="py-2 px-4 sticky top-0">Course Completed</th>
+                <th class="py-2 px-4 sticky top-0">Date Accomplished</th>
+                <th class="py-2 px-4 sticky top-0">Assessments</th>
+                <th class="py-2 px-4 sticky top-0">Quizzes</th>
+                <th class="py-2 px-4 sticky top-0">Badges</th>
+                <th class="py-2 px-4 sticky top-0">Certificates</th>
+                <th class="py-2 px-4 sticky top-0">Total</th>
+              </tr>
+            </thead>
+            <tbody class="flex-row items-center justify-center">
+              <!-- Activity Log Rows -->
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Jasper Roxas</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">Python Course</td>
+                <td class="py-2 px-4">2023-12-10 (Sunday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Queen Casaclang</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">Java Course</td>
+                <td class="py-2 px-4">2024-04-23 (Tuesday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Angel Padilla</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">C++ Course</td>
+                <td class="py-2 px-4">2023-12-01 (Friday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Angel Padilla</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">Python Course</td>
+                <td class="py-2 px-4">2024-11-13 (Wednesday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Jeays Digo</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">Java Course</td>
+                <td class="py-2 px-4">2024-01-01 (Monday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Janniel De Jesus</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">C++ Course</td>
+                <td class="py-2 px-4">2023-02-10 (Friday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Carl Justine</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">Python Course</td>
+                <td class="py-2 px-4">2024-06-03 (Monday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Pat Pat</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">Java Course</td>
+                <td class="py-2 px-4">2023-11-11 (Saturday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Jese Leos</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">C++ Course</td>
+                <td class="py-2 px-4">2023-10-05 (Thursday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">
+                  <div class="flex items-center gap-4">
+                    <img
+                      class="w-10 h-10 rounded-full"
+                      src="img/profile.jpg"
+                      alt=""
+                    />
+                    <div>Jasper Roxas</div>
+                  </div>
+                </td>
+                <td class="py-2 px-4">Java Courses</td>
+                <td class="py-2 px-4">2023-11-25 (Saturday)</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">2</td>
+                <td class="py-2 px-4">4</td>
+                <td class="py-2 px-4">3</td>
+                <td class="py-2 px-4">12</td>
+              </tr>
+            </tbody>
+          </table>
+        <!-- No results message -->
+        <div id="noResultsMessage" class="mt-4 text-center bg-white rounded-lg w-full p-4 shadow-xl text-gray-600 hidden">No results found.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="Achievements.js"></script>
+  </body>
+</html>
