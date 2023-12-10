@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    {% load static %}
+    <!-- {% load static %} -->
     <title>PAL | Achievements</title>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" type="text/css" href="{% static "style/Achievements.css" %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static "style/Achievements.css" %}"> -->
+    <link rel="stylesheet" href="./../static/styles/Achievements.css">
 
     <!-- Font Links -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,7 +30,7 @@
   
 
     <!-- PAGE ICON -->
-    <link rel="icon" href="{% static "images/Angel_Image/PAL_logo.png" %}" type="image/icon type" />
+    <link rel="icon" href="img/PAL_logo.png" type="image/icon type" />
   </head>
   <body class="">
     <div class="flex flex-col lg:flex-row">
@@ -95,15 +96,20 @@
           </form>
   
 
-          <!-- Add a select element for course filtering -->
-          <div class="text-white text-sm">
-          <select id="filterOptions" class="px-3 py-2.5 rounded-md">
-            <option value="" selected disabled class="font-bold">Filter by : </option>
-            <optgroup label="Course">
-              <option value="Python Course">Python Course</option>
-              <option value="Java Course">Java Course</option>
-              <option value="C++ Course">C++ Course</option>
-            </optgroup>
+          <div class="flex text-sm text-white font-medium gap-2">
+            <!-- Course Filter Dropdown -->
+          <select id="courseFilter" class="px-3 py-2.5 rounded-md">
+            <option value="" selected disabled class="font-bold">Filter by Course: </option>
+            <option value="Python Course">Python Course</option>
+            <option value="Java Course">Java Course</option>
+            <option value="C++ Course">C++ Course</option>
+            <!-- Add more course options as needed -->
+          </select>
+        
+          <!-- Combined Filter Dropdown for Week, Month, and Year -->
+          <select id="combinedFilter" class="px-3 py-2.5 rounded-md">
+            <option value="" selected disabled class="font-bold">Filter by Date: </option>
+            <!-- Week Options -->
             <optgroup label="Week">
               <option value="Monday">Monday</option>
               <option value="Tuesday">Tuesday</option>
@@ -113,6 +119,7 @@
               <option value="Saturday">Saturday</option>
               <option value="Sunday">Sunday</option>
             </optgroup>
+            <!-- Month Options -->
             <optgroup label="Month">
               <option value="01">January</option>
               <option value="02">February</option>
@@ -127,6 +134,7 @@
               <option value="11">November</option>
               <option value="12">December</option>
             </optgroup>
+            <!-- Year Options -->
             <optgroup label="Year">
               <option value="2023">2023</option>
               <option value="2024">2024</option>
@@ -135,64 +143,74 @@
               <option value="2027">2027</option>
             </optgroup>
           </select>
-          </div>
-          <!-- Add a reset button -->
-          <button id="resetButton" onclick="resetFilters()" style="display: none">
-            <i class="fa-solid fa-xmark fa-lg" style="color: #363636"></i>
-          </button>
-          <!-- Add an element to display the result message -->
-
-          <script>
-            document.getElementById("filterOptions").addEventListener("change", filterTable);
-
-            function filterTable() {
-              var selectedOption = document.getElementById("filterOptions").value;
-
-              var tableRows = document.getElementById("activityTable").getElementsByTagName("tr");
-
-              for (var i = 1; i < tableRows.length; i++) {
-                var currentCourse = tableRows[i].getElementsByTagName("td")[1].innerText;
-                var dateAccomplished = new Date(tableRows[i].getElementsByTagName("td")[2].innerText);
-                var monthAccomplished = (dateAccomplished.getMonth() + 1).toString().padStart(2, "0");
-                var yearAccomplished = dateAccomplished.getFullYear().toString();
-                var dayOfWeekAccomplished = dateAccomplished.toLocaleDateString('en-US', { weekday: 'long' });
-
-                var isMatch = (selectedOption === "" ||
-                  (selectedOption === currentCourse) ||
-                  (selectedOption === dayOfWeekAccomplished) ||
-                  (selectedOption === monthAccomplished) ||
-                  (selectedOption === yearAccomplished));
-
-                if (isMatch) {
-                  tableRows[i].style.display = ""; // Display the row
-                } else {
-                  tableRows[i].style.display = "none"; // Hide the row
-                }
-              }
-
-              // Show or hide the reset button based on whether any filters are applied
-              var resetButton = document.getElementById("resetButton");
-              if (selectedOption !== "") {
-                resetButton.style.display = "block";
+        </div>
+        <!-- Add a reset button -->
+        <button id="resetButton" onclick="resetFilters()" style="display: none">
+          <i class="fa-solid fa-xmark fa-lg" style="color: #363636"></i>
+        </button>
+        
+        <!-- Add an element to display the result message -->
+        <!-- Your table or result display element goes here -->
+        
+        <script>
+          // Event listener for change in the course filter dropdown
+          document.getElementById("courseFilter").addEventListener("change", filterTable);
+        
+          // Event listener for change in the combined filter dropdown
+          document.getElementById("combinedFilter").addEventListener("change", filterTable);
+        
+          function filterTable() {
+            var selectedCourse = document.getElementById("courseFilter").value;
+            var selectedCombined = document.getElementById("combinedFilter").value;
+        
+            var tableRows = document.getElementById("activityTable").getElementsByTagName("tr");
+        
+            for (var i = 1; i < tableRows.length; i++) {
+              var currentCourse = tableRows[i].getElementsByTagName("td")[1].innerText;
+              var dateAccomplished = new Date(tableRows[i].getElementsByTagName("td")[2].innerText);
+              var monthAccomplished = (dateAccomplished.getMonth() + 1).toString().padStart(2, "0");
+              var yearAccomplished = dateAccomplished.getFullYear().toString();
+              var dayOfWeekAccomplished = dateAccomplished.toLocaleDateString('en-US', { weekday: 'long' });
+        
+              var isMatch = ((selectedCourse === "" || selectedCourse === currentCourse) &&
+                (selectedCombined === "" ||
+                  selectedCombined === dayOfWeekAccomplished ||
+                  selectedCombined === monthAccomplished ||
+                  selectedCombined === yearAccomplished));
+        
+              if (isMatch) {
+                tableRows[i].style.display = ""; // Display the row
               } else {
-                resetButton.style.display = "none";
+                tableRows[i].style.display = "none"; // Hide the row
               }
             }
-
-            function resetFilters() {
-              // Reset the dropdown to its default state
-              document.getElementById("filterOptions").value = "";
-
-              // Hide the reset button
-              document.getElementById("resetButton").style.display = "none";
-
-              // Show all rows in the table
-              var tableRows = document.getElementById("activityTable").getElementsByTagName("tr");
-              for (var i = 1; i < tableRows.length; i++) {
-                tableRows[i].style.display = "";
-              }
+        
+            // Show or hide the reset button based on whether any filters are applied
+            var resetButton = document.getElementById("resetButton");
+            if (selectedCourse !== "" || selectedCombined !== "") {
+              resetButton.style.display = "block";
+            } else {
+              resetButton.style.display = "none";
             }
-          </script>
+          }
+        
+          function resetFilters() {
+            // Reset the course filter dropdown to its default state
+            document.getElementById("courseFilter").value = "";
+        
+            // Reset the combined filter dropdown to its default state
+            document.getElementById("combinedFilter").value = "";
+        
+            // Hide the reset button
+            document.getElementById("resetButton").style.display = "none";
+        
+            // Show all rows in the table
+            var tableRows = document.getElementById("activityTable").getElementsByTagName("tr");
+            for (var i = 1; i < tableRows.length; i++) {
+              tableRows[i].style.display = "";
+            }
+          }
+        </script>
 
 
         <div class="ml-auto">
@@ -226,7 +244,7 @@
                   <div class="flex items-center gap-4">
                     <img
                       class="w-10 h-10 rounded-full"
-                      src="img/profile.jpg"
+                      src="./../static/images/Angel Image/profile.jpg"
                       alt=""
                     />
                     <div>Jasper Roxas</div>
@@ -414,7 +432,7 @@
             </tbody>
           </table>
         <!-- No results message -->
-        <div id="noResultsMessage" class="mt-4 text-center bg-white rounded-lg w-full p-4 shadow-xl text-gray-600 hidden">No results found.</div>
+            <div id="noResultsMessage" class="mt-4 text-center bg-white rounded-lg w-full p-4 shadow-xl text-gray-600 hidden">No results found.</div>
           </div>
         </div>
       </div>
