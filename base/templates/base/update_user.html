@@ -12,23 +12,23 @@
         {% csrf_token %}
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="w-full">
-                <label for="{{ form.username.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                <label for="{{ form.username.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
                 {{ form.username }}
             </div>
             <div class="w-full">
-                <label for="{{ form.first_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                <label for="{{ form.first_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
                 {{ form.first_name }}
             </div>
             <div class="w-full">
-                <label for="{{ form.last_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                <label for="{{ form.last_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
                 {{ form.last_name }}
             </div>
             <div class="w-full">
-                <label for="{{ form.email.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                <label for="{{ form.email.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                 {{ form.email }}
             </div>
             <div class="sm:col-span-2">
-                <label for="{{ form.avatar.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Avatar</label>
+                <label for="{{ form.avatar.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Avatar</label>
                 {{ form.avatar }}
             </div>
         </div>
