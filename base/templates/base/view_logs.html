@@ -263,11 +263,10 @@
     // Get the input value
     const input = document.getElementById('searchInput').value.toLowerCase();
 
-    // Get the table and rows
+  
     const table = document.getElementById('logTable');
     const rows = table.querySelectorAll('tbody tr');
 
-    // Loop through each row and hide/show based on the search input
     rows.forEach(row => {
       const username = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
       const fullName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
@@ -277,7 +276,7 @@
       const time = row.querySelector('td:nth-child(7)').textContent.toLowerCase();
 
 
-      // If any of the row content contains the search input, show the row; otherwise, hide it
+    
       if (username.includes(input) || fullName.includes(input) || activity.includes(input) || course.includes(input) || date.includes(input) || time.includes(input)) {
         row.style.display = '';
       } else {
@@ -292,36 +291,35 @@
   
   // FILTER BY DATE
   function filterTable() {
-    // Get the start and end date values
+
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
 
-    // Parse the date values using Moment.js with the correct format
+    
     const startDateObj = moment(startDate, 'MM/DD/YYYY');
     const endDateObj = moment(endDate, 'MM/DD/YYYY');
 
-    // Get the table and rows
+ 
     const table = document.getElementById('logTable');
     const rows = table.querySelectorAll('tbody tr');
 
-    // Loop through each row and hide/show based on the date range
     rows.forEach(row => {
-      // Assuming the date is in the 4th column, adjust the index if necessary
+
       const dateValue = row.querySelector('td:nth-child(4)').textContent;
 
-      // Parse the date using Moment.js
+
       const rowDate = moment(dateValue, 'MM/DD/YYYY');
 
-      // Check if the parsed date is valid
+   
       if (rowDate.isValid()) {
-        // If the row's date is within the specified range, show the row; otherwise, hide it
+      
         if (rowDate.isSameOrAfter(startDateObj) && rowDate.isSameOrBefore(endDateObj)) {
           row.style.display = '';
         } else {
           row.style.display = 'none';
         }
       } else {
-        // Handle invalid date if necessary
+     
         console.error('Invalid date format:', dateValue);
       }
     });
@@ -329,16 +327,16 @@
 
   //RESET FILTER DATE
 function resetTable() {
-    // Reset date input fields
+
     document.getElementById('startDate').value = '';
     document.getElementById('endDate').value = '';
 
-    // Reset table rows
+ 
     rows.forEach(row => {
-        row.style.display = ''; // Show all rows
+        row.style.display = '';
     });
 
-    // Reset pagination information
+
     const paginationInfo = document.getElementById('paginationInfo');
     paginationInfo.textContent = `Page 1 of 1`;
     currentPage = 1;
@@ -357,10 +355,10 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function (event) {
             event.preventDefault();
 
-            // Get the log ID from the data attribute
+          
             const logId = button.dataset.logId;
 
-            // Show the confirmation dialog
+    
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -371,21 +369,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 confirmButtonText: "Yes, delete it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // User clicked "Yes, delete it!" in the confirmation dialog
-
-                    // Get the CSRF token from the cookie
+                
                     const csrftoken = getCookie('csrftoken');
 
-                    // Perform an asynchronous operation (e.g., AJAX) to delete the log on the server
+             
                     deleteLog(logId, csrftoken);
 
-                    // Optionally, you can remove the row from the table here
                     const row = event.target.closest('tr');
                     if (row) {
                         row.remove();
                     }
 
-                    // Show a success message after deletion
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your log has been deleted.",
@@ -396,14 +390,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Function to get the CSRF token from the cookie
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = cookies[i].trim();
-                // Check if the cookie name matches the requested name
+             
                 if (cookie.substring(0, name.length + 1) === (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                     break;
@@ -413,27 +406,22 @@ document.addEventListener('DOMContentLoaded', function () {
         return cookieValue;
     }
 
-    // Function to perform an asynchronous operation to delete the log on the server
+
     function deleteLog(logId, csrftoken) {
-        // Perform an asynchronous operation (e.g., AJAX) to delete the log on the server
-        // You need to implement the server-side logic for log deletion using Django views or an API endpoint.
-        // Make an AJAX request or use the Fetch API to send a DELETE request to the server.
-        // Example using Fetch API:
         fetch(`/delete-item/${logId}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                // Include the CSRF token in the headers
+              
                 'X-CSRFToken': csrftoken,
             },
-            // You can include a request body if needed
-            // body: JSON.stringify({ logId: logId }),
+          
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                // Handle the response as needed
+        
             })
             .catch(error => {
                 console.error('Error deleting log:', error);
