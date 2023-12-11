@@ -23,6 +23,11 @@ def deleteLog(request, id):
     log_item.delete()
     return redirect('view_logs')
 
+def deleteUser(request, id):
+    log_item = User.objects.get(id=id)
+    log_item.delete()
+    return redirect('students')
+
 ######### USER MANAGEMENT VIEWS ########
 def loginPage(request):
     page = 'login'
