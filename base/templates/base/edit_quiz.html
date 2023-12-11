@@ -1,0 +1,151 @@
+<!-- edit_quiz.html -->
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="flex justify-center">
+  <div class=" bg-white p-10 rounded-2xl shadow-md max-w-2xl">
+    <h2 class="text-2xl font-bold mb-4">Edit Quiz</h2>
+    <form method="post" id="quizForm">
+      {% csrf_token %}
+
+      <!-- Title -->
+      <div class="mb-4">
+        <label for="title" class="block text-gray-500 text-sm font-medium mb-1">Title</label>
+        <input type="text" id="title" name="title" value="{{ form.title.value }}" class="
+        bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none">
+      </div>
+
+      <!-- Description -->
+      <div class="mb-4">
+        <label for="description" class="block text-gray-500 text-sm font-medium mb-1">Description</label>
+        <input type="text" id="description" name="description" value="{{ form.description.value }}" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none">
+      </div>
+
+      <!-- Lesson -->
+      <input type="hidden" id="add_lesson" name="lesson" value="{{ form.lesson.value }}">
+      <input type="hidden" id="add_unit" name="units" value="{{ form.units.value }}">
+      
+      <!-- Questions -->
+      <div class="mb-4">
+        <label for="id_questions" class="block text-gray-500 text-sm font-medium mb-1">Choose from Questions Bank</label>
+        {{ form.questions }}
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Update Quiz</button>
+      <a onclick="deleteQuiz()" class=" ease-linear delete-button cursor-pointer  bg-red-100 hover:bg-red-100 text-red-600 py-2 px-4 font-semibold rounded-md focus:outline-none focus:shadow-outline-green active:bg-red-800">
+        Delete
+    </a>
+    </form>
+  </div>
+</div>
+<!-- Add this script at the end of your HTML template -->
+<script>
+  $(document).ready(function () {
+    $("#quizForm").submit(function (event) {
+      event.preventDefault(); // Prevent the form from submitting the traditional way
+
+      // Get the form data
+      var formData = new FormData($(this)[0]);
+
+      // Submit the form using AJAX
+      $.ajax({
+        url: $(this).attr("action"),
+        type: $(this).attr("method"),
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          if (response.success) {
+            // Show success message using SweetAlert2
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: response.message,
+            }).then(function () {
+
+            });
+          } else {
+            // Show error message using SweetAlert2
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: response.message,
+            });
+          }
+        },
+        error: function () {
+          // Show error message using SweetAlert2
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "An error occurred while processing the form.",
+          });
+        },
+      });
+    });
+  });
+</script>
+
+<script>
+    // Get quiz ID from the URL
+    var quizId = window.location.pathname.split('/')[2];
+
+    console.log(quizId)
+
+function deleteQuiz() {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You won\'t be able to revert this!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Send AJAX request to delete the quiz
+      $.ajax({
+        url: '/delete_quiz/' + quizId + '/',
+        method: 'POST',
+        data: {
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: data.message,
+              showConfirmButton: false,
+              timer: 2500
+            }).then(function () {
+              // Redirect or perform any additional actions after success
+              window.location.href = "/manage_assessments";  // Change this to your desired redirect URL
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: data.message,
+            });
+          }
+        },
+        error: function (error) {
+          console.error('Error deleting quiz via AJAX:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An error occurred while processing your request.',
+          });
+        }
+      });
+    }
+  });
+}
+</script>
+
+{% endblock %}

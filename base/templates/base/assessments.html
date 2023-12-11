@@ -1,15 +1,71 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
-<title>Home</title>
-<br>
-<br>
-<br>
-<br>    
+<title>Assessments</title>
 
-<div class="bg-white mx-auto justify-center flex items-center text-center p-10 w-full max-w-lg">
-<h1>assessments page</h1>
+
+<div class="fixed flex max-w-sm mt-16 ml-80 bg-white rounded-2xl shadow-lg hover:bg-gray-100">
+
+  <a href="assessments_python">
+
+  <img class="rounded-t-2xl" src="python-discover.png" alt="" />
+<div class="p-5">
+  <h5 class="mb-4 text-2xl font-bold tracking-tight text-gray-900">Python Full Course</h5>
+<div class="w-full bg-gray-200 rounded-full h-2.5">
+  <div class="bg-green-500 h-2.5 rounded-full" style="width: 23%"></div>
+</div>
+<p class="mb-3 font-normal text-gray-500">23% out of 100% assessments completed</p>
+</div>
+
+  </a>
 
 </div>
+
 {% endblock content %}
 
+
+
+
+
+
+
+
+
+<!-- user_scores.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Quiz Scores</title>
+</head>
+<body>
+
+  <h1>User Quiz Scores</h1>
+
+  {% if quiz_scores %}
+    <table>
+      <thead>
+        <tr>
+          <th>Quiz</th>
+          <th>Score</th>
+          <th>Date Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz_score in quiz_scores %}
+          <tr>
+            <td>{{ quiz_score.quiz.title }}</td>
+            <td>{{ quiz_score.score }}%</td>
+            <td>{{ quiz_score.user_progress.submission_date }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No quiz scores available.</p>
+  {% endif %}
+
+</body>
+</html> -->

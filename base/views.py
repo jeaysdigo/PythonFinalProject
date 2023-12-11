@@ -1,19 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.forms import UserCreationForm
-from .models import Course, Lesson, User, Unit, Log, UserProgress
-from .forms import CourseForm, LessonForm,UserForm, MyUserCreationForm, UnitForm
+from .models import Choice, Course, Lesson, Question, Quiz, QuizScore, QuizSubmission, User, Unit, Log, UserAnswer, UserProgress
+from .forms import  ChoiceFormEdit, ChoiceFormSet, CourseForm, LessonForm, QuestionForm, QuizForm,UserForm, MyUserCreationForm, UnitForm
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from .forms import CourseForm
+
 # from django.http import HttpResponse
 
 ######## DELETE ACTIVITY LOG ##########
@@ -212,11 +213,13 @@ def discover(request):
                'enrolled_courses': enrolled_courses}
     return render(request, 'base/discover.html',context)
 
-@login_required(login_url='login')
-def assessments(request):
+def discover_python(request):
     course = Course.objects.all()
-    context = {'course': course}
-    return render(request, 'base/assessments.html',context)
+    enrolled_courses = request.user.courses.all()
+    context = {'courses': course,
+               'enrolled_courses': enrolled_courses}
+    return render(request, 'base/discover_python.html',context)
+
 
 def navbar(request, pk):
     user = User.objects.get(username=pk)
@@ -524,6 +527,7 @@ def manageAssessments(request):
     course = Course.objects.all()
     context = {'courses': course}
     return render(request, 'base/manage_assessments.html',context)
+    
 
 @login_required(login_url='login')
 def viewLogs(request):
@@ -721,4 +725,325 @@ def save_viewed_lesson(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False})
+    
+def quiz_template(request, quiz_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("You must be logged in to submit the quiz.")
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    return render(request, 'base/quiz_template.html', {'quiz': quiz})
+
+@login_required(login_url='login')
+def assessments(request):
+    # Assuming you have a user authentication system
+    user = request.user
+
+    # Retrieve all quiz scores for the user
+    quiz_scores = QuizScore.objects.filter(user_progress__user=user)
+    context = {'quiz_scores': quiz_scores}
+    return render(request, 'base/assessments.html',context)
+
+def assessments_python(request):
+    # Assuming you have a user authentication system
+    user = request.user
+
+    # Retrieve all quiz scores for the user
+    quiz_scores = QuizScore.objects.filter(user_progress__user=user)
+    context = {'quiz_scores': quiz_scores}
+    return render(request, 'base/assessments_python.html',context)
+
+
+def submit_quiz(request, quiz_id):
+    # Ensure the user is authenticated before allowing quiz submission
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("You must be logged in to submit the quiz.")
+
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+
+    # Check if a submission already exists for the user and quiz
+    submission = QuizSubmission.objects.filter(quiz=quiz, user=request.user).first()
+
+    # Process form submission
+    if request.method == 'POST':
+        if submission:
+            # If a submission already exists, update it
+            submission.submission_date = timezone.now()
+            submission.save()
+        else:
+            # If no submission exists, create a new one
+            submission = QuizSubmission.objects.create(
+                quiz=quiz,
+                user=request.user
+            )
+
+        # Extract and process user answers
+        score = 0  # Initialize the score
+        total_questions = 0
+
+        for question in quiz.questions.all():  # Use quiz.questions.all() for ManyToManyField
+            total_questions += 1
+            choice_id = request.POST.get(f'question_{question.id}')
+            if choice_id:
+                choice = get_object_or_404(Choice, pk=choice_id)
+
+                # Check if the selected choice is correct
+                if choice.is_correct:
+                    score += 1
+
+                # Check if the user has already answered this question
+                user_answer, created = UserAnswer.objects.get_or_create(
+                    submission=submission,
+                    question=question,
+                    defaults={'selected_choice': choice}
+                )
+
+                # If the user has already answered, update the selected choice
+                if not created:
+                    user_answer.selected_choice = choice
+                    user_answer.save()
+
+        # Calculate the percentage score
+        if total_questions > 0:
+            score_percentage = (score / total_questions) * 100
+        else:
+            score_percentage = 0
+
+        # Update the UserProgress record with the quiz score
+        user_progress, created = UserProgress.objects.get_or_create(user=request.user)
+        quiz_score, created = QuizScore.objects.get_or_create(user_progress=user_progress, quiz=quiz)
+        quiz_score.score = score_percentage
+        quiz_score.save()
+
+        # Redirect to a thank you page or another appropriate page
+        return HttpResponseRedirect(reverse('home'))
+
+    # Render the quiz template
+    return render(request, 'quiz_template.html', {'quiz': quiz})
+
+
+def add_quiz(request):
+    course = Course.objects.all()
+    unit = Unit.objects.all()
+
+    # Exclude lessons that already have quizzes
+    lessons_without_quizzes = Lesson.objects.exclude(quizzes__isnull=False)
+
+    if request.method == 'POST':
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            quiz = form.save(commit=False)
+            quiz.save()
+            form.save_m2m()  # Save the many-to-many relationships
+            
+            response_data = {
+                'success': True,
+                'message': 'Quiz created successfully!',
+                'quiz_id': quiz.id  # Optionally, you can include the quiz ID in the response
+            }
+
+            return JsonResponse(response_data)
+        else:
+            # If the form is not valid, return validation errors
+            errors = form.errors
+            response_data = {
+                'success': False,
+                'message': 'Form validation failed',
+                'errors': errors
+            }
+            return JsonResponse(response_data, status=400)
+    else:
+        form = QuizForm()
+
+    context = {'form': form, 'courses': course, 'units': unit, 'lessons': lessons_without_quizzes}
+    return render(request, 'base/add_quiz.html', context)
+
+def edit_quiz(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    course = Course.objects.all()
+    unit = Unit.objects.all()
+    
+    # Exclude lessons that already have quizzes
+    lessons_without_quizzes = Lesson.objects.exclude(quizzes__isnull=False)
+
+    if request.method == 'POST':
+        form = QuizForm(request.POST, instance=quiz)
+        if form.is_valid():
+            form.save()
+
+            response_data = {
+                'success': True,
+                'message': 'Quiz updated successfully!',
+                'quiz_id': quiz.id
+            }
+
+            return JsonResponse(response_data)
+        else:
+            errors = form.errors
+            response_data = {
+                'success': False,
+                'message': 'Form validation failed',
+                'errors': errors
+            }
+            return JsonResponse(response_data, status=400)
+    else:
+        form = QuizForm(instance=quiz)
+
+    context = {'form': form, 'courses': course, 'units': unit, 'lessons': lessons_without_quizzes}
+    return render(request, 'base/edit_quiz.html', context)
+
+def delete_quiz(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+
+    if request.method == 'POST':
+        quiz.delete()
+
+        response_data = {
+            'success': True,
+            'message': 'Quiz deleted successfully!',
+        }
+
+        return JsonResponse(response_data)
+    else:
+        response_data = {
+            'success': False,
+            'message': 'Invalid request method.',
+        }
+        return JsonResponse(response_data, status=400)
+
+def add_question(request):
+
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST)
+        choice_formset = ChoiceFormSet(request.POST, prefix='choices')
+
+        if question_form.is_valid() and choice_formset.is_valid():
+            question = question_form.save(commit=False)
+            question.save()
+
+            choices = choice_formset.save(commit=False)
+            for choice in choices:
+                choice.question = question
+                choice.save()
+
+            messages.success(request, 'Question and choices added successfully!')
+            return redirect('add_question')
+    else:
+        question_form = QuestionForm()
+        choice_formset = ChoiceFormSet(prefix='choices')
+
+    return render(request, 'base/add_question.html', {'question_form': question_form, 'choice_formset': choice_formset})
+
+def question_bank(request):
+    questions = Question.objects.all()
+    context = {
+        'questions': questions,
+    }
+    return render(request, 'base/question_bank.html', context)
+
+def edit_question(request, question_id):
+    # Retrieve the existing question instance
+    question = get_object_or_404(Question, id=question_id)
+
+    if request.method == 'POST':
+        # Populate the forms with the existing question and choices data
+        question_form = QuestionForm(request.POST, instance=question)
+        choice_formset = ChoiceFormEdit(request.POST, instance=question, prefix='choices')
+
+        if question_form.is_valid() and choice_formset.is_valid():
+            # Save the updated question data
+            question = question_form.save()
+
+            # Save the updated choice data
+            choices = choice_formset.save(commit=False)
+            for choice in choices:
+                choice.question = question
+                choice.save()
+
+            messages.success(request, 'Question and choices updated successfully!')
+            return redirect('edit_question', question_id=question.id)
+    else:
+        # Populate the forms with the existing question and choices data
+        question_form = QuestionForm(instance=question)
+        # Fetch all choices for the current question
+        choices = question.choice_set.all()
+        choice_formset = ChoiceFormEdit(instance=question, prefix='choices', queryset=choices)
+        print(choice_formset.queryset)
+        
+
+    return render(request, 'base/edit_question.html', {'question_form': question_form, 'choice_formset': choice_formset, 'question': question})
+
+def delete_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    
+    # Perform deletion logic here, for example:
+    question.delete()
+
+    return JsonResponse({'message': 'Question deleted successfully'})
+
+@login_required(login_url='login')
+def manageAssessments2(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    units = Unit.objects.filter(course=course)
+    
+    if not request.user.is_superuser:
+        return redirect('home')
+    
+    context = {'course': course, 'units': units}
+    return render(request, 'base/manage_assessments2.html', context)
+
+def get_lessons_by_unit(request):
+    unit_id = request.GET.get('unit_id')
+
+    try:
+        unit = Unit.objects.get(id=unit_id)
+        lessons = unit.lessons.all().values('id', 'title')
+        return JsonResponse(list(lessons), safe=False)
+    except Unit.DoesNotExist:
+        return JsonResponse({'error': 'Unit not found'}, status=404)
+    
+@require_GET
+def get_quizzes_by_unit_and_lesson(request):
+    unit_id = request.GET.get('unit_id')
+    lesson_id = request.GET.get('lesson_id')
+
+    # Fetch quizzes based on the selected unit and lesson
+    quizzes = Quiz.objects.filter(units_id=unit_id, lesson_id=lesson_id)
+
+    # Serialize the quizzes
+    serialized_quizzes = [{'id': quiz.id, 'title': quiz.title} for quiz in quizzes]
+
+    return JsonResponse(serialized_quizzes, safe=False)
+
+    
+
+
+
+# def add_quiz(request):
+#     if request.method == 'POST':
+#         form = QuizForm(request.POST)
+#         if form.is_valid():
+#             quiz = form.save()
+#             return redirect('add_questions', quiz_id=quiz.id)
+#     else:
+#         form = QuizForm()
+
+#     return render(request, 'base/add_quiz.html', {'form': form})
+
+# def add_questions(request, quiz_id):
+#     quiz = get_object_or_404(Quiz, pk=quiz_id)
+
+#     if request.method == 'POST':
+#         form = QuestionForm(request.POST)
+#         formset = ChoiceFormSet(request.POST, instance=Question())
+#         if form.is_valid() and formset.is_valid():
+#             question = form.save(commit=False)
+#             question.quiz = quiz
+#             question.save()
+#             formset.instance = question
+#             formset.save()
+#             return redirect('add_questions', quiz_id=quiz.id)
+#     else:
+#         form = QuestionForm()
+#         formset = ChoiceFormSet()
+
+#     return render(request, 'base/add_questions.html', {'form': form, 'formset': formset, 'quiz': quiz})
 

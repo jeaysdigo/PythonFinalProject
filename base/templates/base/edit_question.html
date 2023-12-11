@@ -1,0 +1,120 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Question</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+   label,
+  input[name^='choices-'][name$='-DELETE'] {
+    display: none;
+  }
+  .choicediv {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  input[type="text"] {
+    width: 100%;
+  }
+</style>
+
+<div class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-lg">
+        <h1 class="text-2xl font-bold mb-4">Edit Question</h1>
+
+        <form method="post" action="{% url 'edit_question' question.id %}" class="space-y-4">
+            {% csrf_token %}
+
+            <!-- Question Form -->
+            {#{ question_form.as_p }#}
+            <div class="mb-4">
+              <label for="id_question_text" class="block text-sm font-semibold text-gray-600">Question</label>
+  
+              <input type="text" id="question_text" name="question_text" value="{{ question_form.question_text.value }}"class="bg-gray-50 mb-4 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-[#25A76F] focus:border-[#25A76F] focus:outline-[#25A76F] block w-full p-2.5" placeholder="Type your question here..." required/>
+            </div>
+            <label for="id_question_text" class="block text-sm font-semibold text-gray-600">Choices (Click the checkbox for correct ans)</label>
+<!-- Choice Formset -->
+{{ choice_formset.management_form }}
+{% for form in choice_formset.forms %}
+
+    <div class="choicediv flex ps-4 mb-4 rounded-lg dark:border-gray-700">
+        {{ form.as_p }}
+        
+
+        
+    </div>
+{% endfor %}
+
+
+
+            
+
+            
+
+           <div class="flex">
+            <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded">Save Changes</button>
+            <a href="{% url 'question_bank'%}"class="ease-linear bg-green-100 hover:bg-green-100 text-green-600  font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800  ">
+              Discard
+          </a>
+
+          <a onclick="delete_question()" class="ml-36 delete-button cursor-pointer  bg-red-100 hover:bg-red-100 text-red-600 py-2 px-4 font-semibold rounded-md focus:outline-none focus:shadow-outline-green active:bg-red-800">
+            Delete
+        </a>
+        
+           </div>
+           
+        </form>
+    </div>
+
+   <!-- Add jQuery library (make sure to include it before this script) -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+  $('input[type="checkbox"]').on('click', function(e) {
+  $('input[type="checkbox"]').prop('checked', false);
+  $(this).prop('checked', true);
+});
+</script>
+<script>
+  function delete_question() {
+      Swal.fire({
+          title: 'Are you sure?',
+          text: 'You won\'t be able to revert this!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+       
+              $.ajax({
+                  type: 'POST',
+                  url: '{% url "delete_question" question.id %}',
+                  headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                  success: function (response) {
+                      Swal.fire('Deleted!', 'The question has been deleted.', 'success');
+                    
+                  },
+                  error: function (error) {
+                      Swal.fire('Error!', 'Failed to delete the question.', 'error');
+                  }
+              });
+          }
+      });
+  }
+</script>
+  
+</di>
+</html>
+{% endblock content %}

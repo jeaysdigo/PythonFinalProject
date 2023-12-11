@@ -196,10 +196,22 @@ def discover(request):
                'enrolled_courses': enrolled_courses}
     return render(request, 'base/discover.html',context)
 
+def discover_python(request):
+    course = Course.objects.all()
+    enrolled_courses = request.user.courses.all()
+    context = {'courses': course,
+               'enrolled_courses': enrolled_courses}
+    return render(request, 'base/discover_python.html',context)
+
 def assessments(request):
     course = Course.objects.all()
     context = {'course': course}
     return render(request, 'base/assessments.html',context)
+
+def assessments_python(request):
+    course = Course.objects.all()
+    context = {'course': course}
+    return render(request, 'base/assessments_python.html',context)
 
 def certificates(request):
     course = Course.objects.all()

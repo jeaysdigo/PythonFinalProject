@@ -16,6 +16,7 @@ body {
   border-color: #C4E4CB;
   box-shadow: -5px 0 15px rgba(51, 110, 65, 0.5);
   transition: transform 0.3s ease-in-out;
+  z-index: 1000;
 }
 
 .sidebar-closed {
@@ -46,6 +47,7 @@ body {
     <i class="bi bi-layout-sidebar p-2 bg-green-600 text-white rounded-md"></i>
 </span>
 
+<div class="flex">
 
 <!-- USER SIDEBAR -->
 <div class="sidebar fixed border-r-2 top-0 bottom-0 lg:left-0 pt-2 overflow-y-auto text-center">
@@ -120,6 +122,10 @@ body {
             <i class="bi bi-compass ml-3 text-xl"></i>
             <span class="ml-4 text-m font-bold">Manage Course</span>
         </a>
+        <a href="{% url 'question_bank' %}"  class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
+            <i class="bi bi-compass ml-3 text-xl"></i>
+            <span class="ml-4 text-m font-bold"> Question Bank</span>
+        </a>
   
         
   
@@ -167,9 +173,9 @@ body {
         {% endif %}
         <i onclick="confirmLogout()"class="bi bi-box-arrow-left ml-4 sidebar-close cursor-pointer text-2xl hover:scale-110 transition-transform" title="Log Out"></i>
     </div>
+ </div>
+
 </div>
-
-
 
 <script>
  function confirmLogout() {

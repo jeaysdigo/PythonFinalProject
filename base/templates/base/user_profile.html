@@ -18,13 +18,7 @@
     />
 
     <!-- Icons Link -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <link rel="icon" href="img/PAL_logo.png" type="image/icon type" />
     <style>
@@ -485,7 +479,7 @@
 <!------------------------------------PROFILE CONTENT--------------------------------------------------------------------->
     
 <!--SIDE BAR NA PANSAMANTALA-->
-    <!-- <div class="flex">
+<div class="flex">
       <div class="text-gray-100 w-64" id="sidebar">
         <div div class="p-6 fixed top-0 left-0">
             <h2 class="text-2xl text-gray-800 font-semibold">PAL</h2>
@@ -498,7 +492,7 @@
                 <li class="mb-3"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-green-400">Settings</a></li>
             </ul>
         </div>
-    </div> -->
+    </div>
 <!--SIDE BAR NA PANSAMANTALA-->
 
 <!--START OF CONTENT-->
@@ -522,8 +516,8 @@
             <div class="relative ml-5 mr-5 -mt-32">
               <img
                 class="h-48 w-full object-cover md:h-64 md:w-full rounded-full border-4 border-[#F4F9F1]"
-                src="https://i.pinimg.com/564x/39/30/01/39300118082b90eebcbde5e1b04e74c6.jpg"
-                alt="Profile"
+                src="{{ user.avatar.url }}"
+                alt="userIcon"
               />
             </div>
           </div>
@@ -537,7 +531,7 @@
                 style="font-family: 'Ubuntu', sans-serif"
                 class="text-xl sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl text-[#436E70] font-bold"
               >
-                Angel Padilla
+              {{ user.first_name }} {{ user.last_name }}
               </div>
             </div>
           </div>
@@ -548,7 +542,7 @@
                 style="font-family: 'Ubuntu', sans-serif"
                 class="font-light italic"
               >
-                @anghel
+              {{ user.username }}
               </div>
             </div>
           </div>
@@ -602,7 +596,7 @@
               style="font-family: 'Ubuntu', sans-serif"
               class="hover:underline"
             >
-              <a href="https://mail.google.com/">angelpadilla@gmail.com</a>
+              <a href="https://mail.google.com/">{{ user.email }}</a>
             </div>
           </div>
 
@@ -611,7 +605,7 @@
               class="fa-solid fa-square-phone fa-xl"
               style="color: #25a76f"
             ></i>
-            <div style="font-family: 'Ubuntu', sans-serif">+639514401253</div>
+            <div style="font-family: 'Ubuntu', sans-serif">{{ user.contact_num }}</div>
           </div>
 
           <div class="flex flex-row items-center gap-3">
@@ -673,7 +667,7 @@
 
             <div class="flex flex-col items-center basis-full">
                 <div style="font-family:'Ubuntu',sans-serif;" class="text-sm sm:text:md md:text-lg lg:text-lg font-bold text-[#436E70]">Courses</div>
-                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]"">1</div>
+                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]"">{{ enrolled_courses.count }}</div>
             </div>
 
             <div class="flex flex-col items-center basis-full">

@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-
+{%load static}
 {% block content %}
 <title>View Logs</title>
 <br>
@@ -654,6 +654,108 @@ document.getElementById('nextPage').addEventListener('click', () => {
 </script>
 
 
+<head>
+    <title>PAL | Activity Logs</title>
+
+    <link rel="stylesheet" href="static/styles/actlog.css">
+    <!-- PAGE ICON -->
+    <link rel="icon" href="static/images/PAL_logo.png" type="image/icon type">
+</head>  
+
+
+<div class="flex flex-col lg:flex-row">
+<!-- Main Content -->
+<div class="flex-auto ml-72 overflow-x-auto p-4 lg:p-10">
+    <h1 class="text-3xl font-semibold">Activity Logs</h1>
+    
+    <div class="flex flex-row items-center gap-4">
+        <!-- Search Bar -->             
+        <form class="my-5 basis-1/2">   
+            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </div>
+                <input type="search" id="searchInput" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 bg-gray-50 rounded-lg focus:outline-[#25A76F]" placeholder="Search Name, Action..." required>
+                
+            </div>
+        </form>
+
+        <div class="basis-1/3">
+            <!-- dropdown button -->
+            <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-[#25A76F] hover:bg-[#385F61] focus:ring-4 focus:outline-none focus:ring-[#A7ECAC] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">
+                Filter by:
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </button>
+            
+            <!-- Dropdown menu -->
+            <div id="dropdownDivider" class="absolute z-40 top-40 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Per Day</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Per Week</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Per Month</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Per Year</a>
+                    </li>
+                </ul>
+                <div class="py-2">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Custom Date Range</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="basis-1/6">
+            <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                Generate Report
+            </button>
+        </div>
+        
+    </div>
+     
+    <!-- Activity Log Table -->
+    <div class="z-0 overflow-x-auto max-h-[800px] min-w-max">
+        <table id="activityTable" class="data-table min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-[#F4F9F1] text-black text-left">
+            <tr>
+                <th class="py-2 px-4 sticky top-0">Date & Time</th>
+                <th class="py-2 px-4 sticky top-0">Student Name</th>
+                <th class="py-2 px-4 sticky top-0">Action</th>
+                <th class="py-2 px-4 sticky top-0">Course</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Activity Log Rows -->
+            {% for log in logs %}
+            <tr>
+                <td class="py-2 px-4">{{ log.date }}</td>
+                <td class="py-2 px-4">
+                    <div class="flex items-center gap-4">
+                        <img class="w-10 h-10 rounded-full" src="{{ log.user.avatar.url }}" alt="{{ log.user.username }} Avatar">
+                        <a href="{% url 'profile' log.user.username %}" class="text-green-600">@{{ log.user }}</a>
+                    </div>
+                </td>
+                <td class="py-2 px-4">{{ log.get_log_type_display }}</td>
+                <td class="py-2 px-4">{{ log.course }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!-- No results message -->
+        <div id="noResultsMessage" class="mt-4 text-center bg-white rounded-lg w-full p-6 shadow-xl text-gray-600 hidden">No results found.</div>
+    </div>
+</div>
+
+</div>
 {% endblock content %}
 
 

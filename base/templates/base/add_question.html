@@ -1,0 +1,45 @@
+<!-- base/add_question.html -->
+
+{% extends 'main.html' %}
+
+{% block content %}
+  <div class="max-w-md mx-auto mt-8 p-10 rounded-2xl bg-white shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Add Question</h2>
+    <form method="post" action="{% url 'add_question' %}">
+      {% csrf_token %}
+      
+      <!-- Question Text -->
+      <div class="mb-4">
+        <label for="id_question_text" class="block text-sm font-semibold text-gray-600">Input Question</label>
+        {#{ question_form.question_text }#}
+        <input type="text" id="question_text" name="question_text"class="bg-gray-50 mb-4 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-[#25A76F] focus:border-[#25A76F] focus:outline-[#25A76F] block w-full p-2.5" placeholder="Type your question here..." required/>
+      </div>
+
+      <!-- Choices -->
+      <!-- Choices -->
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-gray-600">Add Choices: <span class="font-medium">(click the checkbox for the right answer)</span></label>
+        {{ choice_formset.management_form }}
+        {% for form in choice_formset.forms %}
+          <div class="flex items-center ps-4 mb-4 rounded-lg dark:border-gray-700">
+            {{ form.is_correct }}
+            {{ form.text }}
+          </div>
+        {% endfor %}
+      </div>
+
+
+      <!-- Submit Button -->
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Add to Bank</button>
+      <a href="{% url 'question_bank'%}"class="ease-linear bg-green-100 hover:bg-green-100 text-green-600  font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800  ">
+        Discard
+    </a>
+    </form>
+  </div>
+  <script>
+    $('input[type="checkbox"]').on('click', function(e) {
+    $('input[type="checkbox"]').prop('checked', false);
+    $(this).prop('checked', true);
+  });
+  </script>
+{% endblock %}

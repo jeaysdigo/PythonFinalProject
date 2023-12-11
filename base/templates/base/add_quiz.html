@@ -1,0 +1,46 @@
+<!-- add_quiz.html -->
+
+
+{% block content %}
+<div class="">
+  <div class="bg-white p-10 rounded-2xl shadow-md w-full">
+    <h2 class="text-2xl font-bold mb-4">Add Quiz</h2>
+    <form method="post" id="quizForm">
+      {% csrf_token %}
+      
+      <!-- Title -->
+      <div class="mb-4">
+        <label for="title" class="block text-gray-500 text-sm font-medium mb-1">Title</label>
+        <input type="text" id="title" name="title" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"  
+        placeholder="Title" required>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-4">
+        <label for="description" class="block text-gray-500 text-sm font-medium mb-1">Description</label>
+        <input type="text" id="description" name="description" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"  
+        placeholder="Description" required>
+      </div>
+
+      <!-- Lesson -->
+      <input type="hidden" id="add_lesson" name="lesson">
+      <input type="hidden" id="add_unit" name="units">
+
+     
+
+      <!-- Questions -->
+      <div class="mb-4">
+        <label for="id_questions" class="block text-gray-500 text-sm font-medium mb-1">Choose from Questions Bank</label>
+        {{ form.questions }}
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Create Quiz</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
