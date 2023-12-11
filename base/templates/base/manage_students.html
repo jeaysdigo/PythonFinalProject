@@ -2,57 +2,585 @@
 
 {% load static %}
 {% block content %}
-<br>
-<br>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+  
+  
 
-<div class="bg-white mx-auto justify-center flex items-center text-center p-10 w-full max-w-lg">
-    <div>
-  <div class="container mx-auto mt-8">
-    <h1 class="text-2xl font-bold mb-4">User List</h1>
+</head>
+<body>
+  <!-- component -->
+  <section class="container px-4 mx-auto">
+    <div class="sm:flex sm:items-center sm:justify-between mt-10">
+        <div>
+            <div class="flex items-center gap-x-3">
+                <h1 class="text-lg font-medium text-gray-800 dark:text-white ">User List</h1>
 
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead>
-        <tr>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avatar</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Courses</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for user in users %}
-          <tr class="bg-white">
-            <td class="px-6 py-4 whitespace-nowrap">
-              {% if user.avatar %}
-                <img src="{{ user.avatar.url }}" alt="{{ user.username }} Avatar" class="h-8 w-8 rounded-full">
-              {% else %}
-                <img src="{% static 'avatar.png' %}" alt="Default Avatar" class="h-8 w-8 rounded-full">
-              {% endif %}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ user.username }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ user.first_name }} {{ user.last_name }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ user.email }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              {% if user.courses.exists %}
-                  {% for course in user.courses.all %}
-                      {{ course.title }}{% if not forloop.last %}, {% endif %}
-                  {% endfor %}
-              {% else %}
-                  <p>No course</p>
-              {% endif %}
-          </td>
-          
-           
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+                <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
+                  {{ users|length }} users
+                </span>
+            </div>
 
+        </div>
 
+        <div class="flex items-center mt-4 gap-x-3">
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_3098_154395)">
+                    <path d="M13.3333 13.3332L9.99997 9.9999M9.99997 9.9999L6.66663 13.3332M9.99997 9.9999V17.4999M16.9916 15.3249C17.8044 14.8818 18.4465 14.1806 18.8165 13.3321C19.1866 12.4835 19.2635 11.5359 19.0351 10.6388C18.8068 9.7417 18.2862 8.94616 17.5555 8.37778C16.8248 7.80939 15.9257 7.50052 15 7.4999H13.95C13.6977 6.52427 13.2276 5.61852 12.5749 4.85073C11.9222 4.08295 11.104 3.47311 10.1817 3.06708C9.25943 2.66104 8.25709 2.46937 7.25006 2.50647C6.24304 2.54358 5.25752 2.80849 4.36761 3.28129C3.47771 3.7541 2.70656 4.42249 2.11215 5.23622C1.51774 6.04996 1.11554 6.98785 0.935783 7.9794C0.756025 8.97095 0.803388 9.99035 1.07431 10.961C1.34523 11.9316 1.83267 12.8281 2.49997 13.5832" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_3098_154395">
+                    <rect width="20" height="20" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+
+                <span>Export</span>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                <li id="toPDF">
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >PDF</a>
+                </li>
+                <li id="toEXCEL">
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Excel</a>
+                </li>
+                <li id="toCSV">
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">CSV</a>
+                </li>
+                <li id="toJSON">
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">JSON</a>
+                </li>
+              </ul>
+            </div>
+
+            <button data-modal-target="new-modal" data-modal-toggle="new-modal" class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-400 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+
+                <span>Add user</span>
+            </button>
+        </div>
     </div>
-</div>
+
+    <div class="mt-6 md:flex md:items-center md:justify-between">
+        <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
+            
+            <select 
+              onchange="updateTableRows()" id="rowsPerPage" class="px-5 py-2 text-xs font-medium appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+              <option id="allRowsOption">All</option>
+              <option>10</option>
+              <option>30</option>
+              <option>50</option>
+            </select>
+            <select
+              class="px-5 py-2 text-xs font-medium appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
+              <option>All</option>
+              <option>Active</option>
+              <option>Inactive</option>
+            </select>
+        </div>
+
+        <div class="relative flex items-center mt-4 md:mt-0">
+            <span class="absolute">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+            </span>
+
+            <input type="text" id="searchInput" oninput="searchTable()" placeholder="Search" class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
+        </div>
+    </div>
+
+    <div class="flex flex-col mt-6">
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                    <table id="userTable" class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-800">
+                            <tr>
+                                <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <button class="flex items-center gap-x-3 focus:outline-none ">
+                                        <span>Avatar</span>
+                                    </button>
+                                </th>
+                                <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" onclick="sortTable(0, this)">
+                                  <button class="flex items-center gap-x-3 focus:outline-none ">
+                                      <span>Username</span>
+                                      <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                      </svg></a>
+                                  </button>
+                                </th>
+
+                                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" onclick="sortTable(1, this)">
+                                    Name 
+                                </th>
+
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" onclick="sortTable(2, this)">
+                                    Email
+                                </th>
+
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                  Courses
+                                </th>
+
+                                <th scope="col" class="relative py-3.5 px-4">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                          {% for user in users %}
+                          <tr>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <div class="flex items-center">
+                                <div class="flex-shrink-0 w-10 h-10">
+                                  {% if user.avatar %}
+                                    <img src="{{ user.avatar.url }}" alt="{{ user.username }} Avatar" class="h-10 w-10 rounded-full">
+                                  {% else %}
+                                    <img src="{% static 'avatar.png' %}" alt="Default Avatar" class="h-10 w-10 rounded-full">
+                                  {% endif %}
+                                </div>
+                                </div>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <div class="flex items-center">
+                                  <div class="ml-3">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                      {{ user.username }}
+                                    </p>
+                                  </div>
+                                </div>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <p class="text-gray-900 whitespace-no-wrap">{{ user.first_name }} {{ user.last_name }}</p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <p class="text-gray-900 whitespace-no-wrap">
+                                {{ user.email }}
+                              </p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <span
+                                class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full">
+                                  
+                                </span>
+                              <span class="relative">{% if user.courses.exists %}
+                                {% for course in user.courses.all %}
+                                  {{ course.title }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                                  {% else %}
+                                      <p>No course</p>
+                                {% endif %}</span>
+                              </span>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <a href="{% url 'profile' user.username %}" class="text-gray-400 hover:text-green-500 mr-2">
+                                <i class="material-icons-outlined text-sm">visibility</i>
+                              </a>
+                              <a href="#" class="text-gray-400 hover:text-blue-500  mx-2">
+                                <i class="material-icons-outlined text-sm">edit</i>
+                              </a>
+                              <a href="#" class="text-gray-400 hover:text-red-400  ml-2">
+                                <i class="material-icons-round text-lg">delete_outline</i>
+                              </a>
+                            </td>
+                          </tr>
+                          {% endfor %}                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-6 sm:flex sm:items-center sm:justify-between ">
+        <div id="paginationInfo" class="text-sm text-gray-500 dark:text-gray-400">
+            Page <span class="font-medium text-gray-700 dark:text-gray-100">1 of 1</span> 
+        </div>
+
+        <div class="flex items-center mt-4 gap-x-4 sm:mt-0">
+            <a id="prevPage" href="#" class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                </svg>
+
+                <span>
+                    previous
+                </span>
+            </a>
+
+            <a id="nextPage" href="#" class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <span>
+                    Next
+                </span>
+
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                </svg>
+            </a>
+        </div>
+    </div>
+  </section>
+
+  <!-- Main modal -->
+<div id="new-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <!-- Modal header -->
+          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                  Create New User
+              </h3>
+              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="new-modal">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+              </button>
+          </div>
+          <!-- Modal body -->
+          <form id="addUserForm" class="p-4 md:p-5" >
+            {% csrf_token %}
+              <div class="grid gap-4 mb-4 grid-cols-2">
+                  <div class="col-span-2">
+                      <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                      <input type="text" id="username" name="username" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"  placeholder="juandelacruz" required>
+                  </div>
+                  <div class="col-span-2 sm:col-span-1">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                    <input type="text" id="fName" name="username" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"  placeholder="Juan" required>
+                  </div>
+                  <div class="col-span-2 sm:col-span-1">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                    <input type="text" id="lName" name="username" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"  placeholder="Dela Cruz" required>
+                  </div>
+                  <div class="col-span-2">
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                    <input type="email" id="email" name="email" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"  placeholder="juandelacruz@pal.com" required>
+                </div>
+                  <div class="col-span-2">
+                    <label for="password1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                    <input type="password" id="password1"  name="password1" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="•••••••••" required>
+                  </div>
+                  <div class="col-span-2">
+                    <label for="password2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+                    <input type="password" id="password2"name="password2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="•••••••••" required>
+                  </div>
+                  <div class="col-span-2">
+                    
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+
+                  </div>
+              </div>
+              <button type="submit" class="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                  <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                  Add New User
+              </button>
+          </form>
+      </div>
+  </div>
+</div> 
+</body>
+
+<script>
+  // SEARCH
+  function searchTable() {
+    // Get the input value
+    const input = document.getElementById('searchInput').value.toLowerCase();
+
+    // Get the table and rows
+    const table = document.getElementById('userTable');
+    const rows = table.querySelectorAll('tbody tr');
+
+    // Loop through each row and hide/show based on the search input
+    rows.forEach(row => {
+      const username = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+      const fullName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+      const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+
+      // If any of the row content contains the search input, show the row; otherwise, hide it
+      if (username.includes(input) || fullName.includes(input) || email.includes(input)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+
+
+
+</html>
+<script>
+  //---------------SORT TABLE-----------------------
+// SORT TABLE
+function sortTable(column, header) {
+    const table = document.getElementById('userTable');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    // Get the sort order (asc/desc) from the header class
+    const sortOrder = header.classList.contains('asc') ? -1 : 1;
+
+    // Sort the rows based on the content of the specified column
+    rows.sort((a, b) => {
+      const aValue = a.querySelectorAll('td')[column].textContent.toLowerCase();
+      const bValue = b.querySelectorAll('td')[column].textContent.toLowerCase();
+
+      return sortOrder * aValue.localeCompare(bValue);
+    });
+
+    // Append the sorted rows to the table
+    tbody.innerHTML = ''; // Clear the existing rows
+    rows.forEach(row => tbody.appendChild(row));
+
+    // Toggle the 'asc' class for the clicked header
+    table.querySelectorAll('th').forEach(th => th.classList.remove('asc'));
+    header.classList.toggle('asc', sortOrder === 1);
+  }
+
+
+
+
+//--------EXPORT FUNCTIONS----------------
+
+//TO PDF
+document.getElementById('toPDF').addEventListener('click', function () {
+    // Clone the table
+    const originalTable = document.getElementById('userTable');
+    const clonedTable = originalTable.cloneNode(true);
+
+    const rows = clonedTable.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].lastElementChild.remove();
+    }
+
+    html2pdf(clonedTable, {
+      margin: 10,
+      filename: 'user_list.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    });
+  });
+
+
+
+//TO JSON
+const toJSON = function (table) {
+    let table_data = [],
+      t_head = [],
+      t_headings = table.querySelectorAll('th:not(:last-child)'), 
+      t_rows = table.querySelectorAll('tbody tr');
+
+    for (let t_heading of t_headings) {
+      t_head.push(t_heading.textContent.trim().toLowerCase());
+    }
+
+    t_rows.forEach((row, rowIndex) => {
+      const row_object = {},
+        t_cells = row.querySelectorAll('td:not(:last-child)'); 
+
+      t_cells.forEach((t_cell, cell_index) => {
+        const img = t_cell.querySelector('img');
+        if (img) {
+          row_object['picture'] = decodeURIComponent(img.src);
+        }
+        row_object[t_head[cell_index]] = t_cell.textContent.trim();
+      });
+
+      table_data.push(row_object);
+    });
+
+    return table_data;
+  };
+
+  const userTable = document.getElementById('userTable');
+
+  const jsonBtn = document.getElementById('toJSON');
+  jsonBtn.onclick = () => {
+    const json = toJSON(userTable);
+    console.log(JSON.stringify(json, null, 4));
+
+    downloadFile(JSON.stringify(json, null, 4), 'json', 'userTable.json');
+  };
+
+
+  
+const downloadFile = function (data, fileType, fileName = '') {
+ const blob = new Blob([data], { type: fileType });
+ const url = URL.createObjectURL(blob);
+
+ const a = document.createElement('a');
+ a.href = url;
+ a.download = fileName;
+ document.body.appendChild(a);
+ a.click();
+ document.body.removeChild(a);
+ URL.revokeObjectURL(url);
+};
+
+//TO EXCEL
+
+document.getElementById('toEXCEL').addEventListener('click', function () {
+    // Clone the table
+    const originalTable = document.getElementById('userTable');
+    const clonedTable = originalTable.cloneNode(true);
+
+    const rows = clonedTable.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].lastElementChild.remove();
+    }
+
+    const imgElements = clonedTable.querySelectorAll('img');
+    imgElements.forEach(img => {
+      const imgLink = document.createTextNode(img.src);
+      img.parentNode.replaceChild(imgLink, img);
+    });
+
+
+    const wb = XLSX.utils.table_to_book(clonedTable, { sheet: 'Sheet1' });
+
+    XLSX.writeFile(wb, 'user_list.xlsx');
+  });
+
+
+//TO CSV
+document.getElementById('toCSV').addEventListener('click', function () {
+    // Clone the table
+    const originalTable = document.getElementById('userTable');
+    const clonedTable = originalTable.cloneNode(true);
+
+    const rows = clonedTable.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].lastElementChild.remove();
+    }
+
+
+    const headerCells = clonedTable.querySelectorAll('thead th');
+    const headerData = Array.from(headerCells).map(cell => cell.textContent.trim());
+
+   
+    const imgElements = clonedTable.querySelectorAll('img');
+    imgElements.forEach(img => {
+      const imgLink = document.createTextNode(img.src);
+      img.parentNode.replaceChild(imgLink, img);
+    });
+
+ 
+    const csvData = [];
+    csvData.push(headerData.join(',')); 
+    const rowsCSV = clonedTable.querySelectorAll('tbody tr');
+    rowsCSV.forEach(row => {
+      const rowData = [];
+      const cells = row.querySelectorAll('td');
+      cells.forEach(cell => {
+        rowData.push(cell.textContent.trim());
+      });
+      csvData.push(rowData.join(','));
+    });
+
+ 
+    const csvBlob = new Blob([csvData.join('\n')], { type: 'text/csv' });
+
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(csvBlob);
+    link.download = 'user_list.csv';
+    link.click();
+});
+
+
+
+//PAGINATION
+let currentPage = 1;
+const rowsPerPageSelect = document.getElementById('rowsPerPage');
+const table = document.getElementById('userTable');
+const rows = table.querySelectorAll('tbody tr');
+
+// Update table rows when the page size changes
+rowsPerPageSelect.addEventListener('change', updateTableRows);
+
+// Initialize pagination
+updateTableRows();
+
+function updateTableRows() {
+  const rowsPerPageSelect = document.getElementById('rowsPerPage');
+  const selectedOption = rowsPerPageSelect.value;
+
+  // Check if the "All" option is selected
+  if (selectedOption.toLowerCase() === 'all') {
+    // Show all rows
+    rows.forEach(row => {
+      row.style.display = '';
+    });
+  } else {
+    const rowsPerPage = parseInt(selectedOption, 10);
+    const totalRows = rows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+    // Calculate the start and end indices for the current page
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = Math.min(startIndex + rowsPerPage, totalRows);
+
+    // Loop through each row and hide/show based on the current page
+    rows.forEach((row, index) => {
+      if (index >= startIndex && index < endIndex) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    // Show the rows for the current page
+    for (let i = startIndex; i < endIndex && i < totalRows; i++) {
+      rows[i].style.display = '';
+    }
+
+    // Update pagination information
+    const paginationInfo = document.getElementById('paginationInfo');
+    paginationInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+  }
+}
+
+// Previous page button
+document.getElementById('prevPage').addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    updateTableRows();
+  }
+});
+
+// Next page button
+document.getElementById('nextPage').addEventListener('click', () => {
+  const rowsPerPage = parseInt(rowsPerPageSelect.value, 10);
+  const totalRows = rows.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+  if (currentPage < totalPages) {
+    currentPage++;
+    updateTableRows();
+  }
+});
+
+</script>
+
 
 {% endblock content %}
