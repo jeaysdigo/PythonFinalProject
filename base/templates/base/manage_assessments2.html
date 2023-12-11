@@ -1,0 +1,323 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block content %}
+<head>
+    <title>PAL | Assessments</title>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/assessment.css'%}">
+
+    <!-- PAGE ICON -->
+    <link rel="icon" href="img/PAL_logo.png" type="image/icon type">
+</head>
+<body>
+    <div class="flex flex-col lg:flex-row">
+            
+        <!-- Sidebar -->
+        
+        
+        
+        <!-- Main Content -->
+        <div class="flex-auto p-4 lg:p-10">
+            <!-- Back Button -->
+            <div class="mb-5">
+                <a href="" class="text-2xl text-[#25A76F] font-bold no-underline hover:underline">Back</a>
+            </div>
+        
+            <h1 class="text-3xl font-bold mb-4">{{ course.title }} - Create Lesson Quiz</h1>
+           
+
+            <div class="flex flex-row gap-5">
+                <!-- left column -->
+                <div class="basis-1/3">
+                   
+                    <div class="max-w-full p-6 mb-5 bg-[#F4F9F1] border border-gray-200 rounded-2xl shadow-md dark:bg-gray-800 dark:border-gray-700">
+                        <h1 class="text-xl font-semibold mb-4">Select Unit:</h1>
+                        <div class="relative">
+                            <select id="unit" name="unit" class="w-full text-white bg-[#25A76F] hover:bg-[#385F61] focus:ring-4 focus:outline-none focus:ring-[#A7ECAC] font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+                                <option value="" selected disabled>-- Select --</option>
+                                {% for unit in units %}
+                                    <option value="{{ unit.id }}">{{ unit.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="max-w-full p-6 mb-5 bg-[#F4F9F1] border border-gray-200 rounded-2xl shadow-md dark:bg-gray-800 dark:border-gray-700">
+                        <h1 class="text-xl font-semibold mb-4">Select Lesson:</h1>
+                        <div class="relative">
+                            <select id="lesson" name="lesson" class="w-full text-white bg-[#25A76F] hover:bg-[#385F61] focus:ring-4 focus:outline-none focus:ring-[#A7ECAC] font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+                                <option value="" selected disabled>-- Select --</option>
+                                <!-- No lessons initially, will be populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        document.getElementById('unit').addEventListener('change', function () {
+                            quizDiv.innerHTML = '';
+                            listQuiz.innerHTML = '';
+                            var unitId = this.value;
+                            var lessonSelect = document.getElementById('lesson');
+                    
+                            // Clear existing options
+                            lessonSelect.innerHTML = '<option value="" selected disabled>-- Select --</option>';
+                    
+                            // Fetch lessons based on the selected unit
+                            fetch('/get_lessons_by_unit/?unit_id=' + unitId)  // Include the trailing slash
+                                .then(response => response.json())
+                                .then(data => {
+                                    data.forEach(lesson => {
+                                        var option = document.createElement('option');
+                                        option.value = lesson.id;
+                                        option.text = lesson.title;
+                                        lessonSelect.add(option);
+                                    });
+                                })
+                                .catch(error => console.error('Error:', error));
+                        });
+                    </script>
+             
+                    <div id="listQuiz" class="overflow-y-auto max-w-full max-h-[427px] p-6 bg-[#F4F9F1] border border-gray-200 rounded-2xl shadow-md dark:bg-gray-800 dark:border-gray-700">
+                        
+
+                                                                                                                              
+                    </div>
+
+                  <!-- Your existing HTML code remains unchanged -->
+
+<script>
+    document.getElementById('lesson').addEventListener('change', function () {
+        quizDiv.innerHTML = '';
+        var unitId = document.getElementById('unit').value;
+        var lessonId = this.value;
+
+        // Fetch quizzes based on the selected unit and lesson
+        fetch('/get_quizzes_by_unit_and_lesson/?unit_id=' + unitId + '&lesson_id=' + lessonId)
+            .then(response => response.json())
+            .then(data => {
+                var listQuiz = document.getElementById('listQuiz');
+                listQuiz.innerHTML = ''; // Clear existing content
+
+                if (data.length === 0) {
+                 // Get the 'quizDiv' and 'listQuiz' elements
+                var quizDiv = document.getElementById('quizDiv');
+                var listQuiz = document.getElementById('listQuiz');
+
+                // Display the title "List of Quiz"
+                var titleElement = document.createElement('h1');
+                titleElement.textContent = 'List of Quiz';
+                titleElement.classList.add('text-xl', 'font-semibold', 'mb-4');
+                listQuiz.appendChild(titleElement);
+
+                // If no quizzes, display "Add Quiz" button
+                var addButton = document.createElement('button');
+                addButton.textContent = '+ Add Quiz';
+                addButton.classList.add(
+                'text-green-600',
+                'bg-green-100',
+                'font-semibold',
+                'text-center',
+                'inline-flex',
+                'items-center',
+                'bg-primary-700',
+                'hover:bg-primary-800',
+                'focus:ring-4',
+                'focus:outline-none',
+                'focus:ring-primary-300',
+                'font-medium',
+                'rounded-lg',
+                'text-sm',
+                'text-center',
+                'px-5',
+                'py-2.5',
+                'dark:bg-primary-600',
+                'dark:hover:bg-primary-700',
+                'dark:focus:ring-primary-800'
+                );
+
+                addButton.addEventListener('click', function () {
+                    // Load add_quiz.html using AJAX
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/add_quiz', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            quizDiv.innerHTML = xhr.responseText;
+                            setTimeout(() => {
+                                $('#add_lesson').val(lessonId);
+                                $('#add_unit').val(unitId);
+                                console.log('done');
+                            }, 100); // Adjust the delay as needed
+                        }
+                    };
+                    xhr.send();
+                });
+
+                // Display the "Add Quiz" button
+                listQuiz.appendChild(addButton);
+
+               
+                } else {
+                    // Create the heading element
+var headingElement = document.createElement('h1');
+headingElement.className = 'text-xl font-semibold mb-4';
+headingElement.textContent = 'List of Quiz';
+
+// Append the heading element to 'listQuiz'
+listQuiz.appendChild(headingElement);
+
+// Create the span element
+var spanElement = document.createElement('span');
+spanElement.textContent = '(click to edit)';
+spanElement.className = 'text-sm ml-2 text-gray-400'; // Add any additional styling as needed
+
+// Append the span element next to the heading element
+headingElement.appendChild(spanElement);
+
+
+                    data.forEach(quiz => {
+                        // Add quiz details to the list
+                        var quizElement = document.createElement('button');
+                        quizElement.textContent = quiz.title; // Update this based on your quiz model
+
+                         // Add an event listener to handle the click event
+                        quizElement.addEventListener('click', function () {
+                            // Construct the URL for the edit_quiz page with the quiz ID
+                            var editQuizUrl = '/edit_quiz/' + quiz.id + '/';
+                            
+                            // Redirect the user to the edit_quiz page
+                            window.location.href = editQuizUrl;
+                        });
+
+                        listQuiz.appendChild(quizElement);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+    $(document).on('submit', '#quizForm', function (event) {
+    event.preventDefault();
+
+    // Get form data
+    var formData = new FormData(this);
+
+    // Include CSRF token
+    var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
+    formData.append('csrfmiddlewaretoken', csrftoken);
+
+    // Perform AJAX request
+    $.ajax({
+        url: '/add_quiz',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function (data) {
+            // Check for success status and message
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'An error occurred while processing your request.',
+                });
+            }
+        },
+        error: function (error) {
+            console.error('Error submitting form via AJAX:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'An error occurred while processing your request.',
+            });
+        }
+    });
+});
+
+
+</script>
+
+<!-- Add this script at the end of your HTML template -->
+<script>
+    $(document).ready(function () {
+      $("#quizForm").submit(function (event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+  
+        // Get the form data
+        var formData = new FormData($(this)[0]);
+  
+        // Submit the form using AJAX
+        $.ajax({
+          url: $(this).attr("action"),
+          type: $(this).attr("method"),
+          data: formData,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            if (response.success) {
+              // Show success message using SweetAlert2
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: response.message,
+              }).then(function () {
+  
+              });
+            } else {
+              // Show error message using SweetAlert2
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: response.message,
+              });
+            }
+          },
+          error: function () {
+            // Show error message using SweetAlert2
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "An error occurred while processing the form.",
+            });
+          },
+        });
+      });
+    });
+  </script>
+
+
+                    
+                </div> <!-- end of left column -->
+                
+
+                <!-- right column -->
+                <div class="basis-2/3">
+                    <div id="quizDiv">
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</body>
+    
+    
+
+{% endblock content %}

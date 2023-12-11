@@ -1,15 +1,38 @@
-{% extends 'main.html' %}
+<!-- user_scores.html -->
 
-{% block content %}
-<title>Home</title>
-<br>
-<br>
-<br>
-<br>    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Quiz Scores</title>
+</head>
+<body>
 
-<div class="bg-white mx-auto justify-center flex items-center text-center p-10 w-full max-w-lg">
-<h1>assessments page</h1>
+  <h1>User Quiz Scores</h1>
 
-</div>
-{% endblock content %}
+  {% if quiz_scores %}
+    <table>
+      <thead>
+        <tr>
+          <th>Quiz</th>
+          <th>Score</th>
+          <th>Date Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz_score in quiz_scores %}
+          <tr>
+            <td>{{ quiz_score.quiz.title }}</td>
+            <td>{{ quiz_score.score }}%</td>
+            <td>{{ quiz_score.user_progress.submission_date }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No quiz scores available.</p>
+  {% endif %}
 
+</body>
+</html>

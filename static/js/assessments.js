@@ -1,4 +1,4 @@
-
+a
 $(document).ready(function() {
 // Trigger the event when the page loads
 $('#add_course').trigger('change');
@@ -68,8 +68,8 @@ courseDropdown.addEventListener('change', function () {
             accordion.innerHTML = `
             <div class="flex justify-between p-2">
                 <label class="block font-medium text-gray-700">Units</label>
-                <button onclick="add_unit(${selectedCourseId})" type="button" id="addUnit" class="text-green-600 bg-green-100 font-semibold items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    + Add Unit
+                <button onclick="add_exam(${selectedCourseId})" type="button" id="add_exam" class="text-green-600 bg-green-100 font-semibold items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    + Add Exam
                 </button>
             </div>`;
 
@@ -98,7 +98,7 @@ courseDropdown.addEventListener('change', function () {
                                         .join('')}
                                 </ul>
                                 <button onclick="add_lesson(${unit.id})" class="text-green-600 bg-green-100 font-semibold text-center inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm text-center text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                    + Add Lesson
+                                    + Add Assessment
                                 </button>
                             </div>
                         </div>
