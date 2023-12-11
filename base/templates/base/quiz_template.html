@@ -1,0 +1,43 @@
+<!-- quiz_template.html -->
+{% extends 'main.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz.title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+
+  <div class="container mx-auto max-w-3xl my-8 p-8 bg-white shadow-md rounded-2xl">
+    <h1 class="text-3xl font-bold mb-4">{{ quiz.title }}</h1>
+    <p class="text-gray-700">{{ quiz.description }}</p>
+
+    <form method="post" action="{% url 'submit_quiz' quiz.id %}" class="mt-6">
+      {% csrf_token %}
+
+      {% for question in quiz.questions.all %}
+        <fieldset class="mb-6">
+          <legend class="text-lg font-semibold">{{ question.question_text }}</legend>
+
+          {% for choice in question.choice_set.all %}
+            <label class="flex items-center mb-2 border p-3 rounded-lg text-gray-700">
+              <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}" class="mr-2 border-gray-500 text-green-700">
+              <span>{{ choice.text }}</span>
+            </label>
+          {% endfor %}
+
+        </fieldset>
+      {% endfor %}
+
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
+    </form>
+
+  </div>
+
+</body>
+</html>
+{% endblock %}

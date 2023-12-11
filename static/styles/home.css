@@ -1,0 +1,31 @@
+:root {
+    /* font-family: 'Open Sans', sans-serif; */
+    font-family: 'Ubuntu', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(45deg, rgba(167, 236, 172, 0.2), rgba(37, 167, 111, 0.2),  rgba(56, 95, 97, 0.2),  rgba(171, 237, 208, 0.2));
+}
+
+/* Width, height, and color */
+::-webkit-scrollbar {
+    width: 5px; /* width of the scrollbar */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* color of the track */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #25A76F; /* color of the scrollbar handle */
+    border-radius: 6px; /* round the corners */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #385F61; /* color of the scrollbar handle on hover */
+  }
+  

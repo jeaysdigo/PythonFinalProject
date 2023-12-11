@@ -65,8 +65,20 @@ class UserProgress(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     viewed_lessons = models.ManyToManyField('Lesson', related_name='viewed_by', blank=True)
     unit_completed = models.ManyToManyField('Unit', related_name='viewed_by', blank=True)
+    quiz_scores = models.ManyToManyField('Quiz', through='QuizScore', related_name='user_scores', blank=True)
+
     def __str__(self):
         return f"{self.user}"
+
+class QuizScore(models.Model):
+    user_progress = models.ForeignKey(UserProgress, on_delete=models.CASCADE)
+    quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
+    score = models.FloatField(default=0)
+
+    def __str__(self):
+        return f"{self.user_progress.user.username}'s score in {self.quiz.title}"
+    
+
 
 class Lesson(models.Model):
     id = models.AutoField(primary_key=True)
@@ -77,39 +89,86 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
-
+    
 class Progress(models.Model):
     progress_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     is_completed = models.BooleanField()
 
-class Question(models.Model):
-    QUESTION_TYPE_CHOICES = [
-        ('multipleChoice', 'Multiple Choice'),
-        ('fillBlank', 'Fill in the Blank'),
-        ('checkBox', 'Checkbox'),
-        ('trueFalse', 'True or false'),
-    ]
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE,  null=True, blank=True)
-    question_id = models.AutoField(primary_key=True)
-    question_type = models.CharField(max_length=20, choices=QUESTION_TYPE_CHOICES)
-    question_text = models.TextField()
-    question_img = models.TextField(null=True, blank=True)
-    choices = models.TextField(null=True, blank=True)
-    correct_ans = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.question_type}: {self.question_text}"
-
-
 class Quiz(models.Model):
-    quiz_id = models.AutoField(primary_key=True)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
-    title = models.CharField(max_length=100,null=True, blank=True)
-    instructions = models.CharField(max_length=200, null=True, blank=True)
+    title = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    units = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='units', null=True, blank=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)
+    questions = models.ManyToManyField('Question', related_name='quizzes', blank=True)
+
     def __str__(self):
         return self.title
+
+class Question(models.Model):
+    question_text = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.question_text
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.TextField(null=True, blank=True)
+    is_correct = models.BooleanField(default=False, blank=False)
+
+    def __str__(self):
+        return self.text
+
+    
+
+# models.py
+
+class QuizSubmission(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    submission_date = models.DateTimeField(auto_now_add=True)
+
+    def get_score(self):
+        total_questions = self.quiz.question_set.count()
+        correct_answers = 0
+
+        for question in self.quiz.question_set.all():
+            user_answer = self.useranswer_set.filter(question=question).first()
+
+            # Ensure a user answer exists for the question
+            if user_answer:
+                if user_answer.selected_choice.is_correct:
+                    correct_answers += 1
+
+        # Calculate the percentage score
+        if total_questions > 0:
+            score_percentage = (correct_answers / total_questions) * 100
+            return round(score_percentage, 2)
+        else:
+            return 0
+
+    
+
+class UserAnswer(models.Model):
+    submission = models.ForeignKey(QuizSubmission, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selected_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('submission', 'question')
+
+    
+# class Question(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     question = models.TextField()
+#     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions',  null=True, blank=True)
+#     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='questions',  null=True, blank=True)
+#     def __str__(self):
+#         return f"{self.question}"
+
 
 
 class QuizAttempt(models.Model):

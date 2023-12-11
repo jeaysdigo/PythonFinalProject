@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="flex items-center justify-center rounded-2xl p-10">
+  <div class="">
+    {% if questions %}
+    <h2 class="text-2xl font-bold mb-4">Question Bank</h2>
+    <h2 class="text-gray-700">There are  {{questions.count}} question(s) created.</h2>
+    {% endif %}
+    <a href="{% url 'add_question'%}" type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Add Question</a>
+
+    {% if questions %}
+      {% for question in questions %}
+        <div class="bg-white p-10 w-full mb-4 rounded-lg shadow-md">
+          <div class="flex items-center justify-between mb-2">
+            <strong class="text-lg">{{ question.question_text }}</strong>
+            <div class="space-x-2">
+              <a href="{% url 'edit_question' question.id %}" class="ease-linear bg-green-100 hover:bg-green-100 text-green-600  
+              font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800  ">Edit</a>
+           
+            </div>
+          </div>
+          <div class="">
+            {% for choice in question.choice_set.all %}
+              <p class="mb-2">{{ choice.text }}{% if choice.is_correct %} <span class="text-green-500">(Correct)</span>{% endif %}</p>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-gray-600 text-center">No questions available.</p>
+    {% endif %}
+  </div>
+
+
+</div>
+{% endblock %}

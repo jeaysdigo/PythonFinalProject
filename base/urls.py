@@ -40,6 +40,7 @@ urlpatterns = [
     path('manage_courses', views.manageCourse, name="manage_courses"),
     path('manage_students', views.manageStudents, name="manage_students"),
     path('manage_assessments', views.manageAssessments, name="manage_assessments"),
+    path('manage_assessments2/<int:course_id>/', views.manageAssessments2, name="manage_assessments2"),
     path('analytics', views.analytics, name="analytics"),
     path('manage_settings', views.manageSettings, name="manage_settings"),
     path('view_logs', views.viewLogs, name="view_logs"),
@@ -56,8 +57,21 @@ urlpatterns = [
     path('get_units_and_lessons/<int:course_id>/', views.get_units_and_lessons, name='get_units_and_lessons'),
     path('check_lesson_completion/', views.check_lesson_completion, name='check_lesson_completion'),
     path('mark_lesson_completed/', views.mark_lesson_completed, name='mark_lesson_completed'),
+    
+    path('save_viewed_lesson/', views.save_viewed_lesson, name='save_viewed_lesson'),
+    path('submit_quiz/<int:quiz_id>/', views.submit_quiz, name='submit_quiz'),
+    path('quiz/<int:quiz_id>/', views.quiz_template, name='quiz_template'),
+    path('add_quiz', views.add_quiz, name='add_quiz'),
+    path('edit_quiz/<int:quiz_id>/', views.edit_quiz, name='edit_quiz'),
+    path('add_question/', views.add_question, name='add_question'),
+    path('get_lessons_by_unit/', views.get_lessons_by_unit, name='get_lessons_by_unit'),
+    path('get_quizzes_by_unit_and_lesson/', views.get_quizzes_by_unit_and_lesson, name='get_quizzes_by_unit_and_lesson'),
 
-     path('save_viewed_lesson/', views.save_viewed_lesson, name='save_viewed_lesson'),
+    path('delete_quiz/<int:quiz_id>/', views.delete_quiz, name='delete_quiz'),
+      path('question_bank/', views.question_bank, name='question_bank'),
+    path('edit_question/<int:question_id>/', views.edit_question, name='edit_question'),
+    path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),
+    
 
 
 
