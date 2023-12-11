@@ -269,12 +269,16 @@
 
     // Loop through each row and hide/show based on the search input
     rows.forEach(row => {
-      const username = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-      const fullName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-      const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+      const username = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+      const fullName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+      const activity = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+      const course = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
+      const date = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
+      const time = row.querySelector('td:nth-child(7)').textContent.toLowerCase();
+
 
       // If any of the row content contains the search input, show the row; otherwise, hide it
-      if (username.includes(input) || fullName.includes(input) || email.includes(input)) {
+      if (username.includes(input) || fullName.includes(input) || activity.includes(input) || course.includes(input) || date.includes(input) || time.includes(input)) {
         row.style.display = '';
       } else {
         row.style.display = 'none';
