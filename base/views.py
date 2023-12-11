@@ -207,6 +207,13 @@ def discover(request):
                'enrolled_courses': enrolled_courses}
     return render(request, 'base/discover.html',context)
 
+def discover_python(request):
+    course = Course.objects.all()
+    enrolled_courses = request.user.courses.all()
+    context = {'courses': course,
+               'enrolled_courses': enrolled_courses}
+    return render(request, 'base/discover_python.html',context)
+
 
 def navbar(request, pk):
     user = User.objects.get(username=pk)
@@ -514,6 +521,7 @@ def manageAssessments(request):
     course = Course.objects.all()
     context = {'courses': course}
     return render(request, 'base/manage_assessments.html',context)
+    
 
 @login_required(login_url='login')
 def viewLogs(request):
@@ -727,6 +735,15 @@ def assessments(request):
     quiz_scores = QuizScore.objects.filter(user_progress__user=user)
     context = {'quiz_scores': quiz_scores}
     return render(request, 'base/assessments.html',context)
+
+def assessments_python(request):
+    # Assuming you have a user authentication system
+    user = request.user
+
+    # Retrieve all quiz scores for the user
+    quiz_scores = QuizScore.objects.filter(user_progress__user=user)
+    context = {'quiz_scores': quiz_scores}
+    return render(request, 'base/assessments_python.html',context)
 
 
 def submit_quiz(request, quiz_id):
