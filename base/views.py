@@ -16,6 +16,12 @@ from django.urls import reverse_lazy
 from .forms import CourseForm
 # from django.http import HttpResponse
 
+######## DELETE ACTIVITY LOG ##########
+def deleteLog(request, id):
+    log_item = Log.objects.get(id=id)
+    log_item.delete()
+    return redirect('view_logs')
+
 ######### USER MANAGEMENT VIEWS ########
 def loginPage(request):
     page = 'login'

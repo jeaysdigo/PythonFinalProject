@@ -135,7 +135,7 @@ class Log(models.Model):
     id = models.AutoField(primary_key=True)
     log_types = [
         ('register', ' successfully registered their account.'),
-        ('login', ' login their account.'),
+        ('login', ' logged in their account.'),
         ('enroll', ' enrolled to a course.'),
         ('takeQuiz', ' take a quiz'),
         ('finishQuiz', ' finished a quiz'),
@@ -153,6 +153,12 @@ class Log(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True, blank=True)
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def formatted_date(self):
+        return self.date.strftime('%m/%d/%Y')
+
+    def formatted_time(self):
+        return self.date.strftime('%I:%M %p')
     
     def __str__(self):
         return f"{self.user} - {self.log_type} on {self.date} "

@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import deleteLog
 
 
 
@@ -43,6 +44,8 @@ urlpatterns = [
     path('analytics', views.analytics, name="analytics"),
     path('manage_settings', views.manageSettings, name="manage_settings"),
     path('view_logs', views.viewLogs, name="view_logs"),
+    path('view_logs', views.viewLogs, name="view_logs"),
+    path('delete-item/<int:id>/', views.deleteLog, name="delete-item"),
     
 
     # urls for retrieving 
