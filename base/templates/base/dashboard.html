@@ -3,19 +3,63 @@
 
 {% block content %}
 <br>
-<br>
-<br>
-<br>
 
 
+<div class="fixed flex ml-80 mt-20">
 
-<div class="bg-white mx-auto justify-center  items-center text-center p-10 w-full max-w-lg">
-    <h1>Admin Dashboard</h1>
-    <div>
-       <a href="add_lesson/" class="text-blue-600"> Add Lesson</a><br>
-       <a href="add_course/" class="text-blue-600"> Add Course</a><br>
-       <a href="../admin/" class="text-blue-600"> Open django admin</a>
-    </div>
-</div>
+            <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-xl shadow-lg">
+                <span class="flex">
+                    <i class=" bi-people text-3xl p-4 w-16 h-16 bg-green-200 rounded-full"></i>
+                    <h5 class="ml-5 text-lg font-semibold tracking-tight text-gray-500">Total Students<p class="mb-6 font-bold text-4xl text-gray-900">2326</p></h5>
+                </span>
+                <div class="w-72 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 36%"></div>
+                  </div>
+                  <p class="mt-2 font-bold text-sm text-gray-400">36% increase from last month</p>
+            </div>
+
+            <div class="max-w-sm p-6 ml-8 bg-white border border-gray-200 rounded-xl shadow-lg">
+                <span class="flex">
+                    <i class=" bi-person-plus text-3xl p-4 w-16 h-16 bg-blue-300 rounded-full"></i>
+                    <h5 class="ml-5 text-lg font-semibold tracking-tight text-gray-500">New Students<p class="mb-6 font-bold text-4xl text-gray-900">65</p></h5>
+                </span>
+                <div class="w-72 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div class="bg-blue-400 h-2.5 rounded-full" style="width: 67%"></div>
+                  </div>
+                  <p class="mt-2 font-bold text-sm text-gray-400">67% increase from last month</p>
+            </div>
+
+            <div class="max-w-sm p-6 ml-8 bg-white border border-gray-200 rounded-xl shadow-lg">
+                <span class="flex">
+                    <i class=" bi-mortarboard text-3xl p-4 w-16 h-16 bg-yellow-200 rounded-full"></i>
+                    <h5 class="ml-5 text-lg font-semibold tracking-tight text-gray-500">Total Courses<p class="mb-6 font-bold text-4xl text-gray-900">1</p></h5>
+                </span>
+                <div class="w-72 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 100%"></div>
+                  </div>
+                  <p class="mt-2 font-bold text-sm text-gray-400">100% increase from last month</p>
+            </div>
+
+            <div class="max-w-sm p-6 ml-8 bg-white border border-gray-200 rounded-xl shadow-lg">
+                <span class="flex">
+                    <i class=" bi-journal-code text-3xl p-4 w-16 h-16 bg-red-200 rounded-full"></i>
+                    <h5 class="ml-5 text-lg font-semibold tracking-tight text-gray-500">Total Lessons<p class="mb-6 font-bold text-4xl text-gray-900">45</p></h5>
+                </span>
+                <div class="w-72 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div class="bg-red-400 h-2.5 rounded-full" style="width: 33%"></div>
+                  </div>
+                  <p class="mt-2 font-bold text-sm text-gray-400">33% increase from last month</p>
+            </div>
+
+        </div>
+
+
+        <div class="fixed flex mt-80 ml-80 bg-white justify-center text-center p-10 w-full max-w-lg">
+            <div>
+                <a href="add_lesson/" class="text-blue-600"> Add Lesson</a><br>
+                <a href="add_course/" class="text-blue-600"> Add Course</a><br>
+                <a href="../admin/" class="text-blue-600"> Open django admin</a>
+            </div>
+        </div>
 
 {% endblock content %}
