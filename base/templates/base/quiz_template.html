@@ -38,6 +38,30 @@
 
   </div>
 
-</body>
+</body><!-- Add this in the <body> section, after the form tag -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form');
+  
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+  
+        // You can perform any additional actions here before showing the success alert
+  
+        // Show SweetAlert2 success alert with auto close
+        Swal.fire({
+          icon: 'success',
+          title: 'Submission Successful',
+          text: 'Your quiz has been submitted successfully!',
+          showConfirmButton: false,
+          timer: 2000, 
+        }).then(() => {
+       
+          window.location.href = '/';
+        });
+      });
+    });
+  </script>
+  
 </html>
 {% endblock %}

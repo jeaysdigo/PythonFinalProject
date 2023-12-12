@@ -37,12 +37,7 @@ class User(AbstractUser):
     # REQUIRED_FIELDS = ['username']
 
 
-class Badge(models.Model):
-    badge_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100, unique=True)
-    description = models.TextField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_acquired = models.DateTimeField()
+
 
 from django.db import models
 
@@ -51,6 +46,7 @@ class Course(models.Model):
     title = models.CharField(max_length=100, unique=True)
     certificate_img = models.CharField(max_length=255, null=True, blank=True)
     cover = models.ImageField(null=True, default='unit_header.png')
+    Badge = models.ImageField(null=True, default='Badge.png')
 
     def __str__(self):
         return self.title
@@ -58,7 +54,7 @@ class Course(models.Model):
 class Unit(models.Model):
     title = models.CharField(max_length=100)
     number = models.IntegerField(null=True, blank=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='units', null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='completed', null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -68,6 +64,9 @@ class UserProgress(models.Model):
     viewed_lessons = models.ManyToManyField('Lesson', related_name='viewed_by', blank=True)
     unit_completed = models.ManyToManyField('Unit', related_name='viewed_by', blank=True)
     quiz_scores = models.ManyToManyField('Quiz', through='QuizScore', related_name='user_scores', blank=True)
+    quiz_taken = models.ManyToManyField('Quiz', related_name='viewed_by', blank=True)
+    exam_taken = models.ManyToManyField('Exam', related_name='viewed_by', blank=True)
+    course_completed = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='units', null=True, blank=True)
 
     def __str__(self):
         return f"{self.user}"
@@ -141,6 +140,11 @@ class Exam(models.Model):
     def __str__(self):
         return self.title
 
+class Badge(models.Model):
+    badge_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100, unique=True)
+    description = models.TextField(null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
     
     
     

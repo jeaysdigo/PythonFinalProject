@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 {% block content %}
-<title>Home</title>
-
+<title>PAL | Settings</title>
+<link rel="stylesheet" href="static/styles/home.css">
 <style>
   .sidebar-settings{
       background-color: #16A34A;
@@ -10,14 +10,14 @@
 </style>
 
 <!--START OF CONTENT-->
-<div class="bg-[#F4F9F1] w-1/2 h-screen mx-auto">
+<div class="w-1/2 pt-5 h-screen mx-auto">
   <div class="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-[#436E70] ml-5 pt-5">
     Settings
   </div>
   <div class="text-md sm:text-lg md:text-lg lg:text-xl xl:text-xl font-semibold text-[#436E70] mt-5 ml-10">
     Account Security
   </div>
-  <hr class="my-3 border-t-2 border-[#D7DFDE] ml-10 mr-5" />
+  <hr class="my-3 border-t-2 border-gray-400 ml-10 mr-5" />
   <!--LINE-->
 
   <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 ml-10 ">
@@ -27,12 +27,12 @@
       </div>
       <div class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">Set a permanent password to login to your account</div>
     </div>
-    <p class="ml-auto mr-5"><a class="text-sm flex justify-center items-center text-[#25A76F] bg-white hover:bg-[#25A76F] hover:text-white duration-200 border-2 border-[#25A76F] font-bold px-2 py-2 rounded-lg" href="{% url 'change_password' %}">Change Password</a></p>
+    <p class="ml-auto mr-5"><a class="text-sm flex justify-center items-center text-[#25A76F] hover:bg-[#25A76F] hover:text-white duration-200 border-2 border-[#25A76F] font-bold px-2 py-2 rounded-lg" href="{% url 'change_password' %}">Change Password</a></p>
   </div>
-  <hr class="my-3 border-t-2 border-[#D7DFDE] ml-10 mr-5" />
+  <hr class="my-3 border-t-2 border-gray-400 ml-10 mr-5" />
   <!--LINE-->
   <!--Delete Account Permanently-->
-
+  {% if user.username != 'admin' or user.id != 1 %}
   <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 ml-10 ">
     <div>
       <div class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-red-600">
@@ -40,9 +40,8 @@
       </div>
       <div class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">Delete the account permanently</div>
     </div>
-    {% if user.username != 'admin' or user.id != 1 %}
     <div class="ml-auto mr-5 flex items-center">
-      <a class="flex text-sm justify-center items-center text-red-600 bg-white hover:bg-red-600 hover:text-white duration-200 border-2 border-red-600 font-bold px-2 py-2 rounded-lg" href="{% url 'delete_account' %}">Delete Account</a>
+      <a class="flex text-sm justify-center items-center text-red-600 hover:bg-red-600 hover:text-white duration-200 border-2 border-red-600 font-bold px-2 py-2 rounded-lg" href="{% url 'delete_account' %}">Delete Account</a>
    </div>
     {% else %}
     {% endif %}

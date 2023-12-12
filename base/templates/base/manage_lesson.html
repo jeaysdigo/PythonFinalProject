@@ -2,8 +2,15 @@
 {{ form.media }}
 {% load static %}
 {% block content %}
-<title>Manage Unit & Lesson</title>
+<title>PAL | Manage Unit & Lesson</title>
 <link rel="stylesheet" href="static/styles/home.css">
+
+<style>
+    .sidebar-manageLessons{
+        background-color: #16A34A;
+        color: white;
+    }
+  </style>
   
 {% if messages %}
 {% for message in messages %}

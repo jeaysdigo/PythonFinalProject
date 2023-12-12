@@ -48,12 +48,59 @@
     <p class="mt-4">No assessments found for this course.</p>
   {% endif %}
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></script>
 {% if all_quizzes_taken and all_exams_taken %}
   <div class="flex justify-center">
-    <a href="{% url 'generate_certificate' course.id %}" class="text-white py-4 px-5 bg-green-600 rounded-xl hover:bg-green-700 duration-300 hover:bg-green-700">Get Certification</a>
+    <a href="{% url 'generate_certificate' course.id %}" id="getCertificateBtn" class="text-white py-4 px-5 bg-green-600 rounded-xl hover:bg-green-700 duration-300 hover:bg-green-700">Get Certification</a>
   </div>
 {% endif %}
+
+
+
+<script>
+  document.getElementById('getCertificateBtn').addEventListener('click', function() {
+    const count = 200,
+  defaults = {
+    origin: { y: 0.7 },
+  };
+
+function fire(particleRatio, opts) {
+  confetti(
+    Object.assign({}, defaults, opts, {
+      particleCount: Math.floor(count * particleRatio),
+    })
+  );
+}
+
+fire(0.25, {
+  spread: 26,
+  startVelocity: 55,
+});
+
+fire(0.2, {
+  spread: 60,
+});
+
+fire(0.35, {
+  spread: 100,
+  decay: 0.91,
+  scalar: 0.8,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 25,
+  decay: 0.92,
+  scalar: 1.2,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 45,
+});
+  });
+</script>
+
 
 <script>
   // Add any additional scripts if needed

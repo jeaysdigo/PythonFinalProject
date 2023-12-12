@@ -20,3 +20,4 @@ admin.site.register(ExamScore)
 admin.site.register(Exam)
 admin.site.register(ExamSubmission)
 
+

@@ -1,6 +1,16 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
+
+<style>
+  .sidebar-questionBank{
+      background-color: #16A34A;
+      color: white;
+  }
+</style>
+
+<link rel="stylesheet" href="static/styles/home.css">
+
 <div class="flex items-center justify-center rounded-2xl p-10">
   <div class="">
     {% if questions %}
