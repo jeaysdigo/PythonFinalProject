@@ -1,4 +1,6 @@
+{% extends 'main.html' %}
 {% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +15,20 @@
   <link rel="stylesheet" href="{% static '/pat/css/wave.css' %}">
   <!-- Ubuntu Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap">
+  <link rel="stylesheet" href="static/styles/home.css">
 </head>
+
+<style>
+    .sidebar-analytics{
+        background-color: #16A34A;
+        color: white;
+    }
+  </style>
+
 <body class="font-ubuntu background-color p-8">
 
-    <!-- SIDEBAR -->
-    {% include 'navbar.html' %}
-    <div class="container mx-auto flex flex-col">
+
+    <div class="container mx-auto ml-80 flex flex-col">
 
         <!-- Pie Chart and Bar Graph Container -->
         <div class="flex flex-col md:flex-row mb-8">
@@ -119,3 +129,5 @@
     </script>
 </body>
 </html>
+
+{% endblock content %}
