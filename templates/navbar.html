@@ -16,7 +16,6 @@ body {
   border-color: #C4E4CB;
   box-shadow: -5px 0 15px rgba(51, 110, 65, 0.5);
   transition: transform 0.3s ease-in-out;
-  z-index: 1000;
 }
 
 .sidebar-closed {
@@ -40,6 +39,11 @@ body {
   color: #FFFFFF;
 }
 
+.sidebar-link:active{
+background-color: #25a76f;
+color: white
+}
+
 </style>
 
 <!-- OPEN SIDEBAR BUTTON -->
@@ -47,61 +51,58 @@ body {
     <i class="bi bi-layout-sidebar p-2 bg-green-600 text-white rounded-md"></i>
 </span>
 
-<div class="flex">
 
 <!-- USER SIDEBAR -->
 <div class="sidebar fixed border-r-2 top-0 bottom-0 lg:left-0 pt-2 overflow-y-auto text-center">
 
     <!-- LOGO AND NAME -->
     <div class="flex mt-4 items-center">
-        <img class="w-30 h-20 ml-5" src="{% static 'images/logo.png'%}" title="PAL: Programming Assistive Learning">
+        <img class="w-30 h-20 ml-6 mr-14" src="{% static 'images/logo.png'%}" title="PAL: Programming Assistive Learning">
     
             <!-- CLOSE SIDEBAR BUTTON -->
-            <i class="bi bi-chevron-double-left ml-4 mr-6 sidebar-close cursor-pointer text-xl hover:scale-110 transition-transform" onclick="openSidebar()" title="Collapse"></i>
+            <!-- <i class="bi bi-chevron-double-left ml-4 mr-6 sidebar-close cursor-pointer text-xl hover:scale-110 transition-transform" onclick="openSidebar()" title="Collapse"></i> -->
     </div>
         
     <!-- user SIDEBAR -->
     {% if not request.user.is_superuser %}
     <div>
       <!-- HOME SECTION -->
-      <a href="{% url 'home' %}" class="p-4 mt-24 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Home">
+      <a href="{% url 'home' %}" class="p-4 mt-24 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white sidebar-link" title="Home">
           <i class="bi bi-house-door ml-3 text-xl"></i>
           <span  class="ml-4 text-m font-bold">Home</span>
       </a>
 
       <!-- DISCOVER SECTION -->
-      <a href="{% url 'discover' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
+      <a href="{% url 'discover' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white sidebar-link" title="Discover">
           <i class="bi bi-compass ml-3 text-xl"></i>
           <span  class="ml-4 text-m font-bold">Discover</span>
       </a>
 
       <!-- MY COURSES SECTION -->
-      <a href="{% url 'course' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="My Courses">
+      <a href="{% url 'course' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white sidebar-link" title="My Courses">
           <i class="bi bi-journal-richtext ml-3 text-xl"></i>
           <span  class="ml-4 text-m font-bold">My Courses</span>
       </a>
 
       <!-- ASSESSMENTS SECTION -->
-      <a href="{% url 'assessments' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
+      <a href="{% url 'assessments' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white sidebar-link" title="Assessments">
           <i class="bi bi-clipboard-check ml-3 text-xl"></i>
           <span  class="ml-4 text-m font-bold">Assessments</span>
       </a>
 
       <!-- CERTIFICATE SECTION -->
-      <a href="{% url 'certificates' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
+      <a href="{% url 'certificates' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white sidebar-link" title="Certificate">
           <i class="bi bi-award ml-3 text-xl"></i>
           <span  class="ml-4 text-m font-bold">Certificate</span>
       </a>
 
       <!-- SETTINGS SECTION -->
-      <a href="{% url 'settings' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Settings">
+      <a href="{% url 'settings' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white sidebar-link" title="Settings">
           <i class="bi bi-gear ml-3 text-xl"></i>
           <span  class="ml-4 text-m font-bold">Settings</span>
       </a>
     </div>
     {% endif %}
-
-
 
 
 
@@ -173,12 +174,12 @@ body {
         {% endif %}
         <i onclick="confirmLogout()"class="bi bi-box-arrow-left ml-4 sidebar-close cursor-pointer text-2xl hover:scale-110 transition-transform" title="Log Out"></i>
     </div>
- </div>
-
 </div>
 
+
+
 <script>
- function confirmLogout() {
+    function confirmLogout() {
         Swal.fire({
             title: 'Log out?',
             text: 'You are about to log out',
@@ -192,8 +193,10 @@ body {
             }
         });
     }
+    
     function openSidebar() {
                 var sidebar = document.querySelector(".sidebar");
                 sidebar.classList.toggle("sidebar-closed");
-            }
+    }
+
 </script>
