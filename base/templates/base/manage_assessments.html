@@ -31,9 +31,9 @@
         {%for course in courses%}
         <div class="flex grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             <!-- Python Example Card -->
-            <a href="{% url 'manage_assessments2' course.id %}">
+           
             <div class="flex">
-                <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow-lg dark:bg-gray-800 dark:border-gray-700 transition-all duration-500 hover:scale-105 cursor-pointer">
+                <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow-lg dark:bg-gray-800 dark:border-gray-700 transition-all duration-500  cursor-pointer">
                     
                         <img class="rounded-t-3xl" src="{% static 'images/unit_header.png'%}" alt="" />
               
@@ -42,9 +42,15 @@
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ course.title }}</h5>
                       
                     </div>
+                    <div class="flex justify-center p-4">
+                        
+                        <a href="{% url 'manage_assessments2' course.id %}" class="py-4 m-2 px-5 bg-[#25A76F] text-white font-bold rounded-lg hover:bg-[#385F61] focus:outline-none focus:bg-[#385F61] ">Lesson Quiz</a>
+                        <a href="{% url 'manage_assessments3' course.id %}" class="py-4  m-2 px-5 bg-[#C4E4CB] text-[#385F61] font-bold rounded-lg hover:bg-[#81BAAD] focus:outline-none focus:bg-[#81BAAD] ">Assessment</a>
+                        
+                    </div>
                 </div>
             </div>
-            </a>
+           
             
             <!-- <div class="flex">
                 <div onclick="showModal('Python')" class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow-lg dark:bg-gray-800 dark:border-gray-700 transition-all duration-500 hover:scale-105 cursor-pointer">
