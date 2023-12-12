@@ -52,6 +52,7 @@ urlpatterns = [
     path('delete-user/<int:id>/', views.deleteUser, name="delete-user"),
   
     
+    
 
     # urls for retrieving 
     path('get_course_details/<int:course_id>/', views.get_course_details, name='get_course_details'),
@@ -80,7 +81,8 @@ urlpatterns = [
     path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),
     
 
-
+    # PAT
+    path('oyeah/', views.adminAnalytics, name='adminAnalytics')
 
     
 ]

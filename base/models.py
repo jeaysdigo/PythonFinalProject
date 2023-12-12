@@ -28,6 +28,7 @@ class User(AbstractUser):
     bio = models.TextField(null=True, blank=True)
     courses = models.ManyToManyField('Course', related_name='users', blank=True)
     avatar = models.ImageField(null=True, default='avatar.png')
+    
 
     def __str__(self):
         return f"{self.username}"
@@ -49,6 +50,7 @@ class Course(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, unique=True)
     certificate_img = models.CharField(max_length=255, null=True, blank=True)
+    cover = models.ImageField(null=True, default='unit_header.png')
 
     def __str__(self):
         return self.title
@@ -96,22 +98,24 @@ class Progress(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     is_completed = models.BooleanField()
 
+class Question(models.Model):
+    question_text = models.TextField(null=True, blank=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='lesson', null=True, blank=True)
+    def __str__(self):
+        return self.question_text
+
+
 class Quiz(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
     units = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='units', null=True, blank=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)
-    questions = models.ManyToManyField('Question', related_name='quizzes', blank=True)
+    questions = models.ManyToManyField('Question', related_name='questions', blank=True)
 
     def __str__(self):
         return self.title
 
-class Question(models.Model):
-    question_text = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return self.question_text
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

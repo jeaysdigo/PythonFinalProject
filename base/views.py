@@ -174,10 +174,19 @@ def deleteAccount(request):
 def home(request):
     courses = Course.objects.all()
     user = User.objects.all()
+    user2 = request.user
+    quiz_scores = QuizScore.objects.filter(user_progress__user=user2)
+
     context = {
         'courses': courses,
         'username': user,
+        'quiz_scores': quiz_scores, 
         }
+    
+
+
+  
+
     return render(request, 'base/home.html', context)
 
 # landing page
@@ -185,7 +194,7 @@ def landing(request):
     context = {}
     if request.user.is_authenticated:
         context['user'] = request.user
-    return render(request, 'base/landing.html', context)
+    return render(request, 'base/index.html', context)
 
 
 
@@ -340,7 +349,7 @@ def createCourse(request):
         return redirect('home')
     form = CourseForm()
     if request.method == 'POST':
-        form = CourseForm(request.POST)
+        form = CourseForm(request.POST, request.FILES,)
         if form.is_valid():
             form.save()
             return redirect('manage_courses')
@@ -741,10 +750,11 @@ def quiz_template(request, quiz_id):
 def assessments(request):
     # Assuming you have a user authentication system
     user = request.user
+    course = Course.objects.all()
 
     # Retrieve all quiz scores for the user
     quiz_scores = QuizScore.objects.filter(user_progress__user=user)
-    context = {'quiz_scores': quiz_scores}
+    context = {'quiz_scores': quiz_scores, 'course':course}
     return render(request, 'base/assessments.html',context)
 
 def assessments_python(request):
@@ -914,7 +924,16 @@ def delete_quiz(request, quiz_id):
         }
         return JsonResponse(response_data, status=400)
 
+
+def terms(request):
+    return render(request, 'base/terms.html')
+
+
+
+
 def add_question(request):
+
+    lesson = Lesson.objects.all()
 
     if request.method == 'POST':
         question_form = QuestionForm(request.POST)
@@ -935,7 +954,7 @@ def add_question(request):
         question_form = QuestionForm()
         choice_formset = ChoiceFormSet(prefix='choices')
 
-    return render(request, 'base/add_question.html', {'question_form': question_form, 'choice_formset': choice_formset})
+    return render(request, 'base/add_question.html', {'question_form': question_form, 'choice_formset': choice_formset, 'lesson': lesson})
 
 def question_bank(request):
     questions = Question.objects.all()
@@ -1018,8 +1037,16 @@ def get_quizzes_by_unit_and_lesson(request):
 
     return JsonResponse(serialized_quizzes, safe=False)
 
-    
 
+# ANALYTICS
+def adminAnalytics(request):
+    user = User.objects.count()
+    context={
+        "Count": user
+        
+    }
+    print(context)
+    return render(request, 'base/manage_assessments2.html', context)
 
 
 # def add_quiz(request):

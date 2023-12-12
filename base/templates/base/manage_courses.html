@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
 <title>Manage Courses</title>
@@ -166,6 +167,7 @@
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ course.title }}
+                            
                         </th>
                         <td class="px-6 py-4">
                             {{ course.users.count }} users enrolled
@@ -175,6 +177,7 @@
                                 <button type="button" class="text-green-500 edit-button p-4" id="edit_btn" data-course-id="{{ course.id }}" data-modal-target="defaultModal" data-modal-toggle="defaultModal" data-modal-course-id="{{ course.id }}">
                                     Edit
                                 </button>
+                                
                                 <a type="button" href="{% url 'manage_lesson' %}" class="text-green-500 manage-button p-4" id="manage_btn" data-course-id="{{ course.id }}"  data-modal-course-id="{{ course.id }}">
                                     Manage Lesson
                                 </a>
@@ -194,6 +197,7 @@
 
 
 <!-- Main modal -->
+
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <!-- Modal content -->
@@ -209,7 +213,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form method="post" action="{% url 'update_course' %}">
+            <form method="post" action="{% url 'update_course' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class=" mb-4 sm:grid-cols-2">
                     <div>
@@ -218,6 +222,14 @@
                         <input class="hidden" type="number" name="cid" hidden id="cid">
                     </div>
                 </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fileInput">
+                    </label>
+                    
+                    <img src="{{ course.cover.url }}" alt="{{ course.title }}" class="mb-2" style="max-width: 100%">
+                    {{ form.cover }}
+                </div>
+                
                     
                 <button id="save" type="submit" class="text-white bg-green-600 inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
       
