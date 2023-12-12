@@ -58,7 +58,7 @@
           {% if request.user == user %}
           <div class="flex flex-col md:flex-row md:justify-end items-center">
             <div class="relative ml-5 mr-5 mt-2 md:-mt-44">
-                <a class="text-white bg-[#25a76f]  border-2 border-[#25a76f] text-sm hover:bg-opacity-50 rounded-lg pt-3 pb-3 pl-4 pr-4" href="{% url 'update_user' %}">Edit Profile</a>
+                <a class="text-white bg-white border-2 border-[#25a76f] text-sm text-[#25a76f] hover:text-white hover:bg-[#25a76f] rounded-lg pt-3 pb-3 pl-4 pr-4" href="{% url 'update_user' %}">Edit Profile</a>
             </div>
           </div>
           {%endif%}
@@ -70,10 +70,7 @@
     <div>
         <div class="text-sm sm:text-md md:text-sm lg:text-lg xl:text-lg text-justify sm:text-left mt-5 ml-5 mr-5" >
           <div style="font-family: 'Ubuntu', sans-serif">
-            Striving to find purpose in every moment. Embracing challenges with
-            a positive mindset. Believer in the power of growth, kindness, and
-            continuous learning. Journeying through life with gratitude and a
-            heart full of dreams. 🌟 #InspirationInEveryBreath {{ user.bio }}
+           {{ user.bio }}
           </div>
         </div>
       </div>
@@ -111,7 +108,7 @@
 
       <div class="flex flex-row items-center gap-3">
         <i class="fa-brands fa-linkedin fa-xl" style="color: #25a76f"></i>
-        <div style="font-family: 'Ubuntu', sans-serif">Angel Padilla</div>
+        <div>Angel Padilla</div>
       </div>
 
       <div class="flex flex-row items-center gap-3">
@@ -119,7 +116,7 @@
           class="fa-brands fa-square-github fa-xl"
           style="color: #25a76f"
         ></i>
-        <div style="font-family: 'Ubuntu', sans-serif">AG-Padilla</div>
+        <div>AG-Padilla</div>
       </div>
       <!--Contacts-->
     </div>

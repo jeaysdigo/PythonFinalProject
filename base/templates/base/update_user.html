@@ -3,39 +3,105 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<div class="bg-white mx-auto justify-center items-center text-center p-10 w-full max-w-lg">
+<div class="bg-white mx-auto p-10 w-full max-w-lg">
 
-    <h1>Edit Profile</h1>
+    <div  class="text-[#436E70] text-2xl font-bold ">Edit Profile</div>
 
     <!-- Profile Update Form -->
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+        <div class="flex flex-col gap-3 justify-center items-center mt-5">
+
             <div class="w-full">
-                <label for="{{ form.username.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
-                {{ form.username }}
-            </div>
-            <div class="w-full">
-                <label for="{{ form.first_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
-                {{ form.first_name }}
-            </div>
-            <div class="w-full">
-                <label for="{{ form.last_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
-                {{ form.last_name }}
-            </div>
-            <div class="w-full">
-                <label for="{{ form.email.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                {{ form.email }}
-            </div>
-            <div class="sm:col-span-2">
-                <label for="{{ form.avatar.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">Avatar</label>
-                {{ form.avatar }}
+                <label for="{{ form.avatar.id_for_label }}" class="block mb-2 text-[#436E70] text-lg font-medium">Avatar</label>
+                <div class="">
+                    <!-- Hide the original file input using the 'hidden' class -->
+                    <input type="file" name="{{ form.avatar.name }}" class="hidden" id="{{ form.avatar.id_for_label }}">
+                    <!-- Placeholder Image -->
+                    <div id="avatarPlaceholder" class="inset-0 bg-gray-200 mx-auto border-2 border-[#25a76f] rounded-full h-32 w-32">
+                        <img id="avatarPreview" src="{{ user.avatar.url }}" alt="Placeholder Image" class="w-full h-full object-cover rounded-full">
+                    </div>
+                       <!-- Custom-styled button using Tailwind CSS -->
+                    <div class="flex justify-center mt-3">
+                        <label for="{{ form.avatar.id_for_label }}" class="bg-white border-2 border-[#25a76f] hover:bg-[#25a76f] text-[#25a76f] hover:text-white font-medium text-xs py-2 px-2 rounded-full cursor-pointer">
+                            Upload Profile
+                        </label>
+                    </div>
+                    
+                </div>
             </div>
         </div>
-        <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-green-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-            Save Changes
-        </button>
+
+            <div class="w-full">
+                <label for="username" class="block text-[#436E70] text-lg  font-medium mb-1">Username</label>
+                <input type="text" id="username" name="username" value="{{ form.username.value }}" class="bg-gray-100 border border-gray-300 
+                text-gray-600 text-md font-medium rounded-lg focus:ring-[#25a76f] focus:border-[#25a76f] block w-full p-2.5 focus:outline-none" 
+                 placeholder="username@pal.com" required>
+            </div>
+
+            <div class="w-full">
+                <label for="first_name" class="block text-[#436E70] text-lg font-medium mb-1">First name</label>
+                <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value }}" class="bg-gray-100 border border-gray-300 
+                text-gray-600 text-md font-medium  rounded-lg focus:ring-[#25a76f] focus:border-[#25a76f] block w-full p-2.5 focus:outline-none" 
+                 placeholder="Enter first name" required>
+            </div>
+           
+            <div class="w-full">
+                <label for="last_name" class="block text-[#436E70] text-lg font-medium mb-1">Last name</label>
+                <input type="text" id="last_name" name="last_name" value="{{ form.last_name.value }}" class="bg-gray-100 border border-gray-300 
+                text-gray-600 text-md font-medium  rounded-lg focus:ring-[#25a76f] focus:border-[#25a76f] block w-full p-2.5 focus:outline-none" 
+                 placeholder="Enter last name" required>
+            </div>
+           
+            <div class="w-full">
+                <label for="bio" class="block text-[#436E70] text-lg font-medium mb-1">Bio</label>
+                <textarea type="text" id="bio" name="bio" value="{{ form.bio.value }}" class="bg-gray-100 border border-gray-300 
+                text-gray-600 text-md font-medium  rounded-lg focus:ring-[#25a76f] focus:border-[#25a76f] h-40 block w-full p-2.5 resize-none focus:outline-none" 
+                 placeholder="Enter bio" required> {{ user.bio }}</textarea>
+            </div>
+            
+            <div class="w-full">
+                <label for="email" class="block text-[#436E70] text-lg font-medium mb-1">Email Address</label>
+                <input type="text" id="email" name="email" value="{{ form.email.value }}" class="bg-gray-100 border border-gray-300 
+                text-gray-600 text-md font-medium rounded-lg focus:ring-[#25a76f] focus:border-[#25a76f] block w-full p-2.5 focus:outline-none" 
+                 placeholder="Enter email address" required>
+            </div>
+            
+            <div class="flex justify-end">
+                <button type="submit" class="inline-flex text-md items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-[#25a76f] border-2 border-[#25a76f] hover:bg-[#25a76f] hover:text-white bg-white rounded-lg">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+       
+        
     </form>
+
+    <script>
+        // Add an event listener to the file input
+        const avatarInput = document.getElementById('id_avatar');
+        const avatarPreview = document.getElementById('avatarPreview');
+    
+        avatarInput.addEventListener('change', function () {
+            // Check if a file is selected
+            if (avatarInput.files && avatarInput.files[0]) {
+                const reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    // Set the preview image source
+                    avatarPreview.src = e.target.result;
+                    // Show the preview image
+                    avatarPreview.classList.remove('hidden');
+                };
+    
+                // Read the selected file as a data URL
+                reader.readAsDataURL(avatarInput.files[0]);
+            } else {
+                // Hide the preview image if no file is selected
+                avatarPreview.classList.add('hidden');
+            }
+        });
+    </script>
 </div>
 {% endif %}
 {% endblock content %}

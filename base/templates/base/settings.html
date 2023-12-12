@@ -2,66 +2,6 @@
 {% block content %}
 <title>Home</title>
 
-<!--MODAL FOR VERIFICATION EMAIL-->
- <div
- id="verifyEmailModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 invisible flex items-center justify-center"
->
- <!-- Modal Content Verification  -->
- <div
-   class="bg-[#F4F9F1] rounded-3xl ml-5 xs:ml-5 sm:ml-10 md:ml-10 mr-5 xs:mr-5 sm:mr-10 md:mr-10 shadow-md w-auto max-w-3xl h-auto overflow-y-auto flex flex-col"
- >
-   <!-- Modal Header Verification -->
-   <div class="bg-[#F4F9F1] p-2 text-[#436E70]">
-     <div class="flex flex-row">
-       <div
-         class="text-lg ml-3 font-semibold">
-         Change Email
-       </div>
-
-       <button
-         class="items-center ml-auto group hover:brightness-75 focus:outline-none"
-         onclick="closeVerifyEmail()"
-       >
-         <svg
-           class="h-6 w-6"
-           fill="none"
-           stroke="currentColor"
-           viewBox="0 0 24 24"
-           xmlns="http://www.w3.org/2000/svg"
-         >
-           <path
-             stroke-linecap="round"
-             stroke-linejoin="round"
-             stroke-width="2"
-             d="M6 18L18 6M6 6l12 12"
-           ></path>
-         </svg>
-       </button>
-     </div>
-   </div>
-
-   <!-- Modal Body Verification -->
-   <div class="flex-grow overflow-y-auto">
-     <div class="text-sm text-[#85A2A0] text-justify mr-5 ml-5">Please enter a new email.</div>
-     
-     <div class="m-5">
-      <!--MODAL CONTENT HERE-->
-      <!--MODAL CONTENT HERE-->
-      <!--MODAL CONTENT HERE-->
-      <!--MODAL CONTENT HERE-->
-      <!--MODAL CONTENT HERE-->
-      <!--MODAL CONTENT HERE-->
-      <!--MODAL CONTENT HERE-->
-      <!--MODAL CONTENT HERE-->
-     </div>
-     
-   </div>
- </div>
-</div>
-
- <!--END OF CHANGE EMAIL-->
-
-
 <!--START OF CONTENT-->
 <div class="bg-[#F4F9F1] w-1/2 h-screen mx-auto">
   <div class="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-[#436E70] ml-5 pt-5">
@@ -72,22 +12,6 @@
   </div>
   <hr class="my-3 border-t-2 border-[#D7DFDE] ml-10 mr-5" />
   <!--LINE-->
-
-  <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 ml-10 ">
-    <div>
-      <div class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-[#436E70]">
-        Email
-      </div>
-      <div class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">angelpadilla@gmail.com</div>
-    </div>
-    <div class="ml-auto mr-5">
-    <button
-      onclick="openVerifyEmail()"
-      class="text-sm text-[#25A76F] bg-white hover:bg-[#25A76F] hover:text-white duration-200 border-2 border-[#25A76F] font-bold px-2 py-2 rounded-lg">
-      Change
-    </button>
-  </div>
-  </div>
 
   <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 ml-10 ">
     <div>
@@ -115,9 +39,7 @@
    </div>
     {% else %}
     {% endif %}
-   
   </div>
-  <script src="./../static/js/user_settings.js"></script>
 </div>
 {% endblock content %}
 
