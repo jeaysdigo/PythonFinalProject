@@ -28,6 +28,7 @@ class User(AbstractUser):
     bio = models.TextField(null=True, blank=True)
     courses = models.ManyToManyField('Course', related_name='users', blank=True)
     avatar = models.ImageField(null=True, default='avatar.png')
+    
 
     def __str__(self):
         return f"{self.username}"
@@ -49,6 +50,7 @@ class Course(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, unique=True)
     certificate_img = models.CharField(max_length=255, null=True, blank=True)
+    cover = models.ImageField(null=True, default='unit_header.png')
 
     def __str__(self):
         return self.title

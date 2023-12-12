@@ -340,7 +340,7 @@ def createCourse(request):
         return redirect('home')
     form = CourseForm()
     if request.method == 'POST':
-        form = CourseForm(request.POST)
+        form = CourseForm(request.POST, request.FILES,)
         if form.is_valid():
             form.save()
             return redirect('manage_courses')
@@ -741,10 +741,11 @@ def quiz_template(request, quiz_id):
 def assessments(request):
     # Assuming you have a user authentication system
     user = request.user
+    course = Course.objects.all()
 
     # Retrieve all quiz scores for the user
     quiz_scores = QuizScore.objects.filter(user_progress__user=user)
-    context = {'quiz_scores': quiz_scores}
+    context = {'quiz_scores': quiz_scores, 'course':course}
     return render(request, 'base/assessments.html',context)
 
 def assessments_python(request):
