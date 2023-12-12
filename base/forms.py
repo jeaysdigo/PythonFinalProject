@@ -45,6 +45,16 @@ class UnitForm(ModelForm):
         model = Unit
         fields = ['title', 'number', 'course']
 
+class AdminUserForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = [
+            'avatar',
+            'first_name', 
+            'last_name', 
+            'email', 
+            'username',
+        ]
 
 class UserForm(ModelForm):
     class Meta:
