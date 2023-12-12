@@ -667,22 +667,26 @@ def get_units(request, course_id):
     return JsonResponse(list(units), safe=False)
 
 def get_units_and_lessons(request, course_id):
-    try:
-        course = Course.objects.get(pk=course_id)
+    # Retrieve the Course instance or return 404 if not found
+    course = get_object_or_404(Course, id=course_id)
 
-        units = list(course.units.values('id', 'title', 'number'))
-        
-        # Fetch lessons with related units
-        lessons = list(Lesson.objects.filter(course=course).prefetch_related('units').values('id', 'title', 'content', 'units__id', 'units__title'))
+    # Query units and lessons related to the course
+    units = Unit.objects.filter(course=course)
+    lessons = Lesson.objects.filter(units__in=units)
 
-        data = {
-            'units': units,
-            'lessons': lessons,
-        }
+    # Serialize units and lessons data
+    units_data = [{'id': unit.id, 'title': unit.title, 'number': unit.number} for unit in units]
+    lessons_data = [{'id': lesson.id, 'title': lesson.title, 'content': lesson.content} for lesson in lessons]
 
-        return JsonResponse(data, safe=False)
-    except Course.DoesNotExist:
-        return JsonResponse({'error': 'Course not found'}, status=404)
+    # Return the data in a JSON response
+    response_data = {
+        'course_id': course.id,
+        'course_title': course.title,
+        'units': units_data,
+        'lessons': lessons_data,
+    }
+
+    return JsonResponse(response_data)
     
 def get_lesson_html(request):
     lesson_title = request.GET.get('lessonTitle', '')
