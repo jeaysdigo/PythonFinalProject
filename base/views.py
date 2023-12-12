@@ -14,6 +14,9 @@ from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import UpdateView
 from django.urls import reverse, reverse_lazy
 from .forms import CourseForm
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib import colors
 
 # from django.http import HttpResponse
 
@@ -926,10 +929,31 @@ def delete_quiz(request, quiz_id):
 
 
 def terms(request):
+    
     return render(request, 'base/terms.html')
 
+def quizList(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    user = request.user
+    # Retrieve all quizzes associated with the course
+    quizzes = Quiz.objects.filter(course=course)
+
+    all_quizzes_taken = all(quiz.has_been_taken_by_user(user) for quiz in quizzes)
+
+    for quiz in quizzes:
+        quiz.has_been_taken_by_user = quiz.has_been_taken_by_user(user)
+
+    
 
 
+    context = {
+        'course': course,
+        'quizzes': quizzes,
+        'all_quizzes_taken': all_quizzes_taken,
+    }
+    
+
+    return render(request, 'base/quizList.html', context)
 
 def add_question(request):
 
@@ -1071,3 +1095,47 @@ def get_quizzes_by_unit_and_lesson(request):
 
 #     return render(request, 'base/add_questions.html', {'form': form, 'formset': formset, 'quiz': quiz})
 
+def generate_certificate(request, course_id):
+
+    course = Course.objects.get(pk = course_id)
+
+    course_details = {
+        'name': course.title,
+        'completion_date': 'December 12, 2023',
+    }
+
+    # Create a response object
+    response = HttpResponse(content_type='application/pdf')
+
+    # Set the content-disposition for the response
+    response['Content-Disposition'] = f'attachment; filename="{course_id}_certificate.pdf"'
+
+    # Create a PDF object using ReportLab with landscape orientation
+    pdf = canvas.Canvas(response, pagesize=landscape(letter))
+
+    # Set background color
+    pdf.setFillColor(colors.lightblue)
+    pdf.rect(0, 0, letter[1], letter[0], fill=True)
+
+    # Define your certificate template using course details
+    certificate_text = f"Certificate of Completion for {course_details['name']}"
+    student_name = 'Jeaysmie M. Digo'
+    completion_date = course_details['completion_date']
+
+    # Customize the certificate content
+    pdf.setFont("Helvetica-Bold", 16)
+    pdf.setFillColor(colors.darkblue)
+    pdf.drawCentredString(400, 500, certificate_text)
+
+    pdf.setFont("Helvetica", 12)
+    pdf.setFillColor(colors.black)
+    pdf.drawString(100, 450, f"This is to certify that {student_name}")
+
+    pdf.drawString(100, 430, f"has successfully completed the course.")
+    pdf.drawString(100, 410, f"on {completion_date}.")
+
+    # Customize further based on your needs
+
+    # Save the PDF to the response
+    pdf.save()
+    return response

@@ -113,6 +113,9 @@ class Quiz(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)
     questions = models.ManyToManyField('Question', related_name='questions', blank=True)
 
+    def has_been_taken_by_user(self, user):
+        return QuizSubmission.objects.filter(quiz=self, user=user).exists()
+
     def __str__(self):
         return self.title
 
