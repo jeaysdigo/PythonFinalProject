@@ -8,12 +8,12 @@ from .models import Choice, Course, Lesson, Question, Quiz, QuizScore, QuizSubmi
 from .forms import  ChoiceFormEdit, ChoiceFormSet, CourseForm, LessonForm, QuestionForm, QuizForm,UserForm, MyUserCreationForm, UnitForm
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import UpdateView
 from django.urls import reverse, reverse_lazy
-from .forms import CourseForm
+from .forms import CourseForm, AdminUserForm
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
@@ -197,7 +197,7 @@ def landing(request):
     context = {}
     if request.user.is_authenticated:
         context['user'] = request.user
-    return render(request, 'base/landing.html', context)
+    return render(request, 'base/index.html', context)
 
 
 
@@ -1061,8 +1061,16 @@ def get_quizzes_by_unit_and_lesson(request):
 
     return JsonResponse(serialized_quizzes, safe=False)
 
-    
 
+# ANALYTICS
+def adminAnalytics(request):
+    user = User.objects.count()
+    context={
+        "Count": user
+        
+    }
+    print(context)
+    return render(request, 'base/manage_assessments2.html', context)
 
 
 # def add_quiz(request):

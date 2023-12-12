@@ -50,6 +50,7 @@ urlpatterns = [
     path('view_logs', views.viewLogs, name="view_logs"),
     path('delete-item/<int:id>/', views.deleteLog, name="delete-item"),
     path('delete-user/<int:id>/', views.deleteUser, name="delete-user"),
+  
     
     
 
@@ -85,7 +86,8 @@ urlpatterns = [
 
     path('generate_certificate/<int:course_id>/', views.generate_certificate, name='generate_certificate'),
 
-
+    # PAT
+    path('oyeah/', views.adminAnalytics, name='adminAnalytics')
 
     
 ]
