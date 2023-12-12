@@ -1,8 +1,9 @@
 {% extends 'main.html' %}
 {% block content %}
-
+<link rel="stylesheet" href="static/styles/home.css">
 {% if user.is_authenticated %}
-<div class="bg-gray-200 h-screen flex items-center justify-center">
+
+<div class="h-screen flex items-center justify-center">
     <div class="bg-white p-10 rounded-2xl shadow-md w-full max-w-lg">
         <h2 class=" font-semibold text-[#436E70] text-3xl mb-2">Delete Account</h2>
 

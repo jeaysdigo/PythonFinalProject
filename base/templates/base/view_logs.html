@@ -76,7 +76,32 @@
               <option>10</option>
               <option>30</option>
               <option>50</option>
-            </select>   
+            </select>
+            <select
+              id="monthDropdown"
+              onchange="filterTableMonth()"  id="rowsPerMonth" class="px-5 py-2 text-xs font-medium appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+              <option id="allRowsOption">All Months</option>
+              <option>January</option>
+              <option>February</option>
+              <option>March</option>
+              <option>April</option>
+              <option>May</option>
+              <option>June</option>
+              <option>July</option>
+              <option>August</option>
+              <option>September</option>
+              <option>October</option>
+              <option>November</option>
+              <option>December</option>
+            </select>
+            <select 
+              id="yearDropdown"
+              onchange="filterTableYear()" id="rowsPerYear" class="px-5 py-2 text-xs font-medium appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+              <option id="allRowsOption">All Years</option>
+              <option>2023</option>
+              <option>2024</option>
+              <option>2025</option>
+            </select>     
         </div>
         <div date-rangepicker class="flex items-center">
             <div class="relative">
@@ -282,8 +307,64 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
+  // FILTER BY YEAR
+  function filterTableYear() {
+    // Get the selected year from the dropdown
+    const selectedYear = document.getElementById('yearDropdown').value;
+
+    // Get all table rows
+    const table = document.getElementById('logTable');
+    const rows = table.querySelectorAll('tbody tr');
+
+    // Loop through each row
+    rows.forEach(row => {
+      // Get the date column value for each row
+      const dateValue = row.querySelector('td:nth-child(6)').textContent;
+
+      // Parse the date value using moment.js
+      const rowDate = moment(dateValue, 'MM/DD/YYYY');
+
+      // Check if the selected year is "All Years" or the row's year matches the selected year
+      if (selectedYear === 'All Years' || (rowDate.isValid() && rowDate.format('YYYY') === selectedYear)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+<script>
+  // FILTER BY MONTH
+  function filterTableMonth() {
+    // Get the selected month from the dropdown
+    const selectedMonth = document.getElementById('monthDropdown').value;
+
+    // Get all table rows
+    const table = document.getElementById('logTable');
+    const rows = table.querySelectorAll('tbody tr');
+
+    // Loop through each row
+    rows.forEach(row => {
+      // Get the date column value for each row
+      const dateValue = row.querySelector('td:nth-child(6)').textContent;
+
+      // Parse the date value using moment.js
+      const rowDate = moment(dateValue, 'MM/DD/YYYY');
+
+      // Check if the selected month is "All Months" or the row's month matches the selected month
+      if (selectedMonth === 'All Months' || (rowDate.isValid() && rowDate.format('MMMM') === selectedMonth)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+<script>
   
-  // FILTER BY DATE
+  // FILTER BY DATE RANGE
   function filterTable() {
 
     const startDate = document.getElementById('startDate').value;
@@ -299,7 +380,7 @@
 
     rows.forEach(row => {
 
-      const dateValue = row.querySelector('td:nth-child(4)').textContent;
+      const dateValue = row.querySelector('td:nth-child(6)').textContent;
 
 
       const rowDate = moment(dateValue, 'MM/DD/YYYY');
