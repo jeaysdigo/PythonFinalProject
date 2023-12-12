@@ -1,10 +1,123 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<title>Analytics</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Waves -->
+  <link href="../pat/css/wave.css" rel="stylesheet">
+  <!-- Ubuntu Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap">
+</head>
+<body class="font-ubuntu background-color p-8">
 
-<div class="bg-white mx-auto justify-center flex items-center text-center p-10 w-full max-w-lg">
-    <h1>Analytics</h1>
-    
-</div>
+    <div class="container mx-auto flex flex-col">
+
+        <!-- Pie Chart and Bar Graph Container -->
+        <div class="flex flex-col md:flex-row mb-8">
+
+            <!-- Pie Chart -->
+            <div class="bg-white p-4 rounded-lg shadow-md flex-grow md:w-2/12 md:mr-8 mb-4">
+                <div class="px-4 py-2">
+                    <h2 class="text-lg text-tertiary">Most Popular Courses</h2>
+                    <h1 class="text-5xl md:text-6xl text-blue font-medium">1,734 Users</h1>
+                    <p class="text-sm md:text-base text-tertiary">Based on completion rate</p>
+                </div>
+                
+                <hr class="border-t-2 border-solid border-base my-2">
+                <canvas id="pieChart"></canvas>
+            </div>
+
+            <!-- Bar Graph -->
+            <div class="bg-white p-4 rounded-lg shadow-md flex-grow md:w-1/2 mb-4 ml-0">
+                <div class="px-14 py-4">
+                    <h2 class="text-xl font-medium text-black">Course Performance</h2>
+                    <h2 class="text-4xl md:text-5xl text-blue font-medium">No. of users completing course</h2>
+                    <p class="text-sm md:text-base text-tertiary">Based on completion rates</p>
+                </div>
+            
+            <hr class="border-t-2 border-solid border-base my-2">
+            <canvas id="barGraph" width="400"></canvas>
+            </div>
+
+        </div>
+      
+        <!-- Line Graph -->
+        <div class="bg-white p-4 rounded-lg shadow-md w-full">
+          <div class="px-14 py-4">
+            <h2 class="text-xl md:text-1xl lg:text-2xl xl:text-3xl text-tertiary">Module Completion Rates</h2>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-blue font-medium">Performance Pacing</h1>
+            <p class="text-base md:text-lg lg:text-xl xl:text-2xl text-tertiary mb-4">User path progress</p>
+          </div>
+      
+          <hr class="border-t-2 border-solid border-base my-4">
+          <canvas id="lineGraph" height="80"></canvas>
+        </div>
+      
+    </div>    
+
+    <script>
+        // Dummy data for the charts
+        const pieChartData = {
+        labels: ['Python', 'Java', 'C++'],
+        datasets: [{
+            data: [25, 40, 35],
+            backgroundColor: ['#25A76F', '#C4E4CB', '#858585']
+        }]
+        };
+
+        const barGraphData = {
+        labels: ['Python', 'Java', 'C++', 'Ruby', 'C#'],
+        datasets: [{
+            label: 'Courses',
+            data: [180, 20, 45, 0, 12],
+            backgroundColor: '#C4E4CB',
+            borderColor: '#4CAF50',
+            borderWidth: 1
+        }]
+        };
+
+        const lineGraphCanvas = document.getElementById('lineGraph');
+        const lineGraphData = {
+        labels: ['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5', 'Unit 6'],
+        datasets: [{
+            label: 'Python',
+            data: [25, 40, 60, 75, 90, 100],
+            borderColor: ['#25A76F', '#25A76F'],
+            backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)'],
+            borderWidth: 2
+        }]
+        };
+
+        // Create pie chart
+        const pieChartCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieChartCtx, {
+        type: 'pie',
+        data: pieChartData
+        });
+
+        // Create bar graph
+        const barGraphCtx = document.getElementById('barGraph').getContext('2d');
+        new Chart(barGraphCtx, {
+        type: 'bar',
+        data: barGraphData
+        });
+
+        // Create line graph
+        const lineGraphCtx = document.getElementById('lineGraph').getContext('2d');
+        new Chart(lineGraphCtx, {
+        type: 'line',
+        data: lineGraphData
+        });
+    </script>
+</body>
+</html>
+
 {% endblock content %}
