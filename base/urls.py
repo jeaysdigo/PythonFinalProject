@@ -48,6 +48,7 @@ urlpatterns = [
     path('view_logs', views.viewLogs, name="view_logs"),
     path('delete-item/<int:id>/', views.deleteLog, name="delete-item"),
     path('delete-user/<int:id>/', views.deleteUser, name="delete-user"),
+    path('manage_achievements', views.manageAchievements, name="manage_achievements"),
   
     
     
