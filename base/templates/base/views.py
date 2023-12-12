@@ -132,7 +132,7 @@ def updateUser(request):
         form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Profile updated successfully.')
+            # messages.success(request, 'Profile updated successfully.')
             return redirect('profile', pk=user.username)
         else:
             for field, errors in form.errors.items():
