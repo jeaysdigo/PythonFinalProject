@@ -5,12 +5,9 @@
 
 body {
   min-height: 100vh;
-  background: #f4f9f1;
+  background: linear-gradient(45deg, rgba(167, 236, 172, 0.2), rgba(37, 167, 111, 0.2),  rgba(56, 95, 97, 0.2),  rgba(171, 237, 208, 0.2));
 }
 
-#sidebar {
-  background-color: #ffffff;
-}
 
 /* table */
 .data-table td {
