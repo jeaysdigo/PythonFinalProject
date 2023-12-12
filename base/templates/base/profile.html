@@ -45,8 +45,7 @@
           <div class="ml-5 mr-5 md:ml-72 lg:ml-64 mt-3 md:-mt-32">
             <div
               style="font-family: 'Ubuntu', sans-serif"
-              class="text-xl sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl text-[#436E70] font-bold"
-            >
+              class="text-xl sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl text-[#436E70] font-bold">
             {{ user.first_name }} {{ user.last_name }}
             </div>
           </div>
@@ -169,23 +168,23 @@
             </div>
 
             <div class="flex flex-col items-center basis-full">
-                <div style="font-family:'Ubuntu',sans-serif;" class="text-sm sm:text:md md:text-lg lg:text-lg font-bold text-[#436E70]">Courses</div>
-                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]"">{{ enrolled_courses.count }}</div>
+                <div style="font-family:'Ubuntu',sans-serif;" class="text-sm sm:text:md md:text-lg lg:text-lg font-bold text-[#436E70]">My Courses</div>
+                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]">{{ enrolled_courses.count }}</div>
             </div>
 
             <div class="flex flex-col items-center basis-full">
                 <div style="font-family:'Ubuntu',sans-serif;" class="text-sm sm:text:md md:text-lg lg:text-lg font-bold text-[#436E70]">Quizzes</div>
-                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]"">23</div>
+                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]">{{ quizzes_taken_count }}</div>
             </div>
 
             <div class="flex flex-col items-center basis-full">
                 <div style="font-family:'Ubuntu',sans-serif;" class="text-sm sm:text:md md:text-lg lg:text-lg font-bold text-[#436E70]">Assessments</div>
-                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]"">4</div>
+                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]">{{ exams_taken_count }}</div>
             </div>
 
             <div class="flex flex-col items-center basis-full">
                 <div style="font-family:'Ubuntu',sans-serif;" class="text-sm sm:text:md md:text-lg lg:text-lg font-bold text-[#436E70]">Total</div>
-                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]"">51</div>
+                <div style="font-family:'Ubuntu',sans-serif;" class="text-4xl sm:text:4xl md:text-5xl lg:text-6xl font-bold text-[#0B1313]">51</div>
             </div>
 
         </div>
@@ -202,7 +201,7 @@
               <div class="bg-white  rounded-3xl shadow-lg overflow-hidden mb-5 mt-2">
                     <div>
                             <div>
-                                <img src="./../static/images/java_cover.png" class="h-48 w-72 object-cover">
+                                <img src="{{ course.cover.url }}" class="h-48 w-72 object-cover">
                             <div class="">
                             <div style="font-family:'Ubuntu',sans-serif;" class="mt-3 ml-3 text-sm font-bold"> {{ course.title }}</div>
                             <div style="font-family:'Ubuntu',sans-serif;" class="mt-2 ml-3 text-sm font-bold"> {{ course.description }}</div>

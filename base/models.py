@@ -68,6 +68,8 @@ class UserProgress(models.Model):
     viewed_lessons = models.ManyToManyField('Lesson', related_name='viewed_by', blank=True)
     unit_completed = models.ManyToManyField('Unit', related_name='viewed_by', blank=True)
     quiz_scores = models.ManyToManyField('Quiz', through='QuizScore', related_name='user_scores', blank=True)
+    quiz_taken = models.ManyToManyField('Quiz', related_name='viewed_by', blank=True)
+    exam_taken = models.ManyToManyField('Exam', related_name='viewed_by', blank=True)
 
     def __str__(self):
         return f"{self.user}"

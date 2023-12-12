@@ -117,8 +117,16 @@ def registerPage(request):
 def userProfile(request, pk):
     user = User.objects.get(username=pk)
     enrolled_courses = request.user.courses.all()
+    enrolled_courses = request.user.courses.all()
+    user_progress = UserProgress.objects.get(user=request.user)
+    quizzes_taken_count = user_progress.quiz_taken.count()
+    exams_taken_count = user_progress.exam_taken.count()
 
-    context = {'user':user,'enrolled_courses': enrolled_courses}
+    context = {'user':user,
+               'enrolled_courses': enrolled_courses,
+               'quizzes_taken_count': quizzes_taken_count,
+               'exams_taken_count': exams_taken_count,
+               }
     return render(request, 'base/profile.html', context)
 
 @login_required(login_url='login')
@@ -176,14 +184,22 @@ def deleteAccount(request):
 @login_required(login_url='landing')
 def home(request):
     courses = Course.objects.all()
+    enrolled_courses = request.user.courses.all()
     user = User.objects.all()
     user2 = request.user
     quiz_scores = QuizScore.objects.filter(user_progress__user=user2)
+    user_progress = UserProgress.objects.get(user=request.user)
+    quizzes_taken_count = user_progress.quiz_taken.count()
+    exams_taken_count = user_progress.exam_taken.count()
 
     context = {
         'courses': courses,
         'username': user,
         'quiz_scores': quiz_scores, 
+        'enrolled_courses': enrolled_courses,
+        'quizzes_taken_count':quizzes_taken_count,
+        'exams_taken_count':exams_taken_count,
+
         }
     
 
@@ -849,11 +865,14 @@ def submit_quiz(request, quiz_id):
         else:
             score_percentage = 0
 
-        # Update the UserProgress record with the quiz score
+        # Update the UserProgress record with the quiz score and mark the quiz as taken
         user_progress, created = UserProgress.objects.get_or_create(user=request.user)
         quiz_score, created = QuizScore.objects.get_or_create(user_progress=user_progress, quiz=quiz)
         quiz_score.score = score_percentage
         quiz_score.save()
+
+        # Add the quiz to the list of taken quizzes
+        user_progress.quiz_taken.add(quiz)
 
         # Redirect to a thank you page or another appropriate page
         return HttpResponseRedirect(reverse('home'))
@@ -922,6 +941,9 @@ def submit_exam(request, exam_id):
         exam_score, created = ExamScore.objects.get_or_create(user_progress=user_progress, exam=exam)
         exam_score.score = score_percentage
         exam_score.save()
+
+        # Add the quiz to the list of taken quizzes
+        user_progress.exam_taken.add(exam)
 
         # Redirect to a thank you page or another appropriate page
         return HttpResponseRedirect(reverse('home'))
