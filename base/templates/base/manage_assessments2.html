@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="{% static 'css/assessment.css'%}">
 
     <!-- PAGE ICON -->
-    <link rel="icon" href="img/PAL_logo.png" type="image/icon type">
+    <link rel="icon" href="./../static/images/PAL_logo.png" type="image/icon type">
 </head>
 <body>
-    <div class="flex flex-col lg:flex-row ml-96">
+    <div class="flex flex-col ml-72 lg:flex-row">
             
         <!-- Sidebar -->
         
@@ -177,7 +177,7 @@ listQuiz.appendChild(headingElement);
 // Create the span element
 var spanElement = document.createElement('span');
 spanElement.textContent = '(click to edit)';
-spanElement.className = 'text-sm ml-2 text-gray-400'; // Add any additional styling as needed
+spanElement.className = 'text-sm ml-2 text-black'; // Add any additional styling as needed
 
 // Append the span element next to the heading element
 headingElement.appendChild(spanElement);

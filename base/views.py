@@ -13,11 +13,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import UpdateView
 from django.urls import reverse, reverse_lazy
-from .forms import CourseForm
+from .forms import CourseForm, AdminUserForm
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
-from django.middleware.csrf import get_token
 
 # from django.http import HttpResponse
 
@@ -479,10 +478,28 @@ def manageStudents(request):
     return render(request, 'base/manage_students.html', context)
 
 @login_required(login_url='login')
-def analytics(request):
+def manageAchievements(request):
     if not request.user.is_superuser:
         return redirect('home')
-    return render(request, 'base/analytics.html')
+    users = User.objects.all()
+    course = Course.objects.all()
+    context = {'users': users,
+               'courses': course, }
+    return render(request, 'base/manage_achievements.html', context)
+
+@login_required(login_url='login')
+def analytics(request):
+    # if not request.user.is_superuser:
+    #     return redirect('home')
+    user = User.objects.count()
+    pythoncompleted = User.objects
+    print(pythoncompleted)
+    context={
+        "Count": user
+        
+    }
+    print(context)
+    return render(request, 'base/analytics-admin.html', context)
 
 @login_required(login_url='login')
 def manageSettings(request):

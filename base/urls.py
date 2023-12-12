@@ -2,8 +2,6 @@ from django.urls import path
 from . import views
 from .views import deleteLog
 
-
-
 urlpatterns = [
     # urls for account managament
     path('register/', views.registerPage, name='register'),
@@ -51,6 +49,7 @@ urlpatterns = [
     path('view_logs', views.viewLogs, name="view_logs"),
     path('delete-item/<int:id>/', views.deleteLog, name="delete-item"),
     path('delete-user/<int:id>/', views.deleteUser, name="delete-user"),
+    path('manage_achievements', views.manageAchievements, name="manage_achievements"),
   
     
     
@@ -97,7 +96,7 @@ urlpatterns = [
     path('generate_certificate/<int:course_id>/', views.generate_certificate, name='generate_certificate'),
 
     # PAT
-    path('oyeah/', views.adminAnalytics, name='adminAnalytics')
+    
 
     
 ]

@@ -1,6 +1,4 @@
-{% extends 'main.html' %}
-
-{% block content %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,12 +10,14 @@
   <!-- Include Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Waves -->
-  <link href="../pat/css/wave.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static '/pat/css/wave.css' %}">
   <!-- Ubuntu Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap">
 </head>
 <body class="font-ubuntu background-color p-8">
 
+    <!-- SIDEBAR -->
+    {% include 'navbar.html' %}
     <div class="container mx-auto flex flex-col">
 
         <!-- Pie Chart and Bar Graph Container -->
@@ -27,8 +27,8 @@
             <div class="bg-white p-4 rounded-lg shadow-md flex-grow md:w-2/12 md:mr-8 mb-4">
                 <div class="px-4 py-2">
                     <h2 class="text-lg text-tertiary">Most Popular Courses</h2>
-                    <h1 class="text-5xl md:text-6xl text-blue font-medium">1,734 Users</h1>
-                    <p class="text-sm md:text-base text-tertiary">Based on completion rate</p>
+                    <h1 class="text-5xl md:text-6xl text-blue font-medium">{{Count}} Users</h1>
+                    <p class="text-sm md:text-base text-tertiary">Based on applied course</p>
                 </div>
                 
                 <hr class="border-t-2 border-solid border-base my-2">
@@ -119,5 +119,3 @@
     </script>
 </body>
 </html>
-
-{% endblock content %}

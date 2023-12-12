@@ -1,3 +1,6 @@
+{% extends 'main.html' %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +12,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- <link rel="stylesheet" type="text/css" href="{% static "style/Achievements.css" %}"> -->
-    <link rel="stylesheet" href="./../static/styles/achievements_table.css">
+    <!-- <link rel="stylesheet" href="./../static/styles/achievements_table.css"> -->
+    <link rel="stylesheet" href="static/styles/home.css">
 
     <!-- Font Links -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,7 +37,7 @@
     <link rel="icon" href="img/PAL_logo.png" type="image/icon type" />
   </head>
   <body class="">
-    <div class="flex flex-col lg:flex-row">
+    <div class="flex flex-col ml-72 lg:flex-row">
       <!-- Sidebar -->
       <!-- <div class="text-gray-100 w-60 h-screen" id="sidebar">
                 <div div class="p-6">
@@ -52,7 +56,7 @@
       <!-- Main Content -->
       <div class="flex-1 overflow-x-auto p-4 lg:p-10">
         <div
-        class="text-2xl font-semibold text-[#436E70] ml-5 pt-5">
+        class="text-3xl font-semibold text-black pt-5">
         List of User's Achievements
       </div>
 
@@ -96,7 +100,7 @@
           </form>
   
 
-          <div class="flex text-sm text-white font-medium gap-2">
+          <div class="flex text-sm text-black font-medium gap-2">
             <!-- Course Filter Dropdown -->
           <select id="courseFilter" class="px-3 py-2.5 rounded-md">
             <option value="" selected disabled class="font-bold">Filter by Course: </option>
@@ -441,3 +445,4 @@
     <script src="achievements_table.js"></script>
   </body>
 </html>
+{% endblock content %}

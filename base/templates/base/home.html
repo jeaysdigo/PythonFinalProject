@@ -8,6 +8,13 @@
     <!-- PAGE ICON -->
     <link rel="icon" href="static/images/PAL_logo.png" type="image/icon type">
 </head>
+
+<style>
+    .sidebar-home{
+        background-color: #16A34A;
+        color: white;
+    }
+</style>
  
 <div class="flex flex-col lg:flex-row">
 
@@ -91,7 +98,7 @@
                 </a>
 
                 <a href="#" class="border-2 border-[#25A76F] rounded-xl">
-                    <h1 class="text-2xl text-center text-[#25A76F] font-semibold">1</h1>
+                    <h1 class="text-2xl text-center text-[#25A76F] font-semibold">{{ enrolled_courses.count }}</h1>
                     <h2 class="text-sm text-center no-underline hover:underline font-bold mb-2">Course</h2>
                 </a>
 
@@ -111,10 +118,10 @@
             <!-- Course Section -->
             <div class="flex-1">
                 <h1 class="text-3xl font-semibold mb-4">In Progress</h1>
-                {% if enrolled_courses %}
+            {% if enrolled_courses %}
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-4">
                     <!-- Example Card -->
-                    {% for course in enrolled_courses %}
+                {% for course in enrolled_courses %}
                     <div class="max-w-sm bg-white border border-gray-200 rounded-3xl shadow transition-all duration-500 hover:scale-105">
                         <a href="#">
                             <img class="rounded-t-3xl" src="{{ course.cover.url }}" alt="" />
@@ -122,7 +129,6 @@
                         <div class="p-5">
                             <a href="#">
                                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{ course.title }}</h5>
-                                <h1 class="mb-2 text-lg font-bold tracking-tight text-gray-900">{{ course.description }}</h1>
                             </a>
                             
                             <div class="">
@@ -135,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                    {% endfor %}            
+                {% endfor %}            
                 </div>
                 <!-- Show more -->
                 <div class="p-3">
@@ -146,11 +152,11 @@
                         </svg>
                     </a>
                 </div>
-                {% else %}
+            {% else %}
                 <div class="max-w-full h-80 p-6 bg-[#F4F9F1] border border-gray-200 rounded-3xl shadow-md">
                     <h1 class="text-xl text-[#25A76F] mt-28 font-semibold mb-4 text-center justify">No enrolled courses for you.</h1>
                 </div>
-                {% endif %}           
+            {% endif %}           
             </div>
 
             <!-- Assessment and Quizzes Section -->
@@ -178,7 +184,7 @@
                                             {{quiz_score.score }}%
                                         </div>
                                         <div class="bg-[#E0E0E0] h-2 rounded-full">
-                                            <div class="progress-bar bg-[#25A76F] h-full rounded-full" style="width: 50%" ></div> <!-- change width based on the  {{quiz_score.score }} -->
+                                            <div class="progress-bar bg-[#25A76F] h-full rounded-full" style="width: 33%" ></div> <!-- change width based on the  {{quiz_score.score }} -->
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">

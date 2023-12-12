@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 <title>Manage Unit & Lesson</title>
-
+<link rel="stylesheet" href="static/styles/home.css">
   
 {% if messages %}
 {% for message in messages %}
@@ -21,15 +21,14 @@
     <!-- <a class="text-lg font-medium w-26 flex  justify-center bg-green-600 p-2 text-white" href="{% url 'add_course' %}">Add course</a> -->
 </div>
 
-<div class="flex">
+<div class="flex ml-72">
     <!-- First Div (Left Column) -->
-    <div class="ml-24 w-1/5 p-4 bg-white h-screen shadow-md  overflow-y-auto">
+    <div class="w-1/5 p-4 bg-[#F4F9F1] h-screen shadow-md  overflow-y-auto">
         <!-- Row 1: Dropdown for Course -->
         <div class="mb-2">
-            <label for="course" class="block font-medium text-gray-700">Course</label>
-            <select id="course" name="course" class="bg-white border border-gray-200 text-gray-500 text-sm rounded-lg 
-            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-            dark:placeholder-gray-2000 dark:text-white focus:outline-none" required>
+            <label for="course" class="block text-3xl mb-4 font-semibold text-black">Course</label>
+            <select id="course" name="course" class="bg-white border text-black text-lg rounded-lg 
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 focus:outline-none" required>
             <option value="" selected disabled>Select Course</option>
                 {% for course in courses %}
                     <option value="{{ course.id }}">{{ course.title }}</option>

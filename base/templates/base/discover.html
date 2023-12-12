@@ -3,8 +3,14 @@
 {% block content %}
 <title>Discover</title>
 
+<style>
+    .sidebar-discover{
+        background-color: #16A34A;
+        color: white;
+    }
+</style>
 
-<div class="grid max-w-md mt-16 ml-80 bg-white rounded-2xl shadow-lg">
+<div class="grid max-w-sm mt-16 ml-80 bg-white rounded-2xl shadow-lg">
     {% for course in courses %}
     <a href="#">
 <img class="rounded-t-2xl" src="{{ course.cover.url }}" alt="" />
@@ -22,9 +28,9 @@
     </svg>
 </a>
                 {% if course in enrolled_courses %}
-                    <small class="text-gray-600">Already enrolled</small>
+                    <small class="text-gray-600 ml-5">Already enrolled</small>
                 {% else %}
-                    <a class="text-green-600" href="{% url 'enroll' course_id=course.pk %}">Enroll Now</a>
+                    <a class="text-green-600 ml-5" href="{% url 'enroll' course_id=course.pk %}">Enroll Now</a>
                 {% endif %}
 </div>
 {% endfor %}
