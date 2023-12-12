@@ -37,38 +37,32 @@
           </div>
           <!-- Logo -->
           <div>
-            <img src="{% static '/pat/img/logo.png' %}" class="w-28" alt="">
+            <img src="{% static 'images/python_logo.png' %}" class="w-52" alt="">
             <!-- <p class="text-xs text-secondary">Programming Assistive Language</p> -->
           </div>
         </div>
         <!-- Center -->
-        <div class="navbar-center hidden lg:flex space-x-4">
-          <a href="" class="text-secondary">Register for free</a>
-          <button class="button-color px-6 py-2 rounded-3xl text-secondary">
-            <a href="">Login</a>
-        </button>
+        <div class="navbar-end text-lg font-medium hidden mr-10 lg:flex space-x-4">
+          <a href="{% url 'register' %}" class="text-secondary hover:text-green-300 hover:scale-105">Register</a>
+          <a href="{% url 'login' %}" class="button-color px-6 py-2 rounded-3xl text-secondary hover:bg-green-700 hover:scale-105">Login</a>
         </div>
-        <!-- End -->
-        <div class="navbar-end space-x-4">
-          <a href="" class="text-secondary">Home</a>
-          <a href="#footer" class="text-secondary">About</a>
-        </div>
+       
     </div>
 
     <!-- Header -->
     <div class="header">
       <!-- Content before waves -->
       <div class="h-96 w-full m-0 p-0 flex flex-col items-start justify-center text-left px-6 md:px-10 pt-16 md:pt-32 pl-6 md:pl-64">
-        <h1 class="text-black text-4xl md:text-6xl font-semibold leading-tight">
-            Elevate your skills with<span class="text-green tracking-tighter"> PAL</span>
+        <h1 class="text-white text-4xl md:text-6xl font-semibold leading-tight">
+            Elevate your skills with<span class="text-green-400 tracking-tighter"> PAL</span>
         </h1>
-        <h3 class="text-black text-2xl md:text-4xl mb-2">Programming Assistive Learning</h3>
-        <p class="mb-4 text-base md:text-xl">
+        <h3 class="text-white text-2xl md:text-4xl mb-2">Programming Assistive Learning</h3>
+        <p class="mb-4 text-base text-gray-200 md:text-xl">
             Elevate your skills with PAL, empowering your journey in mastering new programming abilities.
         </p>
-        <button class="button-color px-16 md:px-24 rounded-2xl py-3 shadow-md">Find Course</button>
+        <a href="{% url 'login' %}" class="button-color px-16 font-medium md:px-24 rounded-2xl py-3 shadow-lg hover:bg-green-700 hover:scale-105">Find Course</a>
       </div>
-    
+      
       <!--Waves Container-->
       <div class="mt-6">
             <svg
@@ -113,7 +107,7 @@
     <!-- Cards -->
     <div class="relative h-full text-center bg-white flex flex-wrap items-center justify-center px-4 sm:px-10 py-24">
       <!-- CARDS -->
-      <div class="card card-compact w-full sm:w-72 bg-white shadow-xl my-4 sm:mx-4 mt-4 h-96">
+      <div class="card card-compact w-full sm:w-72 bg-white shadow-xl my-4 sm:mx-4 mt-4 h-96 hover:scale-105">
           <figure><img src="{% static '/pat/img/learn.jpg' %}" alt="Shoes" class="object-cover w-full h-64" /></figure>
           <div class="card-body h-full">
               <h2 class="card-title text">Learn.</h2>
@@ -123,13 +117,13 @@
                 your learning journey.
               </p>
               <div class="card-actions justify-end">
-                  <a href="" class="text-green underline">Learn more.</a>
+                  
               </div>
           </div>
       </div>
 
       <!-- Additional Cards -->
-      <div class="card card-compact w-full sm:w-72 bg-white shadow-xl my-4 sm:mx-4 mt-4 h-96">
+      <div class="card card-compact w-full sm:w-72 bg-white shadow-xl my-4 sm:mx-4 mt-4 h-96 hover:scale-105">
           <figure><img src="{% static '/pat/img/improve.jpg' %}" alt="Shoes" class="object-cover w-full h-64" /></figure>
           <div class="card-body h-full">
               <h2 class="card-title text">Improve.</h2>
@@ -138,12 +132,12 @@
                 Start your journey towards improvement today!
               </p>
               <div class="card-actions justify-end">
-                  <a href="" class="text-green underline">Learn more.</a>
+                  
               </div>
           </div>
       </div>
 
-      <div class="card card-compact w-full sm:w-72 bg-white shadow-xl my-4 sm:mx-4 mt-4 h-96">
+      <div class="card card-compact w-full sm:w-72 bg-white shadow-xl my-4 sm:mx-4 mt-4 h-96 hover:scale-105">
           <figure><img src="{% static '/pat/img/certified.jpg' %}" alt="Shoes" class="object-cover w-full h-64" /></figure>
           <div class="card-body h-full">
               <h2 class="card-title text">Get Certified.</h2>
@@ -153,7 +147,7 @@
                 and stand out in your field.
               </p>
               <div class="card-actions justify-end">
-                  <a href="" class="text-green underline">Learn more.</a>
+                  
               </div>
           </div>
       </div>
@@ -163,7 +157,7 @@
     <div class="text-center px-10 py-12">
       <h2 class="text-6xl text-black font-semibold mb-14">Learn Python</h2>
 
-      <div class="flex flex-col md:flex-row items-center justify-center space-x-4">
+      <div class="flex flex-col md:flex-row pl-12 pr-12 items-center justify-center space-x-4">
         <!-- Image on the left side -->
         <div class="w-full md:w-1/2 mb-4 md:mb-0">
             <img src="{% static '/pat/img/python.png' %}" alt="Learn Python Image" class="object-cover w-full h-48 md:h-64 lg:h-80 xl:h-96 shadow-md rounded-md">
@@ -230,9 +224,9 @@
     <!-- Footer -->
     <footer class="footer footer-center p-10 background-color-2 text-primary-content" id="footer">
       <aside>
-        <img src="{% static '/pat/img/logo.png' %}" class="w-20 h-12" alt="">
+        <img src="{% static 'images/python_logo.png' %}" class="w-40 h-12" alt="">
         <p class="font-bold">
-          Group 2 <br/>Makers of PAL. Programming Assistive Learning
+          4E-G1 Group 2 <br/>Makers of PAL. Programming Assistive Learning.
         </p> 
         <p>Copyright © 2023 - All right reserved</p>
       </aside> 
