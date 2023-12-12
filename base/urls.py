@@ -2,8 +2,6 @@ from django.urls import path
 from . import views
 from .views import deleteLog
 
-
-
 urlpatterns = [
     # urls for account managament
     path('register/', views.registerPage, name='register'),
@@ -81,7 +79,7 @@ urlpatterns = [
     
 
     # PAT
-    path('oyeah/', views.adminAnalytics, name='adminAnalytics')
+    
 
     
 ]

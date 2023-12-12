@@ -4,7 +4,7 @@ from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpRespon
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.forms import UserCreationForm
-from .models import Choice, Course, Lesson, Question, Quiz, QuizScore, QuizSubmission, User, Unit, Log, UserAnswer, UserProgress
+from .models import *
 from .forms import  ChoiceFormEdit, ChoiceFormSet, CourseForm, LessonForm, QuestionForm, QuizForm,UserForm, MyUserCreationForm, UnitForm
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
@@ -476,9 +476,17 @@ def manageStudents(request):
 
 @login_required(login_url='login')
 def analytics(request):
-    if not request.user.is_superuser:
-        return redirect('home')
-    return render(request, 'base/analytics.html')
+    # if not request.user.is_superuser:
+    #     return redirect('home')
+    user = User.objects.count()
+    pythoncompleted = User.objects
+    print(pythoncompleted)
+    context={
+        "Count": user
+        
+    }
+    print(context)
+    return render(request, 'base/analytics-admin.html', context)
 
 @login_required(login_url='login')
 def manageSettings(request):
