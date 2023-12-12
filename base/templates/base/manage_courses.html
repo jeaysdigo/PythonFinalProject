@@ -3,10 +3,7 @@
 
 {% block content %}
 <title>Manage Courses</title>
-<br>
-<br>
-<br>
-<br>
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
@@ -132,67 +129,71 @@
   
   
   
-
+<link rel="stylesheet" href="static/styles/home.css">
 <!-- Include Flowbite styles -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
 <!-- Include Flowbite scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
-<div class="flex flex-col items-center">
-    <h1 class="text-3xl font-medium">Manage Course</h1><br>
-
-    <a class="text-lg font-medium w-26 flex  justify-center bg-green-600 p-2 text-white" href="{% url 'add_course' %}">Add course</a>
-</div>
-
-
-
-<div class="flex justify-center flex-wrap">
-    {% if courses %}
-        <table class="text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+<div class="flex flex-col ml-72 mt-10 mr-10 lg:flex-row">
+    <!-- Sidebar -->
+    
+    
+    <!-- Main Content -->
+    <div class="flex-auto overflow-x-auto p-4 lg:p-10">
+        <h1 class="text-3xl mb-8 font-semibold">Manage Courses</h1>
+        
+        <div class="flex flex-row items-center mb-4 gap-4">
+            <a href="{% url 'add_course' %}" class="text-white bg-gradient-to-br from-[#25A76F] to-[#385F61] hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                Add Course
+            </a>
+     
+        </div>
+        
+        
+        <!-- Activity Log Table -->
+        <div class="z-0 overflow-x-auto max-h-[800px] min-w-max">
+            {% if courses %}
+            <table id="activityTable" class="data-table min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-[#F4F9F1] text-black text-left">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Title
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Enrolled
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        <!-- Action -->
-                    </th>
+                    <th class="py-2 px-4 sticky top-0">Title</th>
+                    <th class="py-2 px-4 sticky top-0">Enrolled</th>
+                    <th class="py-2 px-4 sticky top-0">Edit</th>
+                    <th class="py-2 px-4 sticky top-0">Manage</th>
+                    <th class="py-2 px-4 sticky top-0">Delete</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
+                <!-- Activity Log Rows -->
                 {% for course in courses %}
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ course.title }}
-                            
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ course.users.count }} users enrolled
+                    <tr>
+                        <td class="font-bold py-2 px-4">{{ course.title }}</td>
+                        <td class="py-2 px-4">{{ course.users.count }} users enrolled</td>
+                        <td class="py-2 px-4">
+                            <button type="button" class="text-green-500 edit-button hover:underline" id="edit_btn" data-course-id="{{ course.id }}" data-modal-target="defaultModal" data-modal-toggle="defaultModal" data-modal-course-id="{{ course.id }}">
+                                Edit
+                            </button>
                         </td>
-                        <td class="">
-                            <div class="flex justify-center m-5">
-                                <button type="button" class="text-green-500 edit-button p-4" id="edit_btn" data-course-id="{{ course.id }}" data-modal-target="defaultModal" data-modal-toggle="defaultModal" data-modal-course-id="{{ course.id }}">
-                                    Edit
-                                </button>
-                                
-                                <a type="button" href="{% url 'manage_lesson' %}" class="text-green-500 manage-button p-4" id="manage_btn" data-course-id="{{ course.id }}"  data-modal-course-id="{{ course.id }}">
-                                    Manage Lesson
-                                </a>
-                                <button class="text-red-500 delete-button p-4" data-course-id="{{ course.id }}" type="button">
-                                    Delete
-                                </button>
-                            </div>
+                        <td class="py-2 px-4">
+                            <a type="button" href="{% url 'manage_lesson' %}" class="text-green-500 manage-button hover:underline" id="manage_btn" data-course-id="{{ course.id }}"  data-modal-course-id="{{ course.id }}">
+                                Manage Lesson
+                            </a>
+                        </td>
+                        <td class="py-2 px-4">
+                            <button class="text-red-500 delete-button hover:underline" data-course-id="{{ course.id }}" type="button">
+                                Delete
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p class="text-lg font-medium">No courses yet.</p>
-    {% endif %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-lg font-medium">No courses yet.</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 
