@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm, inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
-from .models import Choice, Course, Lesson, Question, Quiz, User, Unit
+from .models import Choice, Course, Exam, Lesson, Question, Quiz, User, Unit
 
 
 
@@ -76,6 +76,34 @@ class QuizForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(QuizForm, self).__init__(*args, **kwargs)
+
+        # Customize the checkboxes using Tailwind CSS classes
+        self.fields['questions'].widget.attrs.update({
+            'class': 'grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border',  # Flexbox classes for inline display and border
+        })
+
+        # Add individual Tailwind CSS classes for each checkbox
+        for field_name, field in self.fields.items():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' form-checkbox'  # Adjust spacing and other styles
+            else:
+                field.widget.attrs['class'] = 'form-checkbox'
+
+        # You can add more Tailwind CSS classes or customize as needed
+
+class ExamForm(forms.ModelForm):
+    class Meta:
+        model = Exam
+        fields = '__all__'
+
+    questions = forms.ModelMultipleChoiceField(
+        queryset=Question.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ExamForm, self).__init__(*args, **kwargs)
 
         # Customize the checkboxes using Tailwind CSS classes
         self.fields['questions'].widget.attrs.update({

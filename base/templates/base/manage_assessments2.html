@@ -15,7 +15,7 @@
     <link rel="icon" href="img/PAL_logo.png" type="image/icon type">
 </head>
 <body>
-    <div class="flex flex-col lg:flex-row">
+    <div class="flex flex-col lg:flex-row ml-96">
             
         <!-- Sidebar -->
         
@@ -29,6 +29,7 @@
             </div>
         
             <h1 class="text-3xl font-bold mb-4">{{ course.title }} - Create Lesson Quiz</h1>
+            <input id="courseId" type="hidden" value="{{ course.id }} ">
            
 
             <div class="flex flex-row gap-5">
@@ -147,9 +148,12 @@
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState == 4 && xhr.status == 200) {
                             quizDiv.innerHTML = xhr.responseText;
+
+                            let courseId = $('#courseId').val();
                             setTimeout(() => {
                                 $('#add_lesson').val(lessonId);
                                 $('#add_unit').val(unitId);
+                                $('#add_course').val(courseId);
                                 console.log('done');
                             }, 100); // Adjust the delay as needed
                         }

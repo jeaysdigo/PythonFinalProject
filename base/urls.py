@@ -44,6 +44,7 @@ urlpatterns = [
     path('manage_students', views.manageStudents, name="manage_students"),
     path('manage_assessments', views.manageAssessments, name="manage_assessments"),
     path('manage_assessments2/<int:course_id>/', views.manageAssessments2, name="manage_assessments2"),
+    path('manage_assessments3/<int:course_id>/', views.manageAssessments3, name="manage_assessments3"),
     path('analytics', views.analytics, name="analytics"),
     path('manage_settings', views.manageSettings, name="manage_settings"),
     path('view_logs', views.viewLogs, name="view_logs"),
@@ -71,11 +72,20 @@ urlpatterns = [
     path('quiz/<int:quiz_id>/', views.quiz_template, name='quiz_template'),
     path('add_quiz', views.add_quiz, name='add_quiz'),
     path('edit_quiz/<int:quiz_id>/', views.edit_quiz, name='edit_quiz'),
+    path('delete_quiz/<int:quiz_id>/', views.delete_quiz, name='delete_quiz'),
+    path('submit_exam/<int:exam_id>/', views.submit_exam, name='submit_exam'),
+    path('exam/<int:exam_id>/', views.exam_template, name='exam_template'),
+    path('add_exam/', views.add_exam, name='add_exam'),
+    path('edit_exam/<int:exam_id>/', views.edit_exam, name='edit_exam'),
+    path('delete_exam/<int:exam_id>/', views.delete_exam, name='delete_exam'),
+
+    
     path('add_question/', views.add_question, name='add_question'),
     path('get_lessons_by_unit/', views.get_lessons_by_unit, name='get_lessons_by_unit'),
+    path('get_exams_by_unit/', views.get_exams_by_unit, name='get_exams_by_unit'),
     path('get_quizzes_by_unit_and_lesson/', views.get_quizzes_by_unit_and_lesson, name='get_quizzes_by_unit_and_lesson'),
 
-    path('delete_quiz/<int:quiz_id>/', views.delete_quiz, name='delete_quiz'),
+
       path('question_bank/', views.question_bank, name='question_bank'),
     path('edit_question/<int:question_id>/', views.edit_question, name='edit_question'),
     path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),

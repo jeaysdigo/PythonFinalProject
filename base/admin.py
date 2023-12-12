@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Course, Lesson, Question, Quiz, QuizAttempt, User, Unit, Log, UserProgress, Choice, QuizSubmission, UserAnswer, QuizScore
+from .models import Course, Exam, ExamScore, ExamSubmission, Lesson, Question, Quiz, QuizAttempt, User, Unit, Log, UserProgress, Choice, QuizSubmission, UserAnswer, QuizScore
 admin.site.register(User)
 admin.site.register(Course)
 admin.site.register(Lesson)
@@ -16,4 +16,7 @@ admin.site.register(Choice)
 admin.site.register(QuizSubmission)
 admin.site.register(UserAnswer)
 admin.site.register(QuizScore)
+admin.site.register(ExamScore)
+admin.site.register(Exam)
+admin.site.register(ExamSubmission)
 

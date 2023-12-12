@@ -4,8 +4,8 @@ from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpRespon
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.forms import UserCreationForm
-from .models import Choice, Course, Lesson, Question, Quiz, QuizScore, QuizSubmission, User, Unit, Log, UserAnswer, UserProgress
-from .forms import  ChoiceFormEdit, ChoiceFormSet, CourseForm, LessonForm, QuestionForm, QuizForm,UserForm, MyUserCreationForm, UnitForm
+from .models import Choice, Course, Exam, ExamAnswer, ExamScore, ExamSubmission, Lesson, Question, Quiz, QuizScore, QuizSubmission, User, Unit, Log, UserAnswer, UserProgress
+from .forms import  ChoiceFormEdit, ChoiceFormSet, CourseForm, ExamForm, LessonForm, QuestionForm, QuizForm,UserForm, MyUserCreationForm, UnitForm
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash, get_user_model
@@ -13,10 +13,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import UpdateView
 from django.urls import reverse, reverse_lazy
-from .forms import CourseForm, AdminUserForm
+from .forms import CourseForm
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
+from django.middleware.csrf import get_token
 
 # from django.http import HttpResponse
 
@@ -749,6 +750,12 @@ def quiz_template(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     return render(request, 'base/quiz_template.html', {'quiz': quiz})
 
+def exam_template(request, exam_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("You must be logged in to submit the exam.")
+    exam = get_object_or_404(Exam, pk=exam_id)
+    return render(request, 'base/exam_template.html', {'exam': exam})
+
 @login_required(login_url='login')
 def assessments(request):
     # Assuming you have a user authentication system
@@ -836,6 +843,74 @@ def submit_quiz(request, quiz_id):
 
     # Render the quiz template
     return render(request, 'quiz_template.html', {'quiz': quiz})
+
+
+def submit_exam(request, exam_id):
+    # Ensure the user is authenticated before allowing exam submission
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("You must be logged in to submit the exam.")
+
+    exam = get_object_or_404(Exam, pk=exam_id)
+
+    # Check if a submission already exists for the user and exam
+    submission = ExamSubmission.objects.filter(exam=exam, user=request.user).first()
+
+    # Process form submission
+    if request.method == 'POST':
+        if submission:
+            # If a submission already exists, update it
+            submission.submission_date = timezone.now()
+            submission.save()
+        else:
+            # If no submission exists, create a new one
+            submission = ExamSubmission.objects.create(
+                exam=exam,
+                user=request.user
+            )
+
+        # Extract and process user answers
+        score = 0  # Initialize the score
+        total_questions = 0
+
+        for question in exam.questions.all():  # Use exam.questions.all() for ManyToManyField
+            total_questions += 1
+            choice_id = request.POST.get(f'question_{question.id}')
+            if choice_id:
+                choice = get_object_or_404(Choice, pk=choice_id)
+
+                # Check if the selected choice is correct
+                if choice.is_correct:
+                    score += 1
+
+                # Check if the user has already answered this question
+                user_answer, created = ExamAnswer.objects.get_or_create(
+                    submission=submission,
+                    question=question,
+                    defaults={'selected_choice': choice}
+                )
+
+                # If the user has already answered, update the selected choice
+                if not created:
+                    user_answer.selected_choice = choice
+                    user_answer.save()
+
+        # Calculate the percentage score
+        if total_questions > 0:
+            score_percentage = (score / total_questions) * 100
+        else:
+            score_percentage = 0
+
+        # Update the UserProgress record with the exam score
+        user_progress, created = UserProgress.objects.get_or_create(user=request.user)
+        exam_score, created = ExamScore.objects.get_or_create(user_progress=user_progress, exam=exam)
+        exam_score.score = score_percentage
+        exam_score.save()
+
+        # Redirect to a thank you page or another appropriate page
+        return HttpResponseRedirect(reverse('home'))
+
+    # Render the exam template
+    return render(request, 'base/exam_template.html', {'exam': exam})
 
 
 def add_quiz(request):
@@ -927,6 +1002,103 @@ def delete_quiz(request, quiz_id):
         }
         return JsonResponse(response_data, status=400)
 
+def add_exam(request):
+    courses = Course.objects.all()
+    units = Unit.objects.all()
+
+    # Exclude lessons that already have exams
+    # lessons_without_exams = Lesson.objects.exclude(exams__isnull=False)
+
+    if request.method == 'POST':
+        form = ExamForm(request.POST)
+        if form.is_valid():
+            exam = form.save(commit=False)
+            exam.save()
+            form.save_m2m()  # Save the many-to-many relationships
+            
+            response_data = {
+                'success': True,
+                'message': 'Exam created successfully!',
+                'exam_id': exam.id  # Optionally, you can include the exam ID in the response
+            }
+
+            return JsonResponse(response_data)
+        else:
+            # If the form is not valid, return validation errors
+            errors = form.errors
+            response_data = {
+                'success': False,
+                'message': 'Form validation failed',
+                'errors': errors
+            }
+            return JsonResponse(response_data, status=400)
+    else:
+        form = ExamForm()
+
+    context = {'form': form, 
+               'courses': courses, 
+               'units': units, 
+            #    'lessons': lessons_without_exams
+               }
+    return render(request, 'base/add_exam.html', context)
+
+def edit_exam(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    courses = Course.objects.all()
+    units = Unit.objects.all()
+    
+    # Exclude lessons that already have exams
+    # lessons_without_exams = Lesson.objects.exclude(exams__isnull=False)
+    
+
+    if request.method == 'POST':
+        form = ExamForm(request.POST, instance=exam)
+        if form.is_valid():
+            form.save()
+
+            response_data = {
+                'success': True,
+                'message': 'Exam updated successfully!',
+                'exam_id': exam.id,
+                'csrfmiddlewaretoken': get_token(request),
+            }
+
+            return JsonResponse(response_data)
+        else:
+            errors = form.errors
+            response_data = {
+                'success': False,
+                'message': 'Form validation failed',
+                'errors': errors,
+                'csrfmiddlewaretoken': get_token(request),
+            }
+            return JsonResponse(response_data, status=400)
+    else:
+        form = ExamForm(instance=exam)
+
+    context = {'form': form, 'courses': courses, 'units': units}
+    return render(request, 'base/edit_exam.html', context)
+
+def delete_exam(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+
+    if request.method == 'POST':
+        exam.delete()
+
+        response_data = {
+            'success': True,
+            'message': 'Exam deleted successfully!',
+        }
+
+        return JsonResponse(response_data)
+    else:
+        response_data = {
+            'success': False,
+            'message': 'Invalid request method.',
+        }
+        return JsonResponse(response_data, status=400)
+
+
 
 def terms(request):
     
@@ -935,13 +1107,29 @@ def terms(request):
 def quizList(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     user = request.user
-    # Retrieve all quizzes associated with the course
+
+    # Retrieve all quizzes and exams associated with the course
     quizzes = Quiz.objects.filter(course=course)
+    exams = Exam.objects.filter(course=course)
 
     all_quizzes_taken = all(quiz.has_been_taken_by_user(user) for quiz in quizzes)
+    all_exams_taken = all(exam.has_been_taken_by_user(user) for exam in exams)
 
     for quiz in quizzes:
         quiz.has_been_taken_by_user = quiz.has_been_taken_by_user(user)
+
+    for exam in exams:
+        exam.has_been_taken_by_user = exam.has_been_taken_by_user(user)
+
+    context = {
+        'course': course,
+        'quizzes': quizzes,
+        'exams': exams,
+        'all_quizzes_taken': all_quizzes_taken,
+        'all_exams_taken': all_exams_taken,
+    }
+
+    return render(request, 'base/quizList.html', context)
 
     
 
@@ -1038,6 +1226,18 @@ def manageAssessments2(request, course_id):
     context = {'course': course, 'units': units}
     return render(request, 'base/manage_assessments2.html', context)
 
+
+@login_required(login_url='login')
+def manageAssessments3(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    units = Unit.objects.filter(course=course)
+    
+    if not request.user.is_superuser:
+        return redirect('home')
+    
+    context = {'course': course, 'units': units}
+    return render(request, 'base/manage_assessments3.html', context)
+
 def get_lessons_by_unit(request):
     unit_id = request.GET.get('unit_id')
 
@@ -1060,6 +1260,20 @@ def get_quizzes_by_unit_and_lesson(request):
     serialized_quizzes = [{'id': quiz.id, 'title': quiz.title} for quiz in quizzes]
 
     return JsonResponse(serialized_quizzes, safe=False)
+
+    
+@require_GET
+def get_exams_by_unit(request):
+    unit_id = request.GET.get('unit_id')
+    # lesson_id = request.GET.get('lesson_id')
+
+    # Fetch quizzes based on the selected unit and lesson
+    exams = Exam.objects.filter(units_id=unit_id)
+
+    # Serialize the quizzes
+    serialized_exams = [{'id': exam.id, 'title': exam.title} for exam in exams]
+
+    return JsonResponse(serialized_exams, safe=False)
 
 
 # ANALYTICS

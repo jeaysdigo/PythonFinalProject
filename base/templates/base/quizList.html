@@ -2,42 +2,60 @@
 
 {% block content %}
 <div class="flex p-10 justify-center">
-  <h1 class="text-3xl font-semibold mb-4">Quizzes for {{ course.title }}</h1>
+  <h1 class="text-3xl font-semibold mb-4">Assessments for {{ course.title }}</h1>
 </div>
 
 <div class="flex p-10 justify-center">
-  {% if quizzes %}
-    <table class="max-w-2xl p-10 bg-white border border-gray-300 shadow-md rounded-xl overflow-hidden">
-      <thead>
+  {% if quizzes or exams %}
+  <table class="max-w-2xl p-10 bg-white border border-gray-300 shadow-md rounded-xl overflow-hidden">
+    <thead>
+      <tr>
+        <th class="py-6 px-6 border-b">Title</th>
+        <th class="py-6 px-6 border-b">Type</th>
+        <th class="py-6 px-6 border-b">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quiz in quizzes %}
         <tr>
-          <th class="py-2 px-4 border-b">Title</th>
-          <th class="py-2 px-4 border-b">Actions</th>
+          <td class="py-6 px-6 border-b">{{ quiz.title }}</td>
+          <td class="py-6 px-6 border-b">Quiz</td>
+          <td class="py-6 px-6 border-b text-center"> <!-- Added text-center class -->
+            {% if quiz.has_been_taken_by_user %}
+              <a href="{% url 'quiz_template' quiz.id %}" class="text-green-700 py-4 px-4 bg-green-100 rounded-xl">Retake Quiz</a>
+            {% else %}
+              <a href="{% url 'quiz_template' quiz.id %}" class="text-white py-4 px-5 bg-green-600 rounded-xl hover:bg-green-700 duration-500">Take Quiz</a>
+            {% endif %}
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        {% for quiz in quizzes %}
-          <tr>
-            <td class="py-2 px-4 border-b">{{ quiz.title }}</td>
-            <td class="py-2 px-4 border-b">
-              {% if quiz.has_been_taken_by_user %}
-                <a href="{% url 'quiz_template' quiz.id %}" class="text-blue-500 hover:underline">Retake Quiz</a>
-              {% else %}
-                <a href="{% url 'quiz_template' quiz.id %}" class="text-blue-500 hover:underline">Take Quiz</a>
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% if all_quizzes_taken %}
-    <a href="{% url 'generate_certificate' course.id %}" class="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Get Certification</a>
-  {% endif %}
+      {% endfor %}
+      {% for exam in exams %}
+        <tr>
+          <td class="py-6 px-6 border-b">{{ exam.title }}</td>
+          <td class="py-6 px-6 border-b">Assessment</td>
+          <td class="py-6 px-6 border-b text-center"> <!-- Added text-center class -->
+            {% if exam.has_been_taken_by_user %}
+              <a href="{% url 'exam_template' exam.id %}" class="text-green-900 py-4 px-4 bg-green-200 rounded-xl">Retake Assessment</a>
+            {% else %}
+              <a href="{% url 'exam_template' exam.id %}" class="text-white py-4 px-5 bg-green-600 rounded-xl hover:bg-green-700 duration-300">Take Assessment</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
   {% else %}
-    <p class="mt-4">No quizzes found for this course.</p>
+    <p class="mt-4">No assessments found for this course.</p>
   {% endif %}
 </div>
 
+{% if all_quizzes_taken and all_exams_taken %}
+  <div class="flex justify-center">
+    <a href="{% url 'generate_certificate' course.id %}" class="text-white py-4 px-5 bg-green-600 rounded-xl hover:bg-green-700 duration-300 hover:bg-green-700">Get Certification</a>
+  </div>
+{% endif %}
+
 <script>
-  
+  // Add any additional scripts if needed
 </script>
 {% endblock content %}
