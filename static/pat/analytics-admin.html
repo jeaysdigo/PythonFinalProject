@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+     <!-- Tailwind -->
+     <link href="../pat/src/output.css" rel="stylesheet">
+     <!-- Waves -->
+     <link href="../pat/css/wave.css" rel="stylesheet">
+    <!-- Ubuntu Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap">
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="background-color-2">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    
+          <!-- Pie Chart -->
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold mb-4">Pie Chart</h2>
+            <canvas id="pieChart" width="400" height="400"></canvas>
+          </div>
+    
+          <!-- Bar Graph -->
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold mb-4">Bar Graph</h2>
+            <canvas id="barGraph" width="400" height="400"></canvas>
+          </div>
+    
+          <!-- Line Graph -->
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold mb-4">Line Graph</h2>
+            <canvas id="lineGraph" width="400" height="400"></canvas>
+          </div>
+    
+        </div>
+    </div>
+    
+    <script>
+        // Dummy data for the charts
+        const pieChartData = {
+          labels: ['Category A', 'Category B', 'Category C'],
+          datasets: [{
+            data: [30, 40, 30],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+          }]
+        };
+    
+        const barGraphData = {
+          labels: ['January', 'February', 'March', 'April', 'May'],
+          datasets: [{
+            label: 'Sales',
+            data: [12, 19, 3, 5, 2],
+            backgroundColor: '#4CAF50',
+            borderColor: '#4CAF50',
+            borderWidth: 1
+          }]
+        };
+    
+        const lineGraphData = {
+          labels: ['January', 'February', 'March', 'April', 'May'],
+          datasets: [{
+            label: 'Revenue',
+            data: [50, 60, 45, 70, 80],
+            fill: false,
+            borderColor: '#2196F3',
+            borderWidth: 2
+          }]
+        };
+    
+        // Create pie chart
+        const pieChartCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieChartCtx, {
+          type: 'pie',
+          data: pieChartData
+        });
+    
+        // Create bar graph
+        const barGraphCtx = document.getElementById('barGraph').getContext('2d');
+        new Chart(barGraphCtx, {
+          type: 'bar',
+          data: barGraphData
+        });
+    
+        // Create line graph
+        const lineGraphCtx = document.getElementById('lineGraph').getContext('2d');
+        new Chart(lineGraphCtx, {
+          type: 'line',
+          data: lineGraphData
+        });
+    </script>
+</body>
+  
+</html>
