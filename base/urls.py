@@ -51,6 +51,7 @@ urlpatterns = [
     path('delete-item/<int:id>/', views.deleteLog, name="delete-item"),
     path('delete-user/<int:id>/', views.deleteUser, name="delete-user"),
     
+    
 
     # urls for retrieving 
     path('get_course_details/<int:course_id>/', views.get_course_details, name='get_course_details'),

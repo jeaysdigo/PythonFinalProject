@@ -162,29 +162,33 @@
                         <table class="data-table overflow-hidden">
                             <thead>
                                 <tr>
-                                <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/3">Assessment Name</th>
-                                <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/2">Completion</th>
+                                <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/3">Title</th>
+                                <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/2">Score</th>
                                 <th scope="col" class="px-6 py-3 text-xl tracking-wider w-1/3">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- sample completed quiz -->
+                                {% for quiz_score in quiz_scores %}
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">Python Unit 1 Assessment</td>
+                                   
+                                    <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">{{ quiz_score.quiz.title }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap w-1/2 text-center">
-                                        <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden mt-1 font-bold text-right text-[#25A76F] text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">
-                                            100%
+                                        <div style="font-family:'Ubuntu',sans-serif;" id="score"class="overflow-hidden mt-1 font-bold text-right text-[#25A76F] text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">
+                                            {{quiz_score.score }}%
                                         </div>
                                         <div class="bg-[#E0E0E0] h-2 rounded-full">
-                                            <div class="bg-[#25A76F] h-full rounded-full" style="width:100%;"></div> 
+                                            <div class="progress-bar bg-[#25A76F] h-full rounded-full" style="width: 50%" ></div> <!-- change width based on the  {{quiz_score.score }} -->
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">
                                         <div class="bg-[#E3EEE8] p-1.5 rounded-xl font-medium text-[#25A76F] text-sm w-full">Completed</div>
                                     </td>
-                                </tr>                      
+                                
+                                </tr>  
+                                {% endfor %}                   
                                 <!-- sample ongoing quiz -->
-                                <tr>
+                                <!-- <tr>
                                     <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">Python Unit 2 Lesson 4 Quiz</td>
                                     <td class="px-6 py-4 whitespace-nowrap w-1/2 text-center">
                                         <div style="font-family:'Ubuntu',sans-serif;" class="overflow-hidden mt-1 font-bold text-right text-[#25A76F] text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs">
@@ -197,7 +201,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap w-1/3 text-center">
                                         <div class="bg-[#DFE9F8] p-1.5 rounded-xl font-medium text-[#2473EB] text-sm w-full">Ongoing</div>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 
                             </tbody>
                         </table>
