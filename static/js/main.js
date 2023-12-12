@@ -66,36 +66,28 @@ courseDropdown.addEventListener('change', function () {
 
             var accordion = document.getElementById('accordion-collapse');
             accordion.innerHTML = `
-            <div class="flex justify-between p-2">
-                <label class="block font-medium text-gray-700">Units</label>
-                <button onclick="add_unit(${selectedCourseId})" type="button" id="addUnit" class="text-green-600 bg-green-100 font-semibold items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    + Add Unit
-                </button>
-            </div>`;
+                <div class="flex justify-between p-2">
+                    <label class="block font-medium text-gray-700">Units</label>
+                    <button onclick="add_unit(${selectedCourseId})" type="button" id="addUnit" class="text-green-600 bg-green-100 font-semibold items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                        + Add Unit
+                    </button>
+                </div>`;
 
             if (data.units && Array.isArray(data.units)) {
                 data.units.forEach(function (unit, index) {
                     var accordionItem = document.createElement('div');
                     accordionItem.innerHTML = `
-                        <h2 id="accordion-collapse-heading-${index + 1}">
-                            <button type="button" class="hover:underline flex items-center justify-between w-full p-4 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-${index + 1}" aria-expanded="false" aria-controls="accordion-collapse-body-${index + 1}">
-                                <span onclick="edit_unit(${unit.id})">Unit ${unit.number} - ${unit.title}</span>
-                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                                </svg>
-                            </button>
-                        </h2>
-                        <div id="accordion-collapse-body-${index + 1}" class="hidden" aria-labelledby="accordion-collapse-heading-${index + 1}">
-                            <div class="p-2 border border-b-0 rounded-b-xl p-4 border-gray-200 dark:border-gray-700">
-                                <!-- <small class="text-gray-400">Lessons</small> -->
-                                <ul>
-                                    ${data.lessons
-                                        .filter(lesson => lesson.units__id === unit.id)
-                                        .map(lesson => `
-                                            <li class=" hover:underline rounded-md p-2 cursor-pointer flex justify-between">
-                                                <a id="lesson_link"class="text-gray-500" data-lesson-id="${lesson.id}">${lesson.title}</a>
-                                            </li>`)
-                                        .join('')}
+                        <div class="p-2 border border-b-0 rounded-b-xl p-4 border-gray-200 dark:border-gray-700">
+                            <h2 id="accordion-collapse-heading-${index + 1}">
+                                <button type="button" class="hover:underline flex items-center justify-between w-full p-4 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-${index + 1}" aria-expanded="false" aria-controls="accordion-collapse-body-${index + 1}">
+                                    <span onclick="edit_unit(${unit.id})">Unit ${unit.number} - ${unit.title}</span>
+                                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                                    </svg>
+                                </button>
+                            </h2>
+                            <div id="accordion-collapse-body-${index + 1}" class="hidden" aria-labelledby="accordion-collapse-heading-${index + 1}">
+                                <ul id="lesson-list-${index + 1}">
                                 </ul>
                                 <button onclick="add_lesson(${unit.id})" class="text-green-600 bg-green-100 font-semibold text-center inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm text-center text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                     + Add Lesson
@@ -106,11 +98,25 @@ courseDropdown.addEventListener('change', function () {
 
                     accordion.appendChild(accordionItem);
 
+                    // Populate lessons if available
+                    if (unit.lessons && Array.isArray(unit.lessons)) {
+                        var lessonList = accordionItem.querySelector(`#lesson-list-${index + 1}`);
+                        unit.lessons.forEach(function (lesson) {
+                            var lessonItem = document.createElement('li');
+                            lessonItem.innerHTML = `
+                                <li class="hover:underline rounded-md p-2 cursor-pointer flex justify-between">
+                                    <a class="text-gray-500" data-lesson-id="${lesson.id}" href="/lesson/${lesson.id}">${lesson.title}</a>
+                                </li>
+                            `;
+                            lessonList.appendChild(lessonItem);
+                        });
+                    }
+
                     accordionItem.querySelector('button').addEventListener('click', function () {
                         var isExpanded = accordionItem.querySelector('button').getAttribute('aria-expanded') === 'true';
                         accordionItem.querySelector('button').setAttribute('aria-expanded', !isExpanded);
                         accordionItem.querySelector('svg').classList.toggle('rotate-180', !isExpanded);
-                        accordionItem.querySelector('div').classList.toggle('hidden', isExpanded);
+                        accordionItem.querySelector(`#accordion-collapse-body-${index + 1}`).classList.toggle('hidden', isExpanded);
                     });
                 });
             } else {
@@ -119,6 +125,7 @@ courseDropdown.addEventListener('change', function () {
         })
         .catch(error => console.error('Error fetching units and lessons:', error));
 });
+
 
 });
 
