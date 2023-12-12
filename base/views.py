@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import UpdateView
 from django.urls import reverse, reverse_lazy
-from .forms import CourseForm, AdminUserForm
+from .forms import CourseForm
 
 # from django.http import HttpResponse
 
