@@ -475,6 +475,16 @@ def manageStudents(request):
     return render(request, 'base/manage_students.html', context)
 
 @login_required(login_url='login')
+def manageAchievements(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    users = User.objects.all()
+    course = Course.objects.all()
+    context = {'users': users,
+               'courses': course, }
+    return render(request, 'base/manage_achievements.html', context)
+
+@login_required(login_url='login')
 def analytics(request):
     # if not request.user.is_superuser:
     #     return redirect('home')

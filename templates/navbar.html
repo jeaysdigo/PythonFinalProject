@@ -114,6 +114,19 @@ color: white
             <i class="bi bi-house-door ml-3 text-xl"></i>
             <span class="ml-4 text-m font-bold">Dashboard</span>
         </a>
+
+        <!-- USERS SECTION -->
+        <a href="{% url 'manage_students' %}"  class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
+            <i class="bi bi-clipboard-check ml-3 text-xl"></i>
+            <span class="ml-4 text-m font-bold">Users</span>
+        </a>
+
+        <!-- ACHIEVEMENTS SECTION -->
+        <a  href="{% url 'manage_achievements' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
+            <i class="bi bi-award ml-3 text-xl"></i>
+            <span class="ml-4 text-m font-bold">Achievements</span>
+        </a>
+
         <!-- course SECTION -->
         <a href="{% url 'add_course' %}"class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
             <i class="bi bi-compass ml-3 text-xl"></i>
@@ -130,6 +143,8 @@ color: white
   
         
   
+        
+
         <!-- ASSESSMENTS SECTION -->
         <a href="{% url 'manage_lesson' %}"  class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
             <i class="bi bi-clipboard-check ml-3 text-xl"></i>
