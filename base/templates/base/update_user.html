@@ -2,8 +2,12 @@
 {% load static %}
 {% block content %}
 
+<title>PAL | Edit Profile</title>
+<link rel="stylesheet" href="static/styles/home.css">
+
 {% if user.is_authenticated %}
-<div class="bg-[#F4F9F1] shadow-xl mx-auto p-10 w-full max-w-xl">
+<link rel="stylesheet" href="static/styles/home.css">
+<div class="bg-[#F4F9F1] shadow-xl mx-auto p-10 w-full max-w-xl m-10 rounded-xl">
 
     <div  class="text-[#436E70] text-2xl font-bold ">Edit Profile</div>
 
@@ -13,13 +17,13 @@
         <div class="flex flex-col gap-3 justify-center items-center mt-5">
 
             <div class="w-full">
-                <label for="{{ form.avatar.id_for_label }}" class="block mb-2 text-[#436E70] text-lg font-medium">Avatar</label>
+                <label for="{{ form.avatar.id_for_label }}" class="block mb-2 text-[#436E70] text-lg font-medium"></label>
                 <div class="">
                     <!-- Hide the original file input using the 'hidden' class -->
                     <input type="file" name="{{ form.avatar.name }}" class="hidden" id="{{ form.avatar.id_for_label }}">
                     <!-- Placeholder Image -->
                     <div class="flex justify-center">
-                        <div id="avatarPlaceholder" class="inset-0 bg-gray-200 shadow-lg border rounded-full h-40 w-40">
+                        <div id="avatarPlaceholder" class="inset-0 bg-gray-200 shadow-lg border rounded-full h-48 w-48">
                             <img id="avatarPreview" src="{{ user.avatar.url }}" alt="Placeholder Image" class="w-full h-full object-cover rounded-full">
                         </div>
                     </div>

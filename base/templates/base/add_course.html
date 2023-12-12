@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
 {% block content %}
+<title>PAL | Add Course</title>
 <link rel="stylesheet" href="static/styles/home.css">
 
 <div class="bg-[#F4F9F1] rounded-xl shadow-md p-6 max-w-md mx-auto mt-36">
@@ -10,10 +11,9 @@
         {% csrf_token %}
 
         <div>
-            <label for="course_name" class="block text-xl font-bold text-black">Course Name</label>
+            <label for="course_name" class="block text-xl font-bold text-black mb-2">Course Name</label>
             <input type="text" id="title" name="title" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
-            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-            dark:placeholder-gray-400 dark:text-white focus:outline-none"  placeholder="i.e Python" required/>
+            focus:ring-green-500 focus:border-green-600 block w-full p-2.5 focus:outline-none"  placeholder="i.e Python" required/>
             {% if form.title.errors %}
                 <p class="text-red-500 text-sm mt-1">{{ form.title.errors|join:", " }}</p>
             {% endif %}
@@ -23,14 +23,63 @@
             <label class="block text-black text-xl font-bold mb-2 text-left" for="fileInput">
                 Course Cover
             </label>
-            {{ form.cover }}
+            <!-- {{ form.cover }} -->
+            
+            <div class="w-full">
+                <label for="{{ form.cover.id_for_label }}" class="block mb-2 text-[#436E70] text-lg font-medium"></label>
+                <div class="">
+                    <!-- Hide the original file input using the 'hidden' class -->
+                    <input type="file" name="{{ form.cover.name }}" class="hidden" id="{{ form.cover.id_for_label }}">
+                    
+    
+                    <!-- Placeholder Image -->
+                    <div class="flex justify-center">
+                        <div id="coverPlaceholder" class="inset-0 bg-gray-200 shadow-lg border rounded-lg h-48 w-full">
+                            <img id="coverPreview" src="./../static/images/unit_header.png" alt="" class="w-full h-full object-cover rounded-lg">
+                        </div>
+                    </div>
+                   
+                    
+                    <div class="text-center mt-5 flex justify-end items-center gap-3">
+                        <label for="{{ form.cover.id_for_label }}" class="bg-white border-2 border-[#25a76f] hover:bg-[#25a76f] text-[#25a76f] hover:text-white font-medium text-xs py-2 px-2 rounded-full cursor-pointer">
+                            Upload Cover
+                        </label>
+                        <button type="submit" class="bg-white border-2 border-[#25a76f] hover:bg-[#25a76f] text-[#25a76f] hover:text-white font-medium text-xs py-2 px-2 rounded-full cursor-pointer">Add Course</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
         </div>
 
-        <div class="text-center">
-            <button type="submit" class="bg-[#25A76F] text-white py-2 px-4 rounded-md hover:bg-[#385F61] transition duration-300">Add Course</button>
-        </div>
-        
+       
     </form>
+
+    <script>
+        // Add an event listener to the file input
+        const avatarInput = document.getElementById('id_cover');
+        const avatarPreview = document.getElementById('coverPreview');
+    
+        avatarInput.addEventListener('change', function () {
+            // Check if a file is selected
+            if (avatarInput.files && avatarInput.files[0]) {
+                const reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    // Set the preview image source
+                    avatarPreview.src = e.target.result;
+                    // Show the preview image
+                    avatarPreview.classList.remove('hidden');
+                };
+    
+                // Read the selected file as a data URL
+                reader.readAsDataURL(avatarInput.files[0]);
+            } else {
+                // Hide the preview image if no file is selected
+                avatarPreview.classList.add('hidden');
+            }
+        });
+    </script>
 </div>
 
 {% endblock content %}

@@ -1,24 +1,23 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analytics Dashboard</title>
+  <title>PAL | Analytics Dashboard</title>
   <!-- Include Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Include Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Waves -->
-  <link href="../pat/css/wave.css" rel="stylesheet">
-  <!-- Ubuntu Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap">
 </head>
+
+
+
 <body class="font-ubuntu background-color p-8">
 
-    <div class="container mx-auto flex flex-col">
+    <div class="container ml-80 flex flex-col">
 
         <!-- Pie Chart and Bar Graph Container -->
         <div class="flex flex-col md:flex-row mb-8">
