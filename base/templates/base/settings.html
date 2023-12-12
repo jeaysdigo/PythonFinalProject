@@ -32,7 +32,7 @@
   <hr class="my-3 border-t-2 border-gray-400 ml-10 mr-5" />
   <!--LINE-->
   <!--Delete Account Permanently-->
-
+  {% if user.username != 'admin' or user.id != 1 %}
   <div class="flex-col sm:flex-col md:flex lg:flex-row xl:flex-row mt-5 ml-10 ">
     <div>
       <div class="text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-red-600">
@@ -40,7 +40,6 @@
       </div>
       <div class="text-xs sm:text:xs md:text:sm lg:text-sm xl:text-sm text-[#858585]">Delete the account permanently</div>
     </div>
-    {% if user.username != 'admin' or user.id != 1 %}
     <div class="ml-auto mr-5 flex items-center">
       <a class="flex text-sm justify-center items-center text-red-600 hover:bg-red-600 hover:text-white duration-200 border-2 border-red-600 font-bold px-2 py-2 rounded-lg" href="{% url 'delete_account' %}">Delete Account</a>
    </div>
