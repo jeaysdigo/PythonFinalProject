@@ -125,10 +125,6 @@ body {
         </a>
 
         <!-- course SECTION -->
-        <a href="{% url 'add_course' %}"class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
-            <i class="bi bi-compass ml-3 text-xl"></i>
-            <span  class="ml-4 text-m font-bold">Add Course</span>
-        </a>
         <a href="{% url 'manage_courses' %}"  class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Discover">
             <i class="bi bi-compass ml-3 text-xl"></i>
             <span class="ml-4 text-m font-bold">Manage Course</span>
@@ -138,20 +134,17 @@ body {
             <span class="ml-4 text-m font-bold"> Question Bank</span>
         </a>
   
-        
-  
-        
 
         <!-- ASSESSMENTS SECTION -->
         <a href="{% url 'manage_lesson' %}"  class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Assessments">
             <i class="bi bi-clipboard-check ml-3 text-xl"></i>
-            <span class="ml-4 text-m font-bold">manage_lesson</span>
+            <span class="ml-4 text-m font-bold">Manage Lessons</span>
         </a>
   
         <!-- CERTIFICATE SECTION -->
         <a href="{% url 'manage_assessments' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
             <i class="bi bi-award ml-3 text-xl"></i>
-            <span class="ml-4 text-m font-bold">manage_assessments</span>
+            <span class="ml-4 text-m font-bold">Assessments</span>
         </a>
         <!-- CERTIFICATE SECTION -->
         <a  href="{% url 'view_logs' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Certificate">
@@ -162,12 +155,12 @@ body {
         <!-- SETTINGS SECTION -->
         <a href="{% url 'analytics' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Settings">
             <i class="bi bi-gear ml-3 text-xl"></i>
-            <span  class="ml-4 text-m font-bold">analytics</span>
+            <span  class="ml-4 text-m font-bold">Analytics</span>
         </a>
         <!-- SETTINGS SECTION -->
         <a  href="{% url 'manage_settings' %}" class="p-4 flex items-center w-56 rounded-r-3xl px-4 duration-300 cursor-pointer sidebar-text hover:bg-green-600 hover:text-white" title="Settings">
             <i class="bi bi-gear ml-3 text-xl"></i>
-            <span class="ml-4 text-m font-bold">manage_settings</span>
+            <span class="ml-4 text-m font-bold">Settings</span>
         </a>
       </div>
       {% endif %}  <!-- ADMIN SIDEBAR -->
