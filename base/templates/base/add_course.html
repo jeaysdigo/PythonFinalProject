@@ -1,15 +1,16 @@
 {% extends 'main.html' %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="static/styles/home.css">
 
-<div class="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto mt-10">
-    <h1 class="text-3xl font-bold mb-6 text-center">Add Course</h1>
+<div class="bg-[#F4F9F1] rounded-xl shadow-md p-6 max-w-md mx-auto mt-36">
+    <h1 class="text-3xl text-[#25A76F] font-bold mb-6 text-center">Add Course</h1>
     <form method="POST" action="" class="space-y-4"  enctype="multipart/form-data">
 
         {% csrf_token %}
 
         <div>
-            <label for="course_name" class="block text-sm font-medium text-gray-700">Course Name</label>
+            <label for="course_name" class="block text-xl font-bold text-black">Course Name</label>
             <input type="text" id="title" name="title" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg 
             focus:ring-green-500 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
             dark:placeholder-gray-400 dark:text-white focus:outline-none"  placeholder="i.e Python" required/>
@@ -18,14 +19,17 @@
             {% endif %}
         </div>
 
-        <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="fileInput">
+        <div class="text-center">
+            <label class="block text-black text-xl font-bold mb-2 text-left" for="fileInput">
                 Course Cover
             </label>
             {{ form.cover }}
         </div>
 
-        <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300">Add Course</button>
+        <div class="text-center">
+            <button type="submit" class="bg-[#25A76F] text-white py-2 px-4 rounded-md hover:bg-[#385F61] transition duration-300">Add Course</button>
+        </div>
+        
     </form>
 </div>
 

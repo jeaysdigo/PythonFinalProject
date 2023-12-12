@@ -3,7 +3,8 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<div class="bg-[#F4F9F1] shadow-xl mx-auto p-10 w-full max-w-xl">
+<link rel="stylesheet" href="static/styles/home.css">
+<div class="bg-[#F4F9F1] shadow-xl mx-auto p-10 w-full max-w-xl m-10 rounded-xl">
 
     <div  class="text-[#436E70] text-2xl font-bold ">Edit Profile</div>
 
@@ -55,7 +56,8 @@
                 text-gray-600 text-md font-medium  rounded-lg focus:ring-[#25a76f] focus:border-[#25a76f] block w-full p-2.5 focus:outline-none" 
                  placeholder="Enter last name" required>
             </div>
-           
+
+            
             <div class="w-full mb-3">
                 <label for="bio" class="block text-[#436E70] text-lg font-medium mb-1">Bio</label>
                 <textarea type="text" id="bio" name="bio" value="{{ form.bio.value }}" class="bg-gray-100 border border-gray-300 
