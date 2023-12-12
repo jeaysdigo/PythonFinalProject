@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<div class="bg-white mx-auto p-10 w-full max-w-lg">
+<div class="bg-[#F4F9F1] shadow-xl mx-auto p-10 w-full max-w-xl">
 
     <div  class="text-[#436E70] text-2xl font-bold ">Edit Profile</div>
 
@@ -18,9 +18,12 @@
                     <!-- Hide the original file input using the 'hidden' class -->
                     <input type="file" name="{{ form.avatar.name }}" class="hidden" id="{{ form.avatar.id_for_label }}">
                     <!-- Placeholder Image -->
-                    <div id="avatarPlaceholder" class="inset-0 bg-gray-200 mx-auto border-2 border-[#25a76f] rounded-full h-32 w-32">
-                        <img id="avatarPreview" src="{{ user.avatar.url }}" alt="Placeholder Image" class="w-full h-full object-cover rounded-full">
+                    <div class="flex justify-center">
+                        <div id="avatarPlaceholder" class="inset-0 bg-gray-200 shadow-lg border rounded-full h-40 w-40">
+                            <img id="avatarPreview" src="{{ user.avatar.url }}" alt="Placeholder Image" class="w-full h-full object-cover rounded-full">
+                        </div>
                     </div>
+                   
                        <!-- Custom-styled button using Tailwind CSS -->
                     <div class="flex justify-center mt-3">
                         <label for="{{ form.avatar.id_for_label }}" class="bg-white border-2 border-[#25a76f] hover:bg-[#25a76f] text-[#25a76f] hover:text-white font-medium text-xs py-2 px-2 rounded-full cursor-pointer">
