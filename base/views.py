@@ -194,7 +194,7 @@ def landing(request):
     context = {}
     if request.user.is_authenticated:
         context['user'] = request.user
-    return render(request, 'base/landing.html', context)
+    return render(request, 'base/index.html', context)
 
 
 
@@ -1037,8 +1037,16 @@ def get_quizzes_by_unit_and_lesson(request):
 
     return JsonResponse(serialized_quizzes, safe=False)
 
-    
 
+# ANALYTICS
+def adminAnalytics(request):
+    user = User.objects.count()
+    context={
+        "Count": user
+        
+    }
+    print(context)
+    return render(request, 'base/manage_assessments2.html', context)
 
 
 # def add_quiz(request):

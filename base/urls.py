@@ -80,7 +80,8 @@ urlpatterns = [
     path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),
     
 
-
+    # PAT
+    path('oyeah/', views.adminAnalytics, name='adminAnalytics')
 
     
 ]
