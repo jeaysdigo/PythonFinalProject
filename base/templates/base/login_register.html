@@ -10,7 +10,7 @@
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"/>
-        
+        <link rel="stylesheet" href="static/styles/home.css">
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
         </style>
@@ -23,17 +23,21 @@
   });
 </script>
 
-<div class="bg-gray-200 h-screen flex items-center justify-center">
+<div class="bg-gradient-to-br from-[#25A76F] to-[#A7ECAC] h-screen flex items-center justify-center">
 {% if page == 'login' %}
 <title>Login</title>
-<div class="bg-white p-10 rounded-2xl shadow-md w-full max-w-lg">
+<div class="bg-[#F4F9F1] p-10 rounded-2xl shadow-md w-full max-w-lg">
+  <div class="flex items-center justify-center w-full">
+    <img class="w-52 items-center" src="./../static/images/logo.png" alt="PAL Logo" />
+  </div>
+  
   <h2 class=" font-semibold text-3xl mb-5">Log In</h2>
 
   <form action="" method="POST">
     {% csrf_token %}
     <div class="mb-4">
       <label for="username" class="block text-gray-500 text-sm font-medium mb-1">Username or email</label>
-      <input type="text" id="username" name="username" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 focus:outline-none"  placeholder="username@acodemia.com" required>
+      <input type="text" id="username" name="username" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-600 block w-full p-2.5 focus:outline-none"  placeholder="username@pal.com" required>
     </div>
 
     <div class="mb-3">
@@ -74,7 +78,7 @@
 
 {% else %}
 <title>Create Account</title>
-<div class="bg-white p-10 rounded-2xl shadow-md w-full max-w-lg">
+<div class="bg-[#F4F9F1] p-10 rounded-2xl shadow-md w-full max-w-lg">
   <h2 class=" font-semibold text-3xl mb-5">Create Account</h2>
 
   <form action="" method="POST">
