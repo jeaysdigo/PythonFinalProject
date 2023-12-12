@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="flex p-10 justify-center">
+  <h1 class="text-3xl font-semibold mb-4">Quizzes for {{ course.title }}</h1>
+</div>
+
+<div class="flex p-10 justify-center">
+  {% if quizzes %}
+    <table class="max-w-2xl p-10 bg-white border border-gray-300 shadow-md rounded-xl overflow-hidden">
+      <thead>
+        <tr>
+          <th class="py-2 px-4 border-b">Title</th>
+          <th class="py-2 px-4 border-b">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz in quizzes %}
+          <tr>
+            <td class="py-2 px-4 border-b">{{ quiz.title }}</td>
+            <td class="py-2 px-4 border-b">
+              {% if quiz.has_been_taken_by_user %}
+                <a href="{% url 'quiz_template' quiz.id %}" class="text-blue-500 hover:underline">Retake Quiz</a>
+              {% else %}
+                <a href="{% url 'quiz_template' quiz.id %}" class="text-blue-500 hover:underline">Take Quiz</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if all_quizzes_taken %}
+    <a href="{% url 'generate_certificate' course.id %}" class="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Get Certification</a>
+  {% endif %}
+  {% else %}
+    <p class="mt-4">No quizzes found for this course.</p>
+  {% endif %}
+</div>
+
+<script>
+  
+</script>
+{% endblock content %}
