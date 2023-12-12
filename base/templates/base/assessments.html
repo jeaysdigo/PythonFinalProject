@@ -6,7 +6,7 @@
 {% for course in course %}
 <div class=" flex max-w-sm mt-16 ml-80 bg-white rounded-2xl shadow-lg hover:bg-gray-100">
 
-  <a href="assessments_python">
+  <a href="{% url 'list' course.id %}">
 
   <img class="rounded-t-2xl" src="{{ course.cover.url }}" alt="" />
 <div class="p-5">

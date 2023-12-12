@@ -135,3 +135,11 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+env2/pyvenv.cfg
+env2/Scripts/pythonw.exe
+env2/Scripts/python.exe
+env2/Scripts/activate
+env2/Scripts/activate.bat
+.gitignore
+env2/Scripts/Activate.ps1
+env2/Scripts/deactivate.bat

@@ -81,6 +81,11 @@ urlpatterns = [
     path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),
     
 
+    path('assessment/list/<int:course_id>/', views.quizList, name='list'),
+
+
+    path('generate_certificate/<int:course_id>/', views.generate_certificate, name='generate_certificate'),
+
     # PAT
     path('oyeah/', views.adminAnalytics, name='adminAnalytics')
 
